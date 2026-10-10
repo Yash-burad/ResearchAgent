@@ -2754,6 +2754,129 @@ input:checked + .slider::before {
     color: var(--text-muted);
 }
 
+/* Feed Filters Bar */
+.feed-filters-bar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+}
+
+.feed-filter-btn {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+}
+
+.feed-filter-btn:hover {
+    background: rgba(30, 41, 59, 0.8);
+    color: #f8fafc;
+    border-color: rgba(148, 163, 184, 0.4);
+}
+
+.feed-filter-btn.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(139, 92, 246, 0.25));
+    color: #a5b4fc;
+    border-color: rgba(129, 140, 248, 0.6);
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+}
+
+.workout-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.feed-col-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+/* Column Filtering */
+.feed-columns-grid.filter-tech .feed-col:not([data-col="tech"]),
+.feed-columns-grid.filter-stock .feed-col:not([data-col="stock"]),
+.feed-columns-grid.filter-interview .feed-col:not([data-col="interview"]) {
+    display: none;
+}
+
+.feed-columns-grid.filter-tech,
+.feed-columns-grid.filter-stock,
+.feed-columns-grid.filter-interview {
+    grid-template-columns: 1fr;
+}
+
+/* Stock Peer & Moat Opportunity Cards */
+.peer-feed-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: var(--radius-md);
+    padding: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.peer-feed-card:hover {
+    border-color: rgba(56, 189, 248, 0.4);
+    background: rgba(15, 23, 42, 0.85);
+    transform: translateY(-1px);
+}
+
+.peer-feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.35rem;
+}
+
+.peer-feed-ticker {
+    font-family: var(--font-code);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #38bdf8;
+}
+
+.peer-feed-name {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-left: 0.4rem;
+}
+
+.peer-feed-fwd-pe {
+    font-family: var(--font-code);
+    font-size: 0.75rem;
+    color: #94a3b8;
+    background: rgba(148, 163, 184, 0.1);
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+}
+
+.peer-feed-reason {
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    margin-bottom: 0.35rem;
+    line-height: 1.35;
+}
+
+.peer-feed-catalyst {
+    font-size: 0.72rem;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.08);
+    padding: 0.2rem 0.45rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
     .feed-columns-grid {
@@ -2765,5 +2888,6 @@ input:checked + .slider::before {
         gap: 1rem;
     }
 }
+
 
 

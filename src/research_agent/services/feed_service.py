@@ -74,10 +74,12 @@ class FeedService:
         watchlist = self.store.list_stock_watchlist()
         saved_stocks = self.store.list_bookmarks(domain="stock_market")
         recent_picks = self._get_recent_stock_picks()
+        peer_recs = self._get_stock_peer_recommendations(watchlist)
         stock_radar = StockRadarSection(
             watchlist=watchlist,
             saved_reports=saved_stocks,
-            recent_picks=recent_picks
+            recent_picks=recent_picks,
+            peer_recommendations=peer_recs
         )
 
         # 4. Interview Radar
@@ -396,3 +398,70 @@ class FeedService:
                 source="manual_entry",
                 difficulty="Hard"
             )
+
+    def _get_stock_peer_recommendations(self, watchlist) -> List[Dict[str, Any]]:
+        peer_catalog = {
+            "NVDA": [
+                {"ticker": "TSM", "company_name": "Taiwan Semiconductor", "reason": "Exclusive packaging & foundry partner for Blackwell GPUs; trades at 22x Fwd P/E vs NVDA 35x", "pe_fwd": 22.5, "catalyst": "2nm volume ramp"},
+                {"ticker": "AVGO", "company_name": "Broadcom Inc", "reason": "Custom AI ASIC accelerator & PCIe Gen-6 switching leader", "pe_fwd": 27.0, "catalyst": "Hyperscaler custom silicon orders"},
+                {"ticker": "AMD", "company_name": "Advanced Micro Devices", "reason": "Direct GPU challenger with expanding cloud tier footprint", "pe_fwd": 31.0, "catalyst": "MI325X enterprise adoption"}
+            ],
+            "AAPL": [
+                {"ticker": "MSFT", "company_name": "Microsoft Corp", "reason": "Enterprise Copilot monetization leader with resilient cloud margins", "pe_fwd": 31.5, "catalyst": "Azure cloud acceleration"},
+                {"ticker": "GOOGL", "company_name": "Alphabet Inc", "reason": "Attractive valuation (21x P/E) + proprietary TPU v5p cost advantages", "pe_fwd": 21.0, "catalyst": "Gemini enterprise growth"}
+            ],
+            "MSFT": [
+                {"ticker": "AMZN", "company_name": "Amazon.com Inc", "reason": "AWS cloud reacceleration + custom Trainium2 cost efficiency", "pe_fwd": 33.0, "catalyst": "Bedrock AI adoption"},
+                {"ticker": "ORCL", "company_name": "Oracle Corp", "reason": "Surging OCI Gen2 cloud infrastructure backlog from AI workloads", "pe_fwd": 25.0, "catalyst": "Multi-cloud database partnerships"}
+            ]
+        }
+        recs = []
+        watched_tickers = {w.ticker.upper() for w in watchlist}
+        for w in watchlist:
+            t = w.ticker.upper()
+            if t in peer_catalog:
+                for p in peer_catalog[t]:
+                    if p["ticker"] not in watched_tickers and not any(r["ticker"] == p["ticker"] for r in recs):
+                        recs.append(p)
+        if not recs:
+            recs = [
+                {"ticker": "TSM", "company_name": "Taiwan Semiconductor", "reason": "Global foundry monopoly for advanced node accelerators", "pe_fwd": 22.5, "catalyst": "High-volume packaging expansion"},
+                {"ticker": "PLTR", "company_name": "Palantir Technologies", "reason": "High-conviction enterprise ontology & AIP adoption", "pe_fwd": 65.0, "catalyst": "S&P 500 inclusion tailwind"}
+            ]
+        return recs[:3]
+
+    def refresh_stock_watchlist(self) -> List[Any]:
+        from research_agent.data.yfinance_provider import YFinanceProvider
+        provider = YFinanceProvider()
+        watchlist = self.store.list_stock_watchlist()
+        updated = []
+        for item in watchlist:
+            try:
+                prof = provider.get_stock_profile(item.ticker)
+                curr_price = prof.get("current_price", item.current_price)
+                upside = None
+                if item.dcf_target_price and curr_price:
+                    upside = round(((item.dcf_target_price - curr_price) / curr_price) * 100.0, 1)
+                up_item = self.store.upsert_stock_watchlist(
+                    ticker=item.ticker,
+                    company_name=item.company_name,
+                    current_price=curr_price,
+                    dcf_target_price=item.dcf_target_price,
+                    dcf_upside_percent=upside if upside is not None else item.dcf_upside_percent,
+                    conviction=item.conviction,
+                    critic_warning=item.critic_warning,
+                    run_id=item.run_id
+                )
+                updated.append(up_item)
+            except Exception:
+                updated.append(item)
+        return updated
+
+    def generate_targeted_drill_game(self) -> Any:
+        from research_agent.agents.gamification_agent import GamificationAgent
+        from research_agent.llm import get_llm_provider
+        due_questions = self.store.list_missed_questions(due_only=False, limit=5)
+        stumble_items = [q.model_dump() for q in due_questions]
+        agent = GamificationAgent(get_llm_provider())
+        return agent.generate_targeted_drill(stumble_items)
+

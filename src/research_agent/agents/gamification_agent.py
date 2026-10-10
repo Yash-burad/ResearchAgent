@@ -21,6 +21,85 @@ class GamificationAgent:
     def __init__(self, llm_provider: LLMProvider):
         self.llm_provider = llm_provider
         self.flashcards_prompt_template = load_game_prompt("flashcards.md")
+        try:
+            self.targeted_drill_prompt_template = load_game_prompt("targeted_drill.md")
+        except Exception:
+            self.targeted_drill_prompt_template = self.flashcards_prompt_template
+
+    def generate_targeted_drill(
+        self,
+        stumble_items: list
+    ) -> FlashcardsGame:
+        """
+        Generates a targeted retention drill deck derived from candidate's logged stumbles.
+        """
+        if not stumble_items:
+            stumble_items = [{
+                "title": "Core Distributed Systems & Algorithms",
+                "category": "Core CS",
+                "what_tripped_me": "Revisiting foundational concurrency and algorithmic patterns."
+            }]
+
+        profile_lines = []
+        for i, item in enumerate(stumble_items, 1):
+            title = item.get("title", f"Concept {i}")
+            cat = item.get("category", "DSA")
+            comp = f" (Company: {item.get('company')})" if item.get("company") else ""
+            tripped = item.get("what_tripped_me", "Stumbled during technical evaluation.")
+            profile_lines.append(f"{i}. [{cat}] {title}{comp}\n   What tripped candidate: {tripped}")
+
+        stumble_profile = "\n\n".join(profile_lines)
+        prompt = self.targeted_drill_prompt_template.format(stumble_profile=stumble_profile)
+        system_instruction = (
+            "You are a Staff/Principal interview coach deconstructing the candidate's exact interview stumbles. "
+            "Generate rigorous flashcards that resolve their confusion and build deep intuition."
+        )
+
+        try:
+            game = self.llm_provider.generate_structured(
+                prompt=prompt,
+                response_model=FlashcardsGame,
+                system_instruction=system_instruction
+            )
+            game.topic = "Adaptive Retention Drill"
+            game.total_cards = len(game.cards)
+            return game
+        except Exception as e:
+            print(f"Warning: generate_targeted_drill structured LLM call failed: {e}. Generating fallback drill.")
+            return self._generate_fallback_targeted_drill(stumble_items)
+
+    def _generate_fallback_targeted_drill(self, stumble_items: list) -> FlashcardsGame:
+        cards = []
+        for i, item in enumerate(stumble_items[:5], 1):
+            title = item.get("title", "Algorithmic Invariant")
+            cat = item.get("category", "DSA")
+            tripped = item.get("what_tripped_me", "Missed edge case.")
+            cards.append(FlashcardItem(
+                id=f"drill_{i}",
+                category=cat,
+                difficulty="Hard" if i % 2 == 0 else "Medium",
+                front_prompt=f"When solving {title}, what is the critical edge case or trap that candidates frequently miss?",
+                back_explanation=f"Trap analysis: {tripped}\n\nTo prevent this, define the state invariant upfront and test with extreme inputs.",
+                hint="Recall where the algorithm can enter an infinite cycle or off-by-one condition.",
+                key_takeaway=f"For {title}, systematically check empty states, single-element collections, and cycles."
+            ))
+        while len(cards) < 3:
+            idx = len(cards) + 1
+            cards.append(FlashcardItem(
+                id=f"drill_{idx}",
+                category="System Design",
+                difficulty="Medium",
+                front_prompt="How do you handle split-brain in leader election protocols?",
+                back_explanation="Quorum consensus requires majority agreement ((N/2) + 1). Nodes reject stale terms.",
+                hint="Think about odd vs even node cluster counts.",
+                key_takeaway="A partition cannot elect a leader without a strict majority."
+            ))
+        return FlashcardsGame(
+            topic="Adaptive Retention Drill",
+            game_type="flashcards",
+            total_cards=len(cards),
+            cards=cards
+        )
 
     def generate_game(
         self,

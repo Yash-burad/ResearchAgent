@@ -114,6 +114,7 @@ class StockRadarSection(BaseModel):
     watchlist: List[StockWatchlistItem] = Field(default_factory=list)
     saved_reports: List[BookmarkItem] = Field(default_factory=list)
     recent_picks: List[Dict[str, Any]] = Field(default_factory=list)
+    peer_recommendations: List[Dict[str, Any]] = Field(default_factory=list)
 
 class InterviewRadarSection(BaseModel):
     recent_company_guides: List[Dict[str, Any]] = Field(default_factory=list)

@@ -95,3 +95,19 @@ def test_document_reader_safety(client):
     # Test path traversal attack blocked
     res_traversal = client.get("/api/documents?path=../../../../etc/passwd")
     assert res_traversal.status_code in (403, 404)
+
+def test_targeted_workout_endpoint(client):
+    res = client.post("/api/feed/targeted-workout")
+    assert res.status_code == 200
+    data = res.json()
+    assert "cards" in data
+    assert len(data["cards"]) > 0
+    assert "front_prompt" in data["cards"][0]
+    assert "back_explanation" in data["cards"][0]
+
+def test_refresh_watchlist_endpoint(client):
+    res = client.post("/api/feed/watchlist/refresh")
+    assert res.status_code == 200
+    data = res.json()
+    assert isinstance(data, list)
+

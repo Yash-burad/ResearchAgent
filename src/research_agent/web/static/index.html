@@ -51,6 +51,14 @@
                     </div>
                 </div>
 
+                <!-- Feed Domain Filter Bar -->
+                <div class="feed-filters-bar">
+                    <button class="feed-filter-btn active" data-filter="all">🌐 All Intelligence</button>
+                    <button class="feed-filter-btn" data-filter="tech">🔬 Tech Trends</button>
+                    <button class="feed-filter-btn" data-filter="stock">📈 Stock Radar</button>
+                    <button class="feed-filter-btn" data-filter="interview">🏢 Interview War Room</button>
+                </div>
+
                 <!-- Hero Adaptive Retention Drill Card -->
                 <div class="feed-workout-card card" id="feed-workout-card">
                     <div class="workout-header">
@@ -59,7 +67,10 @@
                             <h3 id="workout-card-title">Dynamic Retention Drill</h3>
                             <p id="workout-card-focus" class="workout-focus-text">Analyzing your previous interview and game stumbles...</p>
                         </div>
-                        <div class="workout-counter-badge" id="workout-due-badge">0 Due</div>
+                        <div class="workout-header-actions">
+                            <button class="btn btn-sm btn-primary" id="launch-retention-drill-btn">⚡ Launch 5-Min Drill</button>
+                            <div class="workout-counter-badge" id="workout-due-badge">0 Due</div>
+                        </div>
                     </div>
                     <div class="workout-content" id="workout-content-body">
                         <!-- Populated dynamically -->
@@ -70,7 +81,7 @@
                 <div class="feed-columns-grid">
                     
                     <!-- Column 1: Tech Trends & Saved Deep Dives -->
-                    <div class="feed-col card">
+                    <div class="feed-col card" data-col="tech">
                         <div class="feed-col-header">
                             <div>
                                 <h3 class="feed-col-title">🔬 Tech Trends & Saved Shelf</h3>
@@ -97,13 +108,16 @@
                     </div>
 
                     <!-- Column 2: Stock Market Intelligence Radar -->
-                    <div class="feed-col card">
+                    <div class="feed-col card" data-col="stock">
                         <div class="feed-col-header">
                             <div>
                                 <h3 class="feed-col-title">📈 Stock Intelligence Radar</h3>
                                 <p class="feed-col-subtitle">Tracked equities, DCF targets & institutional signals</p>
                             </div>
-                            <span class="feed-count-badge" id="stock-tracked-count">0</span>
+                            <div class="feed-col-actions">
+                                <button class="btn btn-xs btn-outline" id="refresh-watchlist-btn" title="Refresh Live Market Prices">🔄 Refresh</button>
+                                <span class="feed-count-badge" id="stock-tracked-count">0</span>
+                            </div>
                         </div>
 
                         <!-- Watchlist Cards -->
@@ -111,6 +125,14 @@
                             <div class="feed-sub-title">Tracked Watchlist & Valuations</div>
                             <div class="feed-items-list" id="feed-stock-watchlist">
                                 <span class="empty-hint">Track tickers with 3-tier DCF upside and critic flags.</span>
+                            </div>
+                        </div>
+
+                        <!-- Peer & Moat Recommendations -->
+                        <div class="feed-sub-block">
+                            <div class="feed-sub-title">Peer & Moat Opportunities ("Because You Track...")</div>
+                            <div class="feed-items-list" id="feed-stock-peers-list">
+                                <span class="empty-hint">Analyzing watchlist peer moats...</span>
                             </div>
                         </div>
 
@@ -124,7 +146,7 @@
                     </div>
 
                     <!-- Column 3: Interview War Room & Stumble Log -->
-                    <div class="feed-col card">
+                    <div class="feed-col card" data-col="interview">
                         <div class="feed-col-header">
                             <div>
                                 <h3 class="feed-col-title">🏢 Interview War Room</h3>

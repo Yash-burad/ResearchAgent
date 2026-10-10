@@ -1005,6 +1005,19 @@ function toggleFlip() {
 
 function toggleHint() {
     cardHintText.classList.toggle("hidden");
+    if (!cardHintText.classList.contains("hidden") && currentDeck && currentDeck.cards && currentDeck.cards[currentCardIndex]) {
+        const card = currentDeck.cards[currentCardIndex];
+        fetch("/api/feed/telemetry", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                topic_slug: currentGameTopic || "targeted_drill",
+                game_type: "flashcards",
+                result: "hesitated",
+                feedback_notes: `Requested hint on card ${card.id}`
+            })
+        }).catch(e => console.debug("Telemetry error:", e));
+    }
 }
 
 function prevCard() {
@@ -1032,6 +1045,18 @@ function markNeedsReview() {
     reviewCards.add(key);
     updateMasteryStats();
     
+    // Telemetry log to backend feed store
+    fetch("/api/feed/telemetry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            topic_slug: currentGameTopic || "targeted_drill",
+            game_type: "flashcards",
+            result: "failed",
+            feedback_notes: `Marked card ${card.id} for review: ${(card.front_prompt || "").substring(0, 80)}`
+        })
+    }).catch(e => console.debug("Telemetry error:", e));
+
     // Auto advance
     nextCard();
 }
@@ -1045,9 +1070,22 @@ function markMastered() {
     masteredCards.add(key);
     updateMasteryStats();
     
+    // Telemetry log to backend feed store
+    fetch("/api/feed/telemetry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            topic_slug: currentGameTopic || "targeted_drill",
+            game_type: "flashcards",
+            result: "mastered",
+            feedback_notes: `Candidate mastered card ${card.id}: ${(card.front_prompt || "").substring(0, 80)}`
+        })
+    }).catch(e => console.debug("Telemetry error:", e));
+
     // Auto advance
     nextCard();
 }
+
 
 function updateMasteryStats() {
     if (!currentDeck || !currentDeck.cards) return;
@@ -1346,7 +1384,9 @@ function switchMainSection(target) {
         if (feedSection) feedSection.classList.remove("hidden");
         loadHomeFeed();
     } else if (target === "pipeline") {
-        if (currentRunId && runData) {
+        if (currentGameTopic === "targeted_drill" && currentDeck) {
+            if (resultsSection) resultsSection.classList.remove("hidden");
+        } else if (currentRunId && runData) {
             if (runData.status === "completed") {
                 if (resultsSection) resultsSection.classList.remove("hidden");
             } else if (runData.status === "pending_selection") {
@@ -1357,6 +1397,7 @@ function switchMainSection(target) {
         } else {
             if (setupSection) setupSection.classList.remove("hidden");
         }
+
     } else if (target === "simulator") {
         if (mockSimulatorSection) mockSimulatorSection.classList.remove("hidden");
         initMockSimulator();
@@ -1942,6 +1983,8 @@ function escapeHtml(str) {
 const feedLogMissedBtn = document.getElementById("feed-log-missed-btn");
 const feedAddMissedBtn = document.getElementById("feed-add-missed-btn");
 const feedNewResearchBtn = document.getElementById("feed-new-research-btn");
+const launchRetentionDrillBtn = document.getElementById("launch-retention-drill-btn");
+const refreshWatchlistBtn = document.getElementById("refresh-watchlist-btn");
 
 // Missed Question Modal Elements
 const missedQuestionModal = document.getElementById("missed-question-modal");
@@ -1973,6 +2016,13 @@ if (feedLogMissedBtn) {
 if (feedAddMissedBtn) {
     feedAddMissedBtn.addEventListener("click", openMissedQuestionModal);
 }
+if (launchRetentionDrillBtn) {
+    launchRetentionDrillBtn.addEventListener("click", launchRetentionDrill);
+}
+if (refreshWatchlistBtn) {
+    refreshWatchlistBtn.addEventListener("click", refreshStockWatchlist);
+}
+
 if (closeMissedModalBtn) {
     closeMissedModalBtn.addEventListener("click", closeMissedQuestionModal);
 }
@@ -2046,16 +2096,103 @@ async function submitMissedQuestion() {
     }
 }
 
+async function launchRetentionDrill() {
+    const btn = document.getElementById("launch-retention-drill-btn");
+    const origText = btn ? btn.innerText : "⚡ Launch 5-Min Drill";
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "⏳ Generating Drill...";
+    }
+    try {
+        const res = await fetch("/api/feed/targeted-workout", { method: "POST" });
+        if (!res.ok) throw new Error("Failed to generate targeted drill.");
+        const deck = await res.json();
+
+        currentGameTopic = "targeted_drill";
+        currentDeck = deck;
+        currentCardIndex = 0;
+        masteredCards.clear();
+        reviewCards.clear();
+
+        // Switch to pipeline view and display game
+        switchMainSection("pipeline");
+        if (setupSection) setupSection.classList.add("hidden");
+        if (progressSection) progressSection.classList.add("hidden");
+        if (selectionSection) selectionSection.classList.add("hidden");
+        if (resultsSection) resultsSection.classList.remove("hidden");
+        switchViewMode("game");
+
+        if (gameTopicSelect) {
+            gameTopicSelect.innerHTML = `<option value="targeted_drill">⚡ Dynamic Retention Drill (${deck.cards ? deck.cards.length : 0} cards)</option>`;
+        }
+
+        renderCurrentCard();
+    } catch (err) {
+        alert(`Could not launch retention drill: ${err.message}`);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = origText;
+        }
+    }
+}
+
+async function refreshStockWatchlist() {
+    const btn = document.getElementById("refresh-watchlist-btn");
+    const origText = btn ? btn.innerText : "🔄 Refresh";
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "⏳ Refreshing...";
+    }
+    try {
+        const res = await fetch("/api/feed/watchlist/refresh", { method: "POST" });
+        if (!res.ok) throw new Error("Failed to refresh market prices.");
+        await loadHomeFeed();
+    } catch (err) {
+        alert(`Failed to refresh watchlist: ${err.message}`);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = origText;
+        }
+    }
+}
+
+function initFeedFilters() {
+    if (window._feedFiltersInitialized) return;
+    window._feedFiltersInitialized = true;
+
+    const filterBtns = document.querySelectorAll(".feed-filter-btn");
+    const grid = document.querySelector(".feed-columns-grid");
+    if (!filterBtns.length || !grid) return;
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const allBtns = document.querySelectorAll(".feed-filter-btn");
+            allBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const filter = btn.dataset.filter;
+            grid.classList.remove("filter-tech", "filter-stock", "filter-interview");
+            if (filter && filter !== "all") {
+                grid.classList.add(`filter-${filter}`);
+            }
+        });
+    });
+}
+
 async function loadHomeFeed() {
     try {
         const res = await fetch("/api/feed");
         if (!res.ok) throw new Error("Failed to fetch home feed.");
         homeFeedData = await res.json();
         renderHomeFeed(homeFeedData);
+        initFeedFilters();
     } catch (err) {
         console.error("Failed to load feed:", err);
     }
 }
+
 
 function renderHomeFeed(data) {
     if (!data) return;
@@ -2252,7 +2389,33 @@ function renderStockRadar(stock) {
             `).join("");
         }
     }
+
+    // Peer & Moat Opportunities ("Because You Track...")
+    const peersContainer = document.getElementById("feed-stock-peers-list");
+    if (peersContainer) {
+        if (!stock.peer_recommendations || stock.peer_recommendations.length === 0) {
+            peersContainer.innerHTML = '<span class="empty-hint">Track more equities to discover peer moats and value dislocations.</span>';
+        } else {
+            peersContainer.innerHTML = stock.peer_recommendations.map(p => `
+                <div class="peer-feed-card">
+                    <div class="peer-feed-header">
+                        <div>
+                            <span class="peer-feed-ticker">$${escapeHtml(p.ticker)}</span>
+                            <span class="peer-feed-name">${escapeHtml(p.company_name)}</span>
+                        </div>
+                        ${p.pe_fwd ? `<span class="peer-feed-fwd-pe">Fwd P/E: ${p.pe_fwd}x</span>` : ""}
+                    </div>
+                    <p class="peer-feed-reason">${escapeHtml(p.reason)}</p>
+                    ${p.catalyst ? `<span class="peer-feed-catalyst">⚡ Catalyst: ${escapeHtml(p.catalyst)}</span>` : ""}
+                    <div class="feed-card-footer" style="margin-top: 0.5rem;">
+                        <button class="btn btn-xs btn-primary" onclick="searchTrendFromFeed('${escapeHtml(p.ticker)}', 'stock_market')">Analyze $${escapeHtml(p.ticker)} ↗</button>
+                    </div>
+                </div>
+            `).join("");
+        }
+    }
 }
+
 
 function renderInterviewRadar(interview) {
     const missedList = document.getElementById("feed-missed-questions-list");
@@ -2320,7 +2483,15 @@ function renderInterviewRadar(interview) {
 }
 
 function searchTrendFromFeed(query, domain) {
+    currentGameTopic = null;
+    currentRunId = null;
+    runData = null;
     switchMainSection("pipeline");
+    if (setupSection) setupSection.classList.remove("hidden");
+    if (resultsSection) resultsSection.classList.add("hidden");
+    if (selectionSection) selectionSection.classList.add("hidden");
+    if (progressSection) progressSection.classList.add("hidden");
+
     if (domain === "tech_topics") {
         if (modeTechBtn) modeTechBtn.click();
         const interestsInput = document.getElementById("interests-input");
@@ -2336,6 +2507,7 @@ function searchTrendFromFeed(query, domain) {
         }
     }
 }
+
 
 async function removeBookmark(id) {
     if (!confirm("Remove this saved deep dive?")) return;

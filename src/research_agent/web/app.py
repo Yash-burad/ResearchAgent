@@ -575,6 +575,16 @@ def delete_missed_question(question_id: int):
 def log_telemetry(req: LogTelemetryRequest):
     return feed_service.log_telemetry(req).model_dump()
 
+@app.post("/api/feed/targeted-workout")
+def generate_targeted_workout():
+    drill = feed_service.generate_targeted_drill_game()
+    return drill.model_dump()
+
+@app.post("/api/feed/watchlist/refresh")
+def refresh_watchlist():
+    updated = feed_service.refresh_stock_watchlist()
+    return [item.model_dump() for item in updated]
+
 @app.get("/api/documents")
 def get_document(path: str):
     """
