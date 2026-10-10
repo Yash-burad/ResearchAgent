@@ -249,3 +249,21 @@ pytest
 3. Implement agent class in `src/research_agent/agents/<agent_name>.py`.
 4. Add node and edge to `create_research_graph()` in `src/research_agent/graph.py`.
 5. Add unit test in `tests/test_agents.py`.
+
+---
+
+## 9. Personalized Home Page Feed & Adaptive Mastery Architecture
+
+The **Personalized Home Page Feed** transforms the system into a continuous, habit-forming daily intelligence cockpit.
+
+### 9.1 Hybrid Storage Architecture (Option C)
+- **Local SQLite Database (`data/user_profile.db`)**: Stores indexed activity logs, bookmarks with domain tags/metadata, candidate missed questions, and learning telemetry. Feed queries execute in **< 5ms** with zero disk churn.
+- **Local Filesystem (`outputs/run_xyz/`)**: Retains all heavy 2,000–5,000 word markdown packs and raw JSON outputs, remaining 100% human-readable and accessible via Obsidian, Notion, or VS Code.
+
+### 9.2 Key Subsystems & Telemetry Engine
+1. **Tech Trends Radar**: Recency-decayed trend scoring ($Score = \sum \exp(-\lambda \Delta t)$) paired with a 1-click bookmarked deep-dive reading drawer.
+2. **Stock Market Watchlist**: Tracked equities with live DCF implied upside badges and institutional disconfirmation flags from `StockCriticAgent`.
+3. **Interview War Room & Candidate Stumble Log**:
+   - Closed-loop telemetry automatically ingests weak points from 3D flashcards (stumbles/hints) and Mock Interview Hiring Committee scorecards (rubric scores $\le 3$).
+   - SM-2 / Leitner Spaced-Repetition intervals (Day 1 $\rightarrow$ Day 3 $\rightarrow$ Day 10) dynamically surface priority questions in the **Hero Retention Workout**.
+

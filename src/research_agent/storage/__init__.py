@@ -1,4 +1,5 @@
 from research_agent.storage.run_store import RunStore
+from research_agent.storage.feed_store import FeedStore
 from research_agent.storage.markdown_writer import (
     write_trending_topics_md,
     write_refined_topics_md,
@@ -12,6 +13,7 @@ from research_agent.storage.markdown_writer import (
 
 __all__ = [
     "RunStore",
+    "FeedStore",
     "write_trending_topics_md",
     "write_refined_topics_md",
     "write_research_notes_md",

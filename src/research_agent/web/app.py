@@ -25,9 +25,17 @@ from research_agent.agents.gamification_agent import GamificationAgent
 from research_agent.agents.mock_interviewer_agent import MockInterviewerAgent
 from research_agent.llm import get_llm_provider
 from research_agent.storage.markdown_writer import slugify
+from research_agent.services.feed_service import FeedService
+from research_agent.models.feed import (
+    CreateBookmarkRequest,
+    CreateMissedQuestionRequest,
+    UpdateMissedQuestionRequest,
+    LogTelemetryRequest
+)
 
 
 app = FastAPI(title="AI Research Agent API")
+feed_service = FeedService()
 
 # Enable CORS for development flexibility
 app.add_middleware(
@@ -96,6 +104,13 @@ def create_run(req: CreateRunRequest):
     effective_stock_mode = req.stock_sub_mode or req.stock_mode
     effective_ticker = req.stock_ticker or req.ticker
     effective_horizon = req.stock_investment_horizon or req.investment_horizon
+    # Log activity for the home page feed
+    query_text = (
+        effective_ticker if effective_mode == "stock_market"
+        else (req.company_name if effective_mode == "interview_experience" else req.interests)
+    )
+    if query_text:
+        feed_service.store.log_activity(domain=effective_mode, query_text=query_text, run_id=run_id)
 
     # Initialize tracker in-memory database
     RUNS_DB[run_id] = {
@@ -439,6 +454,13 @@ def finish_interview_session(run_id: str, session_id: str):
     store.save_session(session)
     store.save_feedback(session_id, feedback)
     
+    # Ingest candidate weak spots into the missed questions stumble log
+    feed_service.ingest_mock_interview_feedback(
+        company_name=session.company_name,
+        round_name=session.round_name,
+        feedback_data=feedback.model_dump()
+    )
+    
     return feedback.model_dump()
 
 @app.get("/api/runs/{run_id}/interview-sessions/{session_id}/feedback")
@@ -505,6 +527,78 @@ def update_pipeline_config(config: PipelineConfig):
 @app.get("/api/pipeline/graph")
 def get_pipeline_graph():
     return ChainManager.get_graph_schema()
+
+# ----------------- Feed & Knowledge Base Endpoints -----------------
+
+@app.get("/api/feed")
+def get_home_feed():
+    return feed_service.get_home_feed().model_dump()
+
+@app.get("/api/feed/bookmarks")
+def list_bookmarks(domain: Optional[str] = None):
+    return [b.model_dump() for b in feed_service.list_bookmarks(domain=domain)]
+
+@app.post("/api/feed/bookmarks")
+def add_bookmark(req: CreateBookmarkRequest):
+    return feed_service.add_bookmark(req).model_dump()
+
+@app.delete("/api/feed/bookmarks/{bookmark_id}")
+def delete_bookmark(bookmark_id: int):
+    success = feed_service.delete_bookmark(bookmark_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Bookmark not found")
+    return {"status": "deleted", "id": bookmark_id}
+
+@app.get("/api/feed/missed-questions")
+def list_missed_questions(due_only: bool = False, category: Optional[str] = None):
+    return [q.model_dump() for q in feed_service.list_missed_questions(due_only=due_only, category=category)]
+
+@app.post("/api/feed/missed-questions")
+def add_missed_question(req: CreateMissedQuestionRequest):
+    return feed_service.add_missed_question(req).model_dump()
+
+@app.put("/api/feed/missed-questions/{question_id}")
+def update_missed_question(question_id: int, req: UpdateMissedQuestionRequest):
+    updated = feed_service.update_missed_question(question_id, req)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Missed question not found")
+    return updated.model_dump()
+
+@app.delete("/api/feed/missed-questions/{question_id}")
+def delete_missed_question(question_id: int):
+    success = feed_service.delete_missed_question(question_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Question not found")
+    return {"status": "deleted", "id": question_id}
+
+@app.post("/api/feed/telemetry")
+def log_telemetry(req: LogTelemetryRequest):
+    return feed_service.log_telemetry(req).model_dump()
+
+@app.get("/api/documents")
+def get_document(path: str):
+    """
+    Safely reads markdown or JSON documents relative to project root or outputs/.
+    """
+    project_root = Path(__file__).resolve().parent.parent.parent.parent
+    target = (project_root / path).resolve()
+    # Guard against directory traversal: ensure target is within project_root
+    if not str(target).startswith(str(project_root)):
+        raise HTTPException(status_code=403, detail="Forbidden file path")
+    if not target.exists() or not target.is_file():
+        raise HTTPException(status_code=404, detail="Document not found")
+    
+    try:
+        with open(target, "r", encoding="utf-8") as f:
+            content = f.read()
+        return {
+            "path": path,
+            "filename": target.name,
+            "content": content,
+            "is_markdown": target.suffix == ".md"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 # Mount frontend files after API endpoints
 

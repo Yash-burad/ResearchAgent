@@ -46,4 +46,12 @@ htmlcov/
 *.swo
 
 # Large output runs / logs (optional, keep code clean)
-# outputs/
+outputs/run_2026_10_10_*
+outputs/test_run_sim_api/sessions/session_20261010_*
+
+# Local databases
+data/
+*.db
+*.sqlite
+*.sqlite3
+

@@ -23,7 +23,8 @@
                 <span class="logo-badge">INTELLIGENCE SUITE</span>
             </div>
             <nav class="header-nav">
-                <button class="nav-tab active" id="nav-pipeline-btn">🔬 Research Pipeline</button>
+                <button class="nav-tab active" id="nav-feed-btn">🏠 Home Feed</button>
+                <button class="nav-tab" id="nav-pipeline-btn">🔬 Research Pipeline</button>
                 <button class="nav-tab" id="nav-simulator-btn">🎮 Mock Simulator</button>
                 <button class="nav-tab" id="nav-studio-btn">⚙️ Agent & Prompt Studio</button>
             </nav>
@@ -35,8 +36,125 @@
 
         <main class="main-content">
             
+            <!-- Home Page Feed (Intelligence Cockpit) -->
+            <section id="feed-section" class="fade-in">
+                <!-- Hero Banner -->
+                <div class="feed-hero-banner">
+                    <div class="feed-hero-text">
+                        <div class="feed-badge">PERSONAL INTELLIGENCE COCKPIT</div>
+                        <h1 class="feed-hero-title">Continuous Research & Career Operating System</h1>
+                        <p class="feed-hero-subtitle" id="feed-hero-stats">Loading your personalized feed metrics...</p>
+                    </div>
+                    <div class="feed-hero-actions">
+                        <button class="btn btn-secondary" id="feed-log-missed-btn">📝 + Log Missed Question</button>
+                        <button class="btn btn-primary" id="feed-new-research-btn">🔬 New Research Run</button>
+                    </div>
+                </div>
+
+                <!-- Hero Adaptive Retention Drill Card -->
+                <div class="feed-workout-card card" id="feed-workout-card">
+                    <div class="workout-header">
+                        <div class="workout-title-group">
+                            <span class="workout-pill">⚡ SPACED-REPETITION WORKOUT</span>
+                            <h3 id="workout-card-title">Dynamic Retention Drill</h3>
+                            <p id="workout-card-focus" class="workout-focus-text">Analyzing your previous interview and game stumbles...</p>
+                        </div>
+                        <div class="workout-counter-badge" id="workout-due-badge">0 Due</div>
+                    </div>
+                    <div class="workout-content" id="workout-content-body">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- 3-Column Glassmorphic Feed Grid -->
+                <div class="feed-columns-grid">
+                    
+                    <!-- Column 1: Tech Trends & Saved Deep Dives -->
+                    <div class="feed-col card">
+                        <div class="feed-col-header">
+                            <div>
+                                <h3 class="feed-col-title">🔬 Tech Trends & Saved Shelf</h3>
+                                <p class="feed-col-subtitle">Recency-decayed trend radar & starred knowledge</p>
+                            </div>
+                            <span class="feed-count-badge" id="tech-saved-count">0</span>
+                        </div>
+
+                        <!-- Top Trends Pills -->
+                        <div class="feed-sub-block">
+                            <div class="feed-sub-title">Frequent Topics Radar</div>
+                            <div class="trends-pills-container" id="feed-trends-pills">
+                                <span class="empty-hint">Discovering technical trends...</span>
+                            </div>
+                        </div>
+
+                        <!-- Saved Articles Shelf -->
+                        <div class="feed-sub-block">
+                            <div class="feed-sub-title">Saved Deep Dives & Articles</div>
+                            <div class="feed-items-list" id="feed-saved-tech-list">
+                                <span class="empty-hint">No saved articles yet. Bookmark deep dives from your research runs!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Stock Market Intelligence Radar -->
+                    <div class="feed-col card">
+                        <div class="feed-col-header">
+                            <div>
+                                <h3 class="feed-col-title">📈 Stock Intelligence Radar</h3>
+                                <p class="feed-col-subtitle">Tracked equities, DCF targets & institutional signals</p>
+                            </div>
+                            <span class="feed-count-badge" id="stock-tracked-count">0</span>
+                        </div>
+
+                        <!-- Watchlist Cards -->
+                        <div class="feed-sub-block">
+                            <div class="feed-sub-title">Tracked Watchlist & Valuations</div>
+                            <div class="feed-items-list" id="feed-stock-watchlist">
+                                <span class="empty-hint">Track tickers with 3-tier DCF upside and critic flags.</span>
+                            </div>
+                        </div>
+
+                        <!-- Recent Screened Picks / Dislocation Ideas -->
+                        <div class="feed-sub-block">
+                            <div class="feed-sub-title">Recent Dislocation Screeners</div>
+                            <div class="feed-items-list" id="feed-stock-picks-list">
+                                <span class="empty-hint">No recent dislocation reports. Run an Opportunity Screener!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Interview War Room & Stumble Log -->
+                    <div class="feed-col card">
+                        <div class="feed-col-header">
+                            <div>
+                                <h3 class="feed-col-title">🏢 Interview War Room</h3>
+                                <p class="feed-col-subtitle">Company blueprints & candidate stumble log</p>
+                            </div>
+                            <button class="btn btn-xs btn-outline" id="feed-add-missed-btn">+ Log DSA</button>
+                        </div>
+
+                        <!-- Candidate Missed Questions Stumble Log -->
+                        <div class="feed-sub-block">
+                            <div class="feed-sub-title">Missed Questions Backlog</div>
+                            <div class="feed-items-list" id="feed-missed-questions-list">
+                                <span class="empty-hint">No missed questions logged yet. Great job!</span>
+                            </div>
+                        </div>
+
+                        <!-- Target Company Blueprints -->
+                        <div class="feed-sub-block">
+                            <div class="feed-sub-title">Target Company Guides</div>
+                            <div class="feed-items-list" id="feed-company-guides-list">
+                                <span class="empty-hint">No company guides generated yet.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            
             <!-- Step 1: Input Setup -->
-            <section id="setup-section" class="card fade-in">
+            <section id="setup-section" class="card fade-in hidden">
                 <h2>Configure Research Run</h2>
                 <p class="subtitle">Select your research objective: discover emerging technical concepts or extract company interview intelligence from candidate debriefs.</p>
                 
@@ -756,7 +874,82 @@
         </div>
     </div>
 
-    <script src="app.js?v=2.4"></script>
+    <!-- Modal: Log Missed Interview Question -->
+    <div id="missed-question-modal" class="modal-backdrop hidden">
+        <div class="modal-card fade-in">
+            <div class="modal-header">
+                <h3>📝 Log Missed Interview Question</h3>
+                <button id="close-missed-modal-btn" class="btn-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">Record questions or trade-offs you missed in real interviews or mock rounds. The system will adapt your Home Feed using Spaced-Repetition intervals.</p>
+                <div class="form-group">
+                    <label for="mq-title">Problem Title or Core Concept *</label>
+                    <input type="text" id="mq-title" class="input-field" placeholder="e.g. Alien Dictionary (Topological Sort) or Raft Split-Brain">
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="mq-category">Round Category *</label>
+                        <select id="mq-category" class="input-field select-field">
+                            <option value="DSA">DSA / Algorithms</option>
+                            <option value="System Design">System Design</option>
+                            <option value="Practical Bug Squashing">Practical / API Bug Squashing</option>
+                            <option value="Behavioral">Behavioral & Leadership</option>
+                            <option value="Core CS">Core CS & Concurrency</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mq-company">Company (Optional)</label>
+                        <input type="text" id="mq-company" class="input-field" placeholder="e.g. Stripe, Meta, Google">
+                    </div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="mq-difficulty">Perceived Difficulty</label>
+                        <select id="mq-difficulty" class="input-field select-field">
+                            <option value="Easy">Easy</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="mq-tripped">What tripped you up? (The trap / edge case / missed nuance) *</label>
+                    <textarea id="mq-tripped" class="input-field textarea-field" rows="3" placeholder="e.g. Struggled to identify that prefix rules in Alien Dictionary need cycle detection, or forgot memory limits on cache eviction."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-missed-modal-btn" class="btn btn-secondary">Cancel</button>
+                <button id="submit-missed-modal-btn" class="btn btn-primary">Save to Stumble Log</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Document Reader & Markdown Viewer -->
+    <div id="document-viewer-modal" class="modal-backdrop hidden">
+        <div class="modal-card doc-viewer-card fade-in">
+            <div class="modal-header">
+                <div>
+                    <h3 id="doc-modal-title">Document Reader</h3>
+                    <span id="doc-modal-path" class="doc-path-hint"></span>
+                </div>
+                <div class="modal-header-actions">
+                    <button id="doc-modal-star-btn" class="btn btn-sm btn-outline">⭐ Starred</button>
+                    <button id="close-doc-modal-btn" class="btn-close">✕</button>
+                </div>
+            </div>
+            <div class="modal-body doc-modal-body">
+                <div id="doc-modal-content" class="markdown-body">
+                    <!-- Markdown rendered here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="doc-modal-close-bottom-btn" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js?v=2.5"></script>
 </body>
 </html>
 

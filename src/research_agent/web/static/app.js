@@ -16,6 +16,7 @@ let reviewCards = new Set();
 let cachedGames = {};
 
 // DOM Elements - Main
+const feedSection = document.getElementById("feed-section");
 const setupSection = document.getElementById("setup-section");
 const progressSection = document.getElementById("progress-section");
 const selectionSection = document.getElementById("selection-section");
@@ -1312,26 +1313,28 @@ function closeScorecardModal() {
 }
 
 /* ==========================================================================
-   Main Navigation (Pipeline vs Simulator vs Studio)
+   Main Navigation (Feed vs Pipeline vs Simulator vs Studio)
    ========================================================================== */
 
+const navFeedBtn = document.getElementById("nav-feed-btn");
 const navPipelineBtn = document.getElementById("nav-pipeline-btn");
 const navSimulatorBtn = document.getElementById("nav-simulator-btn");
 const navStudioBtn = document.getElementById("nav-studio-btn");
 
-if (navPipelineBtn && navSimulatorBtn && navStudioBtn) {
-    navPipelineBtn.addEventListener("click", () => switchMainSection("pipeline"));
-    navSimulatorBtn.addEventListener("click", () => switchMainSection("simulator"));
-    navStudioBtn.addEventListener("click", () => switchMainSection("studio"));
-}
+if (navFeedBtn) navFeedBtn.addEventListener("click", () => switchMainSection("feed"));
+if (navPipelineBtn) navPipelineBtn.addEventListener("click", () => switchMainSection("pipeline"));
+if (navSimulatorBtn) navSimulatorBtn.addEventListener("click", () => switchMainSection("simulator"));
+if (navStudioBtn) navStudioBtn.addEventListener("click", () => switchMainSection("studio"));
 
 function switchMainSection(target) {
     // Nav buttons active state
-    navPipelineBtn.classList.toggle("active", target === "pipeline");
-    navSimulatorBtn.classList.toggle("active", target === "simulator");
-    navStudioBtn.classList.toggle("active", target === "studio");
+    if (navFeedBtn) navFeedBtn.classList.toggle("active", target === "feed");
+    if (navPipelineBtn) navPipelineBtn.classList.toggle("active", target === "pipeline");
+    if (navSimulatorBtn) navSimulatorBtn.classList.toggle("active", target === "simulator");
+    if (navStudioBtn) navStudioBtn.classList.toggle("active", target === "studio");
 
     // Hide all major sections
+    if (feedSection) feedSection.classList.add("hidden");
     if (setupSection) setupSection.classList.add("hidden");
     if (progressSection) progressSection.classList.add("hidden");
     if (selectionSection) selectionSection.classList.add("hidden");
@@ -1339,7 +1342,10 @@ function switchMainSection(target) {
     if (mockSimulatorSection) mockSimulatorSection.classList.add("hidden");
     if (studioSection) studioSection.classList.add("hidden");
 
-    if (target === "pipeline") {
+    if (target === "feed") {
+        if (feedSection) feedSection.classList.remove("hidden");
+        loadHomeFeed();
+    } else if (target === "pipeline") {
         if (currentRunId && runData) {
             if (runData.status === "completed") {
                 if (resultsSection) resultsSection.classList.remove("hidden");
@@ -1914,12 +1920,519 @@ async function saveChainSettings() {
     }
 }
 
-// Auto-initialize Studio on page load
+
+/* ==========================================================================
+   Home Page Feed Controller & Modal Logic
+   ========================================================================== */
+
+let homeFeedData = null;
+let currentModalDoc = null;
+
+function escapeHtml(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, "&#039;");
+}
+
+// Feed Action Buttons
+const feedLogMissedBtn = document.getElementById("feed-log-missed-btn");
+const feedAddMissedBtn = document.getElementById("feed-add-missed-btn");
+const feedNewResearchBtn = document.getElementById("feed-new-research-btn");
+
+// Missed Question Modal Elements
+const missedQuestionModal = document.getElementById("missed-question-modal");
+const closeMissedModalBtn = document.getElementById("close-missed-modal-btn");
+const cancelMissedModalBtn = document.getElementById("cancel-missed-modal-btn");
+const submitMissedModalBtn = document.getElementById("submit-missed-modal-btn");
+const mqTitleInput = document.getElementById("mq-title");
+const mqCategorySelect = document.getElementById("mq-category");
+const mqCompanyInput = document.getElementById("mq-company");
+const mqDifficultySelect = document.getElementById("mq-difficulty");
+const mqTrippedInput = document.getElementById("mq-tripped");
+
+// Document Reader Modal Elements
+const documentViewerModal = document.getElementById("document-viewer-modal");
+const closeDocModalBtn = document.getElementById("close-doc-modal-btn");
+const docModalCloseBottomBtn = document.getElementById("doc-modal-close-bottom-btn");
+const docModalTitle = document.getElementById("doc-modal-title");
+const docModalPath = document.getElementById("doc-modal-path");
+const docModalContent = document.getElementById("doc-modal-content");
+const docModalStarBtn = document.getElementById("doc-modal-star-btn");
+
+// Attach Feed Event Listeners
+if (feedNewResearchBtn) {
+    feedNewResearchBtn.addEventListener("click", () => switchMainSection("pipeline"));
+}
+if (feedLogMissedBtn) {
+    feedLogMissedBtn.addEventListener("click", openMissedQuestionModal);
+}
+if (feedAddMissedBtn) {
+    feedAddMissedBtn.addEventListener("click", openMissedQuestionModal);
+}
+if (closeMissedModalBtn) {
+    closeMissedModalBtn.addEventListener("click", closeMissedQuestionModal);
+}
+if (cancelMissedModalBtn) {
+    cancelMissedModalBtn.addEventListener("click", closeMissedQuestionModal);
+}
+if (submitMissedModalBtn) {
+    submitMissedModalBtn.addEventListener("click", submitMissedQuestion);
+}
+
+if (closeDocModalBtn) {
+    closeDocModalBtn.addEventListener("click", closeDocumentModal);
+}
+if (docModalCloseBottomBtn) {
+    docModalCloseBottomBtn.addEventListener("click", closeDocumentModal);
+}
+if (docModalStarBtn) {
+    docModalStarBtn.addEventListener("click", toggleDocumentBookmark);
+}
+
+function openMissedQuestionModal() {
+    if (!missedQuestionModal) return;
+    if (mqTitleInput) mqTitleInput.value = "";
+    if (mqCompanyInput) mqCompanyInput.value = "";
+    if (mqTrippedInput) mqTrippedInput.value = "";
+    missedQuestionModal.classList.remove("hidden");
+    if (mqTitleInput) mqTitleInput.focus();
+}
+
+function closeMissedQuestionModal() {
+    if (missedQuestionModal) missedQuestionModal.classList.add("hidden");
+}
+
+async function submitMissedQuestion() {
+    const title = mqTitleInput ? mqTitleInput.value.trim() : "";
+    const category = mqCategorySelect ? mqCategorySelect.value : "DSA";
+    const company = mqCompanyInput ? mqCompanyInput.value.trim() : "";
+    const difficulty = mqDifficultySelect ? mqDifficultySelect.value : "Medium";
+    const tripped = mqTrippedInput ? mqTrippedInput.value.trim() : "";
+
+    if (!title) {
+        alert("Please enter a question title or concept.");
+        return;
+    }
+    if (!tripped) {
+        alert("Please describe what tripped you up or which edge case was missed.");
+        return;
+    }
+
+    try {
+        if (submitMissedModalBtn) submitMissedModalBtn.disabled = true;
+        const res = await fetch("/api/feed/missed-questions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                title,
+                category,
+                company: company || null,
+                difficulty,
+                what_tripped_me: tripped,
+                source: "manual_entry"
+            })
+        });
+        if (!res.ok) throw new Error("Failed to save question.");
+        closeMissedQuestionModal();
+        await loadHomeFeed();
+    } catch (err) {
+        alert(`Error saving question: ${err.message}`);
+    } finally {
+        if (submitMissedModalBtn) submitMissedModalBtn.disabled = false;
+    }
+}
+
+async function loadHomeFeed() {
+    try {
+        const res = await fetch("/api/feed");
+        if (!res.ok) throw new Error("Failed to fetch home feed.");
+        homeFeedData = await res.json();
+        renderHomeFeed(homeFeedData);
+    } catch (err) {
+        console.error("Failed to load feed:", err);
+    }
+}
+
+function renderHomeFeed(data) {
+    if (!data) return;
+
+    // 1. Stats Bar
+    const statsEl = document.getElementById("feed-hero-stats");
+    if (statsEl) {
+        statsEl.innerText = `${data.hero_workout.total_due} Due for Spaced Review • ${data.stock_radar.watchlist.length} Tracked Equities • ${data.total_bookmarks} Saved Deep Dives`;
+    }
+
+    // 2. Hero Workout
+    renderHeroWorkout(data.hero_workout);
+
+    // 3. Tech Radar
+    renderTechRadar(data.tech_radar);
+
+    // 4. Stock Radar
+    renderStockRadar(data.stock_radar);
+
+    // 5. Interview Radar
+    renderInterviewRadar(data.interview_radar);
+}
+
+function renderHeroWorkout(workout) {
+    const focusEl = document.getElementById("workout-card-focus");
+    const dueBadge = document.getElementById("workout-due-badge");
+    const bodyEl = document.getElementById("workout-content-body");
+
+    if (focusEl) focusEl.innerText = workout.suggested_focus || "Continuous retention workout";
+    if (dueBadge) dueBadge.innerText = `${workout.total_due} Due`;
+
+    if (!bodyEl) return;
+
+    if (!workout.due_questions || workout.due_questions.length === 0) {
+        bodyEl.innerHTML = `
+            <div class="empty-hint" style="text-align: center; padding: 1.5rem;">
+                🎉 All retention reviews are complete! Log new interview questions or test your knowledge with flashcards.
+            </div>
+        `;
+        return;
+    }
+
+    const q = workout.due_questions[0];
+    const difficultyBadge = q.difficulty === "Hard" ? "badge rec-no-hire" : (q.difficulty === "Easy" ? "badge rec-hire" : "badge rec-lean-hire");
+    
+    bodyEl.innerHTML = `
+        <div class="workout-item-box">
+            <div class="workout-item-info">
+                <h4>${escapeHtml(q.title)}</h4>
+                <div class="workout-item-meta">
+                    <span>🏷️ ${escapeHtml(q.category)}</span>
+                    ${q.company ? `<span>🏢 ${escapeHtml(q.company)}</span>` : ""}
+                    <span class="${difficultyBadge}">${escapeHtml(q.difficulty)}</span>
+                    <span>🔄 Reviewed ${q.review_count}x</span>
+                </div>
+                <p class="workout-tripped-quote"><strong>Trap/Tripped on:</strong> ${escapeHtml(q.what_tripped_me)}</p>
+            </div>
+            <div class="workout-actions-group">
+                <button class="btn btn-sm btn-outline" onclick="advanceMissedQuestion(${q.id}, 1)">🔄 Review Tomorrow</button>
+                <button class="btn btn-sm btn-primary" onclick="advanceMissedQuestion(${q.id}, 2)">✅ Mark Mastered</button>
+            </div>
+        </div>
+    `;
+}
+
+async function advanceMissedQuestion(id, targetMastery) {
+    try {
+        const res = await fetch(`/api/feed/missed-questions/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                mastery_level: targetMastery,
+                advance_review: true
+            })
+        });
+        if (!res.ok) throw new Error("Failed to advance question review.");
+        await loadHomeFeed();
+    } catch (err) {
+        alert(`Error updating question: ${err.message}`);
+    }
+}
+
+async function deleteMissedQuestion(id) {
+    if (!confirm("Remove this question from your Stumble Log?")) return;
+    try {
+        const res = await fetch(`/api/feed/missed-questions/${id}`, { method: "DELETE" });
+        if (!res.ok) throw new Error("Failed to delete question.");
+        await loadHomeFeed();
+    } catch (err) {
+        alert(`Error deleting question: ${err.message}`);
+    }
+}
+
+function renderTechRadar(tech) {
+    const pillsContainer = document.getElementById("feed-trends-pills");
+    const savedList = document.getElementById("feed-saved-tech-list");
+    const countBadge = document.getElementById("tech-saved-count");
+
+    if (countBadge) countBadge.innerText = tech.saved_articles.length;
+
+    // Render Trends
+    if (pillsContainer) {
+        if (!tech.trending_topics || tech.trending_topics.length === 0) {
+            pillsContainer.innerHTML = '<span class="empty-hint">No technical trends recorded yet.</span>';
+        } else {
+            pillsContainer.innerHTML = tech.trending_topics.map(t => `
+                <div class="trend-pill" onclick="searchTrendFromFeed('${escapeHtml(t.query_text)}', 'tech_topics')">
+                    <span>#${escapeHtml(t.query_text)}</span>
+                    <span class="trend-pill-count">${t.count}x</span>
+                </div>
+            `).join("");
+        }
+    }
+
+    // Render Saved Articles
+    if (savedList) {
+        if (!tech.saved_articles || tech.saved_articles.length === 0) {
+            savedList.innerHTML = '<span class="empty-hint">No saved articles yet. Star deep dives to view here!</span>';
+        } else {
+            savedList.innerHTML = tech.saved_articles.map(b => `
+                <div class="feed-card">
+                    <div class="feed-card-header">
+                        <h4 class="feed-card-title">${escapeHtml(b.title)}</h4>
+                    </div>
+                    <p class="feed-card-desc">${escapeHtml(b.summary || "Technical deep dive report.")}</p>
+                    <div class="feed-card-tags">
+                        ${(b.tags || []).map(tag => `<span class="feed-tag">${escapeHtml(tag)}</span>`).join("")}
+                    </div>
+                    <div class="feed-card-footer">
+                        <button class="btn btn-xs btn-primary" onclick="openDocumentModal('${escapeHtml(b.reference_path)}', '${escapeHtml(b.title)}')">Read Deep Dive ↗</button>
+                        <button class="btn btn-xs btn-outline" onclick="removeBookmark(${b.id})" title="Remove">🗑</button>
+                    </div>
+                </div>
+            `).join("");
+        }
+    }
+}
+
+function renderStockRadar(stock) {
+    const watchlistContainer = document.getElementById("feed-stock-watchlist");
+    const picksContainer = document.getElementById("feed-stock-picks-list");
+    const countBadge = document.getElementById("stock-tracked-count");
+
+    if (countBadge) countBadge.innerText = stock.watchlist.length;
+
+    // Watchlist
+    if (watchlistContainer) {
+        if (!stock.watchlist || stock.watchlist.length === 0) {
+            watchlistContainer.innerHTML = '<span class="empty-hint">No equities tracked in watchlist yet.</span>';
+        } else {
+            watchlistContainer.innerHTML = stock.watchlist.map(s => {
+                const upside = s.dcf_upside_percent || 0;
+                const upsideClass = upside >= 0 ? "upside-positive" : "upside-negative";
+                const upsideText = upside >= 0 ? `+${upside.toFixed(1)}%` : `${upside.toFixed(1)}%`;
+                return `
+                    <div class="feed-card stock-feed-card">
+                        <div class="feed-card-header">
+                            <div>
+                                <h4 class="feed-card-title"><strong>$${escapeHtml(s.ticker)}</strong> • ${escapeHtml(s.company_name)}</h4>
+                                <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.2rem;">
+                                    Current: $${(s.current_price || 0).toFixed(2)} | Target: $${(s.dcf_target_price || 0).toFixed(2)}
+                                </div>
+                            </div>
+                            <span class="stock-upside-badge ${upsideClass}">${upsideText} DCF</span>
+                        </div>
+                        ${s.critic_warning ? `<div class="stock-critic-alert">⚠️ ${escapeHtml(s.critic_warning)}</div>` : ""}
+                        <div class="feed-card-footer">
+                            <button class="btn btn-xs btn-primary" onclick="searchTrendFromFeed('${escapeHtml(s.ticker)}', 'stock_market')">Run Deep-Dive ↗</button>
+                            ${s.run_id ? `<button class="btn btn-xs btn-outline" onclick="openDocumentModal('outputs/${escapeHtml(s.run_id)}/stock_research_report.md', '${escapeHtml(s.ticker)} Report')">Read Report</button>` : ""}
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+    }
+
+    // Screener Picks
+    if (picksContainer) {
+        if (!stock.recent_picks || stock.recent_picks.length === 0) {
+            picksContainer.innerHTML = '<span class="empty-hint">No recent dislocation screeners found.</span>';
+        } else {
+            picksContainer.innerHTML = stock.recent_picks.map(p => `
+                <div class="feed-card">
+                    <div class="feed-card-header">
+                        <h4 class="feed-card-title">$${escapeHtml(p.ticker)} • ${escapeHtml(p.company_name)}</h4>
+                        <span class="badge rec-lean-hire">${escapeHtml(p.conviction || "Dislocation")}</span>
+                    </div>
+                    <p class="feed-card-desc"><strong>Archetype:</strong> ${escapeHtml(p.archetype || "Quality Growth")}</p>
+                    <div class="feed-card-footer">
+                        <span style="font-size: 0.8rem; color: #34d399; font-weight: 700;">+${(p.upside || 0).toFixed(1)}% Implied Upside</span>
+                        <button class="btn btn-xs btn-outline" onclick="openDocumentModal('outputs/${escapeHtml(p.run_id)}/stock_opportunity_report.md', 'Opportunity Screener')">View Picks</button>
+                    </div>
+                </div>
+            `).join("");
+        }
+    }
+}
+
+function renderInterviewRadar(interview) {
+    const missedList = document.getElementById("feed-missed-questions-list");
+    const guidesList = document.getElementById("feed-company-guides-list");
+
+    // Missed Questions Stumble Log
+    if (missedList) {
+        if (!interview.missed_questions || interview.missed_questions.length === 0) {
+            missedList.innerHTML = '<span class="empty-hint">No questions logged in stumble backlog.</span>';
+        } else {
+            missedList.innerHTML = interview.missed_questions.map(q => {
+                let statusClass = "status-stumbled";
+                let statusText = "Stumbled";
+                if (q.mastery_level === 1) {
+                    statusClass = "status-reviewed";
+                    statusText = "Practicing";
+                } else if (q.mastery_level >= 2) {
+                    statusClass = "status-mastered";
+                    statusText = "Mastered";
+                }
+
+                return `
+                    <div class="feed-card stumble-feed-card">
+                        <div class="feed-card-header">
+                            <div>
+                                <h4 class="feed-card-title">${escapeHtml(q.title)}</h4>
+                                <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 0.15rem;">
+                                    ${escapeHtml(q.category)} ${q.company ? `• ${escapeHtml(q.company)}` : ""}
+                                </div>
+                            </div>
+                            <span class="stumble-status-badge ${statusClass}">${statusText}</span>
+                        </div>
+                        <p class="feed-card-desc" style="color: #cbd5e1;"><em>"${escapeHtml(q.what_tripped_me)}"</em></p>
+                        <div class="feed-card-footer">
+                            <button class="btn btn-xs btn-outline" onclick="advanceMissedQuestion(${q.id}, ${q.mastery_level < 2 ? q.mastery_level + 1 : 2})">
+                                ${q.mastery_level < 2 ? "Advance Mastery ↗" : "Re-review"}
+                            </button>
+                            <button class="btn btn-xs btn-outline" onclick="deleteMissedQuestion(${q.id})" title="Delete">🗑</button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+    }
+
+    // Target Company Guides
+    if (guidesList) {
+        if (!interview.recent_company_guides || interview.recent_company_guides.length === 0) {
+            guidesList.innerHTML = '<span class="empty-hint">No company interview guides generated yet.</span>';
+        } else {
+            guidesList.innerHTML = interview.recent_company_guides.map(g => `
+                <div class="feed-card">
+                    <div class="feed-card-header">
+                        <h4 class="feed-card-title">${escapeHtml(g.company_name)}</h4>
+                        <span class="badge rec-hire">${escapeHtml(g.level)}</span>
+                    </div>
+                    <p class="feed-card-desc">${escapeHtml(g.role)} • ${g.rounds_count} Rounds Identified</p>
+                    <div class="feed-card-footer">
+                        <button class="btn btn-xs btn-primary" onclick="openDocumentModal('${escapeHtml(g.reference_path)}', '${escapeHtml(g.company_name)} Blueprint')">Open Blueprint ↗</button>
+                    </div>
+                </div>
+            `).join("");
+        }
+    }
+}
+
+function searchTrendFromFeed(query, domain) {
+    switchMainSection("pipeline");
+    if (domain === "tech_topics") {
+        if (modeTechBtn) modeTechBtn.click();
+        const interestsInput = document.getElementById("interests-input");
+        if (interestsInput) {
+            interestsInput.value = query;
+            interestsInput.focus();
+        }
+    } else if (domain === "stock_market") {
+        if (modeStockBtn) modeStockBtn.click();
+        if (stockTickerInput) {
+            stockTickerInput.value = query;
+            stockTickerInput.focus();
+        }
+    }
+}
+
+async function removeBookmark(id) {
+    if (!confirm("Remove this saved deep dive?")) return;
+    try {
+        const res = await fetch(`/api/feed/bookmarks/${id}`, { method: "DELETE" });
+        if (!res.ok) throw new Error("Failed to delete bookmark.");
+        await loadHomeFeed();
+    } catch (err) {
+        alert(`Error deleting bookmark: ${err.message}`);
+    }
+}
+
+// Document Reader Modal
+async function openDocumentModal(path, title) {
+    if (!documentViewerModal) return;
+    currentModalDoc = { path, title };
+    if (docModalTitle) docModalTitle.innerText = title || "Document Reader";
+    if (docModalPath) docModalPath.innerText = path;
+    if (docModalContent) docModalContent.innerHTML = '<div class="loader-container"><div class="spinner"></div><p>Loading document from local storage...</p></div>';
+
+    documentViewerModal.classList.remove("hidden");
+
+    try {
+        const res = await fetch(`/api/documents?path=${encodeURIComponent(path)}`);
+        if (!res.ok) throw new Error("Document not found on disk.");
+        const data = await res.json();
+        if (docModalContent) {
+            docModalContent.innerHTML = marked.parse(data.content);
+        }
+        await updateDocumentStarButton(path);
+    } catch (err) {
+        if (docModalContent) {
+            docModalContent.innerHTML = `<div class="empty-hint" style="color: #f87171;">Failed to load document: ${escapeHtml(err.message)}</div>`;
+        }
+    }
+}
+
+function closeDocumentModal() {
+    if (documentViewerModal) documentViewerModal.classList.add("hidden");
+    currentModalDoc = null;
+}
+
+async function updateDocumentStarButton(path) {
+    if (!docModalStarBtn) return;
+    try {
+        const res = await fetch("/api/feed/bookmarks");
+        if (res.ok) {
+            const bookmarks = await res.json();
+            const exists = bookmarks.some(b => b.reference_path === path);
+            docModalStarBtn.innerText = exists ? "⭐ Starred" : "☆ Save to Bookmarks";
+            docModalStarBtn.classList.toggle("btn-primary", exists);
+            docModalStarBtn.classList.toggle("btn-outline", !exists);
+        }
+    } catch (e) {}
+}
+
+async function toggleDocumentBookmark() {
+    if (!currentModalDoc) return;
+    try {
+        const res = await fetch("/api/feed/bookmarks");
+        const bookmarks = res.ok ? await res.json() : [];
+        const existing = bookmarks.find(b => b.reference_path === currentModalDoc.path);
+
+        if (existing) {
+            await fetch(`/api/feed/bookmarks/${existing.id}`, { method: "DELETE" });
+        } else {
+            const domain = currentModalDoc.path.includes("stock") ? "stock_market" : "tech_topics";
+            await fetch("/api/feed/bookmarks", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    domain: domain,
+                    item_type: domain === "stock_market" ? "stock_research" : "tech_summary",
+                    title: currentModalDoc.title,
+                    reference_path: currentModalDoc.path,
+                    summary: "Saved from document reader"
+                })
+            });
+        }
+        await updateDocumentStarButton(currentModalDoc.path);
+        await loadHomeFeed();
+    } catch (err) {
+        console.error("Failed to toggle bookmark:", err);
+    }
+}
+
+// Initial App Boot: Default to Home Feed
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initAgentStudio);
+    document.addEventListener("DOMContentLoaded", () => {
+        initAgentStudio();
+        switchMainSection("feed");
+    });
 } else {
     initAgentStudio();
+    switchMainSection("feed");
 }
+
 
 
 

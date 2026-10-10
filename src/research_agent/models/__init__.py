@@ -13,6 +13,23 @@ from research_agent.models.simulation import (
     HintRequest
 )
 
+from research_agent.models.feed import (
+    BookmarkItem,
+    CreateBookmarkRequest,
+    MissedQuestionItem,
+    CreateMissedQuestionRequest,
+    UpdateMissedQuestionRequest,
+    LearningTelemetryItem,
+    LogTelemetryRequest,
+    RecentSearchItem,
+    StockWatchlistItem,
+    HeroWorkout,
+    TechRadarSection,
+    StockRadarSection,
+    InterviewRadarSection,
+    HomeFeedResponse
+)
+
 __all__ = [
     "TopicCandidate",
     "RefinedTopic",
@@ -48,7 +65,21 @@ __all__ = [
     "CriticDebrief",
     "StockResearchReport",
     "StockCandidateOpportunity",
-    "StockOpportunityReport"
+    "StockOpportunityReport",
+    "BookmarkItem",
+    "CreateBookmarkRequest",
+    "MissedQuestionItem",
+    "CreateMissedQuestionRequest",
+    "UpdateMissedQuestionRequest",
+    "LearningTelemetryItem",
+    "LogTelemetryRequest",
+    "RecentSearchItem",
+    "StockWatchlistItem",
+    "HeroWorkout",
+    "TechRadarSection",
+    "StockRadarSection",
+    "InterviewRadarSection",
+    "HomeFeedResponse"
 ]
 
 from research_agent.models.stock import (
