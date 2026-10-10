@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "research-agent"
+version = "0.1.0"
+description = "AI Tech Topic Research Agent"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "langgraph>=0.1.0",
+    "langchain-core",
+    "pydantic>=2.0",
+    "pydantic-settings",
+    "httpx",
+    "beautifulsoup4",
+    "trafilatura",
+    "python-dotenv",
+    "typer",
+    "rich",
+    "duckduckgo-search",
+    "fastapi",
+    "uvicorn",
+    "jinja2"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-mock",
+    "black",
+    "isort"
+]
+
+[project.scripts]
+research-agent = "research_agent.main:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["research_agent*"]

@@ -1,0 +1,42 @@
+{
+  "topic": "Vector Database Hybrid Search",
+  "definition": "unknown",
+  "why_it_matters": [],
+  "technical_details": [],
+  "examples": [],
+  "use_cases": [],
+  "limitations": [],
+  "related_topics": [],
+  "sources": [
+    {
+      "url": "https://www.vecteezy.com/",
+      "title": "Download Free Vectors, Images, Photos & Videos | Vecteezy",
+      "publisher": null,
+      "extracted_at": "2026-03-31T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "Offers royalty free vectors, images, stock photos, and videos."
+      ]
+    },
+    {
+      "url": "https://www.magnific.com/vectors",
+      "title": "Free Vector Images - Download & Edit Online | Magnific (formerly …",
+      "publisher": null,
+      "extracted_at": "2026-03-31T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "Provides free vector images and files."
+      ]
+    },
+    {
+      "url": "https://www.vector.com/en/",
+      "title": "Vector: Building the Intelligent Foundation",
+      "publisher": null,
+      "extracted_at": "2026-03-31T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "Builds intelligent foundations for software-defined systems across automotive, MedTech, railway, aerospace, and agriculture."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "topic": "Redlock Algorithm for Distributed Locking",
+  "definition": "unknown",
+  "why_it_matters": [],
+  "technical_details": [],
+  "examples": [],
+  "use_cases": [],
+  "limitations": [],
+  "related_topics": [],
+  "sources": [
+    {
+      "url": "https://littlecaesars.com/en-us/",
+      "title": "Little Caesars® | Best Value Delivery & Carryout",
+      "publisher": null,
+      "extracted_at": "2026-03-31T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "Little Caesars offers online ordering for delivery and carryout."
+      ]
+    },
+    {
+      "url": "https://littlecaesars.com/en-us/menu/",
+      "title": "Little Caesars® | Discover our Delicious Menu Options",
+      "publisher": null,
+      "extracted_at": "2026-03-31T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "Little Caesars features Pizza Portal pickup and various menu items."
+      ]
+    },
+    {
+      "url": "https://order.littlecaesars.com/en-us/order/",
+      "title": "Order - Little Caesars® Pizza",
+      "publisher": null,
+      "extracted_at": "2026-03-31T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "Online ordering interface for pickup and delivery."
+      ]
+    }
+  ]
+}

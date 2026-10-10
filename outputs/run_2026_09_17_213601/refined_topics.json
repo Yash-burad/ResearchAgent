@@ -1,0 +1,66 @@
+[
+  {
+    "title": "Vector Database Hybrid Search Architecture",
+    "reason_selected": "Combines high enterprise demand with fundamental information retrieval trade-offs, making it an exceptional topic for system design interviews.",
+    "relevance_to_user": "Directly builds upon the user's explicit interest in vector databases by adding keyword fallback mechanisms crucial for production systems.",
+    "expected_learning_outcome": "Mastery of reciprocal rank fusion, combining sparse and dense retrievers, and designing resilient RAG architectures.",
+    "scores": {
+      "interest_match_score": 95,
+      "interview_value_score": 90,
+      "depth_score": 85,
+      "freshness_score": 90,
+      "source_quality_score": 85
+    },
+    "source_urls": [
+      "https://trends.google.co.in/trending"
+    ]
+  },
+  {
+    "title": "S3-Compatible Object Storage Consistency Models",
+    "reason_selected": "Addresses foundational distributed systems challenges regarding strong consistency, directly relevant to modern cloud data architectures.",
+    "relevance_to_user": "Directly maps to the user's interest in s3 files and distributed object storage semantics.",
+    "expected_learning_outcome": "Deep understanding of read-after-write consistency, partition tolerance, and concurrency control in cloud storage.",
+    "scores": {
+      "interest_match_score": 90,
+      "interview_value_score": 95,
+      "depth_score": 90,
+      "freshness_score": 85,
+      "source_quality_score": 85
+    },
+    "source_urls": [
+      "https://trends.google.co.in/trending"
+    ]
+  },
+  {
+    "title": "Distributed Locking and Coordination in Cloud-Native Storage",
+    "reason_selected": "Tackles multi-writer race conditions and metadata catalog consistency, a staple challenge in senior-level system design interviews.",
+    "relevance_to_user": "Bridges the user's interest in S3 files and large-scale data systems by exploring coordination layers above raw object storage.",
+    "expected_learning_outcome": "Proficiency in optimistic concurrency control, metadata catalogs, and managing distributed mutations on shared storage.",
+    "scores": {
+      "interest_match_score": 85,
+      "interview_value_score": 90,
+      "depth_score": 90,
+      "freshness_score": 85,
+      "source_quality_score": 85
+    },
+    "source_urls": [
+      "https://trends.google.co.in/trending"
+    ]
+  },
+  {
+    "title": "Approximate Nearest Neighbor (ANN) Indexing Algorithms",
+    "reason_selected": "Covers the core algorithmic bottlenecks of high-dimensional search, testing deep technical competencies in interviews.",
+    "relevance_to_user": "Directly complements the user's focus on vector databases by exploring low-level indexing mechanics like HNSW and IVF-PQ.",
+    "expected_learning_outcome": "Ability to evaluate index trade-offs between memory footprint, build time, and query latency for vector search.",
+    "scores": {
+      "interest_match_score": 90,
+      "interview_value_score": 80,
+      "depth_score": 95,
+      "freshness_score": 80,
+      "source_quality_score": 85
+    },
+    "source_urls": [
+      "https://trends.google.co.in/trending"
+    ]
+  }
+]

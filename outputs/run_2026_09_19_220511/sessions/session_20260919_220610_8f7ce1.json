@@ -1,0 +1,37 @@
+{
+  "session_id": "session_20260919_220610_8f7ce1",
+  "run_id": "run_2026_09_19_220511",
+  "company_name": "Stripe",
+  "role": "Staff Backend Engineer",
+  "level": "Staff / L6 (Lead / Principal Prep)",
+  "round_name": "Round 1: Recruiter Screen",
+  "round_type": "Recruiter Screen",
+  "evaluation_criteria": [
+    "Clarity of communication",
+    "Demonstrated L6 scope (impacting multiple teams or large company-wide infrastructure)",
+    "High urgency and enthusiasm for financial technology"
+  ],
+  "messages": [
+    {
+      "id": "msg_0c394041",
+      "role": "interviewer",
+      "content": "Hi there! Welcome to Stripe, and thanks for taking the time to chat with me today. \n\nI'm a Staff Engineer here on our Core Payments team, and I'll be walking you through our initial recruiter screen. The goal of our conversation today is twofold: I want to get a solid understanding of your background, your technical depth, and how you operate at a Staff level—specifically looking at how you handle complex distributed systems, cross-functional ambiguity, and operational excellence. We'll also leave some time at the end for you to ask me any questions you have about life at Stripe.\n\nTo kick things off, I'd love to anchor our conversation in your actual experience. Can you walk me through a complex distributed systems project you led at scale? Specifically, I'd love to hear about the scale you were operating at, the hardest technical or architectural trade-off you had to make, and how you drove alignment across teams to ship it.",
+      "timestamp": "2026-09-19 22:06:13"
+    },
+    {
+      "id": "msg_ef4998f4",
+      "role": "candidate",
+      "content": "For idempotency, I propose generating a UUIDv4 Idempotency-Key from the client, checking Redis with a distributed lock and storing the request hash.",
+      "timestamp": "2026-09-19 22:07:18"
+    },
+    {
+      "id": "msg_e4178856",
+      "role": "interviewer",
+      "content": "That’s a classic starting point, and relying on client-supplied idempotency keys combined with a caching layer like Redis is a pattern we see often. \n\nHowever, at Stripe's scale and in the context of financial transactions, I want to probe a bit deeper on the failure modes and consistency guarantees of that design. Specifically, what happens if Redis goes down or experiences a split-brain scenario during a high-throughput flash sale? Furthermore, how do you handle the race condition where two identical requests arrive concurrently before the key is cached in Redis, and what is your persistent storage fallback?\n\nWalk me through how you'd structure the storage layer and state machine behind this to guarantee that a financial transaction is never double-charged, even under severe network partitions.",
+      "timestamp": "2026-09-19 22:07:20"
+    }
+  ],
+  "status": "in_progress",
+  "created_at": "2026-09-19 22:06:10",
+  "updated_at": "2026-09-19 22:07:18"
+}

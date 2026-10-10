@@ -1,0 +1,57 @@
+[
+  {
+    "title": "Vector Database Hybrid Search Architecture",
+    "short_description": "Combining dense vector embeddings with traditional sparse keyword search (BM25) using reciprocal rank fusion for enhanced retrieval accuracy in RAG systems.",
+    "category": "AI Infrastructure",
+    "trend_reason": "High demand in enterprise generative AI architectures to overcome pure vector search limitations on exact keyword matching.",
+    "evidence_sources": [
+      "https://trends.google.co.in/trending"
+    ],
+    "estimated_interview_value": 9,
+    "trend_score": 9
+  },
+  {
+    "title": "S3-Compatible Object Storage Consistency Models",
+    "short_description": "Designing distributed applications around strong read-after-write consistency for PUT and LIST operations in cloud object stores.",
+    "category": "Distributed Systems",
+    "trend_reason": "Crucial for modern data lakehouses and transactional table formats like Apache Iceberg running directly on cloud storage.",
+    "evidence_sources": [
+      "https://trends.google.co.in/trending"
+    ],
+    "estimated_interview_value": 8,
+    "trend_score": 8
+  },
+  {
+    "title": "Approximate Nearest Neighbor (ANN) Indexing Algorithms",
+    "short_description": "Deep dive into HNSW (Hierarchical Navigable Small World) and IVF-PQ (Inverted File with Product Quantization) index structures for sub-millisecond vector similarity search.",
+    "category": "Data Engineering",
+    "trend_reason": "Fundamental scalability bottleneck for high-dimensional vector databases handling millions of embeddings.",
+    "evidence_sources": [
+      "https://trends.google.co.in/trending"
+    ],
+    "estimated_interview_value": 9,
+    "trend_score": 8
+  },
+  {
+    "title": "Distributed Locking and Coordination in Cloud-Native Storage",
+    "short_description": "Managing concurrent file mutations and multi-writer race conditions on shared object stores using metadata catalogs and optimistic concurrency control.",
+    "category": "Backend Architecture",
+    "trend_reason": "Essential architectural pattern for serverless data pipelines and distributed analytics engines interacting with cloud object stores.",
+    "evidence_sources": [
+      "https://trends.google.co.in/trending"
+    ],
+    "estimated_interview_value": 8,
+    "trend_score": 7
+  },
+  {
+    "title": "Model Context Protocol (MCP)",
+    "short_description": "An open standard developed for connecting AI models to secure data sources, enterprise tools, and local execution environments.",
+    "category": "AI Infrastructure",
+    "trend_reason": "Rapidly emerging as the standard abstraction layer for LLM tool use and context injection across developer tools.",
+    "evidence_sources": [
+      "https://trends.google.co.in/trending"
+    ],
+    "estimated_interview_value": 9,
+    "trend_score": 10
+  }
+]

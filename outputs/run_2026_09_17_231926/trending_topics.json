@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Model Context Protocol (MCP)",
+    "short_description": "An open standard for connecting AI models to data sources and tools, streamlining context retrieval for agents.",
+    "category": "AI Infra",
+    "trend_reason": "Rapidly adopted as a standardized protocol for AI agents to securely query external tools and databases.",
+    "evidence_sources": [],
+    "estimated_interview_value": 9,
+    "trend_score": 9
+  },
+  {
+    "title": "Vector Database Hybrid Search",
+    "short_description": "Combining dense vector embeddings with traditional sparse keyword search (BM25) for enhanced agentic retrieval accuracy.",
+    "category": "Data Systems",
+    "trend_reason": "Essential architecture pattern for production RAG and AI agent memory systems needing both semantic and exact-match capabilities.",
+    "evidence_sources": [],
+    "estimated_interview_value": 8,
+    "trend_score": 8
+  },
+  {
+    "title": "Distributed Consensus via Raft",
+    "short_description": "A consensus algorithm designed as an alternative to Paxos, widely used in distributed state machine replication.",
+    "category": "Distributed Systems",
+    "trend_reason": "Core foundational protocol for modern cloud-native storage engines, coordination services, and distributed agent state stores.",
+    "evidence_sources": [],
+    "estimated_interview_value": 10,
+    "trend_score": 8
+  },
+  {
+    "title": "Multi-Agent Orchestration Frameworks",
+    "short_description": "Architectural patterns for managing state, communication loops, and handoffs between specialized autonomous AI agents.",
+    "category": "AI Agents",
+    "trend_reason": "Transitioning from single LLM prompts to complex distributed agentic workflows requires robust orchestration patterns.",
+    "evidence_sources": [],
+    "estimated_interview_value": 9,
+    "trend_score": 9
+  },
+  {
+    "title": "Event-Driven CQRS with Kafka",
+    "short_description": "Command Query Responsibility Segregation implemented over distributed event logs for high-throughput microservices.",
+    "category": "Distributed Systems",
+    "trend_reason": "Critical architectural pattern for scaling complex backend systems and maintaining decoupled read/write models.",
+    "evidence_sources": [],
+    "estimated_interview_value": 9,
+    "trend_score": 8
+  }
+]

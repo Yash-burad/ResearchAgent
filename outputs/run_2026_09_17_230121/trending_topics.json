@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Redlock Algorithm for Distributed Locking",
+    "short_description": "A distributed lock manager algorithm implemented using Redis instances to achieve high availability and mutual exclusion.",
+    "category": "Distributed Systems",
+    "trend_reason": "Frequently evaluated in senior backend architecture interviews to test understanding of consensus, clock drift, and failure handling in distributed caching systems.",
+    "evidence_sources": [],
+    "estimated_interview_value": 9,
+    "trend_score": 8
+  },
+  {
+    "title": "ZooKeeper-Based Distributed Locks",
+    "short_description": "Implementing ephemeral sequential nodes in Apache ZooKeeper to achieve strictly ordered and fault-tolerant distributed locking.",
+    "category": "Distributed Systems",
+    "trend_reason": "Remains a foundational design pattern in enterprise architectures utilizing CP systems for strict coordination.",
+    "evidence_sources": [],
+    "estimated_interview_value": 8,
+    "trend_score": 7
+  },
+  {
+    "title": "Event-Driven Architecture with Kafka Compaction",
+    "short_description": "Using Apache Kafka's log compaction feature to maintain the latest state for each key, merging message queues with database-like state tables.",
+    "category": "Message Brokers",
+    "trend_reason": "Essential for modern event-sourced microservices requiring event streaming alongside reliable state persistence.",
+    "evidence_sources": [],
+    "estimated_interview_value": 9,
+    "trend_score": 9
+  },
+  {
+    "title": "Transactional Outbox Pattern in Message Brokers",
+    "short_description": "An architectural pattern ensuring reliable message publishing alongside database transactions by utilizing an outbox table and a relay processor.",
+    "category": "Message Brokers",
+    "trend_reason": "Crucial for solving dual-write problems in distributed microservices architectures during system design interviews.",
+    "evidence_sources": [],
+    "estimated_interview_value": 10,
+    "trend_score": 9
+  },
+  {
+    "title": "RabbitMQ Quorum Queues",
+    "short_description": "A modern queue type in RabbitMQ built on the Raft consensus algorithm to provide high availability and data safety.",
+    "category": "Message Brokers",
+    "trend_reason": "Adoption is growing as engineering teams migrate away from classic mirrored queues toward consensus-based queue replication.",
+    "evidence_sources": [],
+    "estimated_interview_value": 8,
+    "trend_score": 8
+  }
+]

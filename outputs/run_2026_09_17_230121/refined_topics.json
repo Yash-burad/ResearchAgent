@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Redlock Algorithm for Distributed Locking",
+    "reason_selected": "Highly evaluated in senior backend architecture interviews to test deep understanding of consensus, clock drift, and failure handling in distributed systems.",
+    "relevance_to_user": "Directly addresses the user's explicit interest in distributed locking mechanisms.",
+    "expected_learning_outcome": "Mastery of distributed consensus trade-offs, handling network partitions, and mitigating clock drift issues in production locking systems.",
+    "scores": {
+      "interest_match_score": 100,
+      "interview_value_score": 95,
+      "depth_score": 90,
+      "freshness_score": 85,
+      "source_quality_score": 80
+    },
+    "source_urls": []
+  },
+  {
+    "title": "Transactional Outbox Pattern in Message Brokers",
+    "reason_selected": "Crucial design pattern for solving dual-write problems between databases and message brokers during system design interviews.",
+    "relevance_to_user": "Directly applies to message brokers and reliable event publishing workflows in distributed architectures.",
+    "expected_learning_outcome": "Understanding how to guarantee eventual consistency and reliable asynchronous messaging without distributed two-phase commits.",
+    "scores": {
+      "interest_match_score": 90,
+      "interview_value_score": 100,
+      "depth_score": 85,
+      "freshness_score": 90,
+      "source_quality_score": 85
+    },
+    "source_urls": []
+  },
+  {
+    "title": "RabbitMQ Quorum Queues",
+    "reason_selected": "Represents the modern shift toward consensus-based queue replication, a common deep-dive question for senior infrastructure and backend roles.",
+    "relevance_to_user": "Aligns closely with advanced message broker architecture and high-availability design.",
+    "expected_learning_outcome": "Deep comprehension of Raft-based queue replication, failure recovery, and trade-offs compared to classic mirrored queues.",
+    "scores": {
+      "interest_match_score": 85,
+      "interview_value_score": 90,
+      "depth_score": 85,
+      "freshness_score": 95,
+      "source_quality_score": 80
+    },
+    "source_urls": []
+  }
+]

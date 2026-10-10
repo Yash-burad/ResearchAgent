@@ -1,0 +1,36 @@
+[
+  {
+    "title": "IMAP Protocol Connection Pool Management",
+    "short_description": "Managing high-concurrency client connections and state synchronization for IMAP message stores.",
+    "category": "Messaging Protocols",
+    "trend_reason": "Persistent authentication loops and connection limits in modern email clients highlight architectural scaling challenges.",
+    "evidence_sources": [
+      "https://techcommunity.microsoft.com/discussions/outlookgeneral/non-office-365-accounts-repeatedly-request-sign-in-each-time-outlook-new-is-open/4394482",
+      "https://www.justanswer.com/microsoft-office/qtt64-trying-add-imap-email-outlook-requiring.html"
+    ],
+    "estimated_interview_value": 7,
+    "trend_score": 6
+  },
+  {
+    "title": "OAuth2 App Password Integration",
+    "short_description": "Securing legacy messaging and mail protocols using token-based app passwords and multi-factor authentication wrappers.",
+    "category": "Security Architecture",
+    "trend_reason": "Stricter identity provider policies require robust handling of token caching and application-specific credentials for third-party clients.",
+    "evidence_sources": [
+      "https://www.justanswer.com/microsoft-office/qtt64-trying-add-imap-email-outlook-requiring.html"
+    ],
+    "estimated_interview_value": 8,
+    "trend_score": 7
+  },
+  {
+    "title": "Tracking Pixel Telemetry and Privacy Filters",
+    "short_description": "Analyzing message delivery telemetry while mitigating privacy risks posed by embedded tracking pixels.",
+    "category": "Distributed Messaging",
+    "trend_reason": "Increased scrutiny on telemetry and tracking mechanisms in web clients drives architectural redesigns in message rendering engines.",
+    "evidence_sources": [
+      "https://techcommunity.microsoft.com/category/Outlook"
+    ],
+    "estimated_interview_value": 6,
+    "trend_score": 6
+  }
+]

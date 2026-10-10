@@ -1,0 +1,61 @@
+{
+  "topic": "Nvda Nvda Corp",
+  "game_type": "flashcards",
+  "total_cards": 6,
+  "cards": [
+    {
+      "id": "card_1",
+      "category": "Core Architecture",
+      "difficulty": "Hard",
+      "front_prompt": "How does the SIMT (Single Instruction, Multiple Threads) execution model manage warp divergence at the Streaming Multiprocessor (SM) level, and what is its performance penalty on modern NVIDIA architectures (Volta through Hopper)?",
+      "back_explanation": "In NVIDIA GPUs, 32 threads form a warp and execute in lockstep. When conditional branching occurs (divergence), the warp executes each branch path sequentially while disabling (masking off) threads that are not on the active path via the execution mask, effectively serializing execution and reducing throughput. Prior to Volta, a single program counter (PC) and call stack were shared per warp. Starting with Volta's Independent Thread Scheduling (ITS), each thread maintains its own execution state and call stack, allowing the SM to interleave divergent threads more efficiently and avoid deadlocks in lock-based thread synchronization. However, instructions executed by divergent threads still execute serially on the physical execution pipelines, cutting effective compute utilization by up to 50% or more depending on branch depth.",
+      "hint": "Consider the difference between logical thread progression and physical ALUs executing instructions simultaneously with an active thread mask.",
+      "key_takeaway": "Warp divergence causes serial execution of divergent paths via thread masking, reducing functional ALU throughput despite Independent Thread Scheduling."
+    },
+    {
+      "id": "card_2",
+      "category": "Scalability & Networking",
+      "difficulty": "Hard",
+      "front_prompt": "Why is NVLink/NVSwitch preferred over PCIe Gen 5 for Tensor Parallelism (TP), whereas Data Parallelism (DP) can scale over InfiniBand/RoCE v2 using GPUDirect RDMA?",
+      "back_explanation": "Tensor Parallelism splits individual matrix multiplications (GEMMs) across GPUs within each layer (e.g., Megatron-LM), requiring frequent, ultra-low latency all-reduce or all-gather collectives at microsecond granularity. NVLink 4/5 delivers bidirectional bandwidths exceeding 900 GB/s to 1.8 TB/s per GPU with single-digit microsecond latencies via full crossbar switches (NVSwitch), avoiding host memory hops. In contrast, standard PCIe Gen 5 (64 GB/s bidirectional per x16 slot) creates severe communication bottlenecks that stall computation. Data Parallelism (and ZeRO/FSDP) exchanges gradients or parameters only at layer or step boundaries, tolerating lower bandwidth and higher latencies (tens of microseconds) achievable over 400G/800G InfiniBand or RoCE v2 with GPUDirect RDMA.",
+      "hint": "Think about communication frequency and synchronization barriers per transformer layer versus per training step.",
+      "key_takeaway": "Tensor Parallelism requires intra-node microsecond latencies and terabyte-scale bandwidth (NVLink), while Data Parallelism tolerates the latency profile of networked RDMA."
+    },
+    {
+      "id": "card_3",
+      "category": "Performance Trade-offs",
+      "difficulty": "Medium",
+      "front_prompt": "In GPU performance profiling, why can `nvidia-smi` report 100% GPU utilization while an LLM training job achieves only a fraction of peak theoretical TFLOPS (MFU)?",
+      "back_explanation": "`nvidia-smi` utilization measures the percentage of time during the sample period (typically 1 second) that at least one kernel was running on the GPU, regardless of whether SM execution units were actually busy or stalled. Under the Roofline Model, low Model FLOPs Utilization (MFU) despite 100% temporal occupancy typically stems from: 1) Memory bandwidth saturation (memory-bound operations like LayerNorm, Softmax, or small batch GEMMs waiting on HBM), 2) High latency pipeline stalls (shared memory bank conflicts, register file dependencies), 3) Communication overheads (NCCL synchronizations stalling kernels), or 4) Warp divergence and inefficient tail-effects in grid scheduling.",
+      "hint": "Distinguish temporal occupancy (is work queued?) from arithmetic operational intensity (are Tensor Cores saturated with math?).",
+      "key_takeaway": "100% utilization in nvidia-smi merely indicates active kernels; true compute saturation requires maximizing Model FLOPs Utilization (MFU) by minimizing memory and communication stalls."
+    },
+    {
+      "id": "card_4",
+      "category": "Failure Modes",
+      "difficulty": "Hard",
+      "front_prompt": "What are Silent Data Corruptions (SDCs) and ECC failure modes in large-scale NVIDIA GPU clusters (e.g., H100 clusters), and how do resilience frameworks detect and recover from them?",
+      "back_explanation": "At scale (thousands of GPUs running for weeks), hardware faults manifest as uncorrectable ECC errors, transient soft errors, or Silent Data Corruption (SDC)—where arithmetic errors (e.g., in Tensor Cores or caches without full parity/ECC coverage) yield incorrect numerical outputs without crashing the hardware or CUDA driver. SDC causes gradient explosions, loss spikes, or NaN propagation that ruin training checkpoints. Detection relies on active health checks (e.g., DCGM diagnostics), dual-execution verification of canary micro-batches, and loss-spike monitoring heuristics. Recovery requires terminating the compromised node, isolating it via cluster orchestrators (e.g., Slurm/Kubernetes cordoning), and rolling back to the last known uncorrupted checkpoint (often via fast distributed asynchronous checkpointing like Checkpoint Engine).",
+      "hint": "Think about errors that do not generate a hardware trap or trigger an OS kernel panic, but invalidate the mathematical integrity of model weights.",
+      "key_takeaway": "Silent Data Corruption bypasses standard hardware traps, requiring application-level canary validation, loss monitoring, and high-frequency resilient checkpointing."
+    },
+    {
+      "id": "card_5",
+      "category": "System Design",
+      "difficulty": "Hard",
+      "front_prompt": "Compare NVIDIA's CUDA ecosystem with Google TPU/XLA and AMD ROCm in large-scale AI infrastructure. What architectural and software moats sustain NVIDIA's dominance?",
+      "back_explanation": "NVIDIA's advantage spans three interconnected layers: 1) Hardware Co-design: NVLink/NVSwitch for tightly coupled multi-GPU topologies and Transformer Engine hardware support (dynamic FP8/FP4 scaling). 2) Low-Level Software Ecosystem: CUDA and heavily tuned kernel primitives (cuBLAS, cuDNN, CUTLASS, FlashAttention, TensorRT-LLM) that extract 70-80%+ MFU across diverse model architectures. 3) Network & Interconnect Stack: Native vertical integration with Mellanox networking (InfiniBand, NCCL, SHARP in-network compute). Google's TPU offers cost-effective, high-throughput training via systolic arrays and optical circuit switches (OCS), but binds workloads to XLA and Google Cloud. AMD's ROCm has made strides via PyTorch interoperability, but still faces software maturity, driver stability, and third-party library optimization gaps compared to CUDA's 15+ year developer ecosystem.",
+      "hint": "Evaluate the stack from hardware interconnects and custom low-level assembly (PTX) to high-level collective communication libraries (NCCL).",
+      "key_takeaway": "NVIDIA's moat is not just raw silicon FLOPS, but the co-optimization of low-level libraries (CUDA/CUTLASS), high-bandwidth fabrics (NVLink), and battle-tested collective primitives (NCCL)."
+    },
+    {
+      "id": "card_6",
+      "category": "Core Architecture",
+      "difficulty": "Medium",
+      "front_prompt": "How does NVIDIA's Tensor Memory Accelerator (TMA) in Hopper/Blackwell architectures improve upon asynchronous data transfers compared to prior Ampere architectures?",
+      "back_explanation": "In Ampere, asynchronous memory copies (`cuda::memcpy_async`) allowed data movement from global HBM directly to Shared Memory (SMem) bypassing registers, but SM thread registers and warp execution units were still responsible for calculating multi-dimensional tensor addresses, striding, and bounds checking. Hopper/Blackwell introduced the Tensor Memory Accelerator (TMA), a dedicated hardware engine that handles multi-dimensional tensor addressing and transfers directly between Global Memory and SMem using a single hardware descriptor. TMA frees SM warps entirely from address arithmetic and loop overheads, dramatically simplifies programming multi-stage asynchronous pipelining, and works alongside asynchronous transaction barriers to maximize memory bus utilization.",
+      "hint": "Consider who computes the multi-dimensional tensor coordinates during data movement: the SM execution threads or dedicated silicon?",
+      "key_takeaway": "TMA offloads multi-dimensional address calculation and data movement from SM threads to dedicated hardware, freeing ALU cycles for computation."
+    }
+  ]
+}

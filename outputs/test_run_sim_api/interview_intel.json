@@ -1,0 +1,63 @@
+{
+  "company_name": "Stripe",
+  "role": "Staff Backend Engineer",
+  "level": "Staff / L6",
+  "hiring_bar_summary": "Pragmatic engineering execution and high ownership.",
+  "rounds_breakdown": [
+    {
+      "round_name": "Practical Bug Squash / Integration",
+      "round_type": "Practical / Bug Squash / API",
+      "duration_minutes": 60,
+      "focus_areas": [
+        "Debugging",
+        "Unit Testing"
+      ],
+      "sample_questions": [
+        "Fix race condition in billing orchestrator"
+      ],
+      "evaluation_criteria": [
+        "Speed of navigation",
+        "Clean fixes",
+        "Test coverage"
+      ],
+      "tips": [
+        "Run tests first"
+      ]
+    },
+    {
+      "round_name": "Distributed System Design",
+      "round_type": "System Design",
+      "duration_minutes": 60,
+      "focus_areas": [
+        "Idempotency",
+        "Consistency"
+      ],
+      "sample_questions": [
+        "Design a global idempotent payment processing API"
+      ],
+      "evaluation_criteria": [
+        "Distributed locking",
+        "API contracts"
+      ],
+      "tips": [
+        "Clarify functional requirements first"
+      ]
+    }
+  ],
+  "top_dsa_patterns": [
+    "LRU Cache",
+    "Linked Hash Maps"
+  ],
+  "top_system_design_topics": [
+    "Idempotent payment pipeline"
+  ],
+  "cultural_values_and_behavioral": [
+    "Macro optimism, micro pessimism",
+    "High agency"
+  ],
+  "recent_experiences_summary": [
+    "Pragmatic focus with local IDE debugging."
+  ],
+  "sources": [],
+  "prep_pack_markdown": "# Stripe Staff Pack"
+}

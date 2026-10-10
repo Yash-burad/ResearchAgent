@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Research Agent</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2.0">
+    <!-- Marked Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="glass-bg"></div>
+    <div class="app-container">
+        
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo">
+                <span class="logo-text">ANTIGRAVITY</span>
+                <span class="logo-badge">INTELLIGENCE SUITE</span>
+            </div>
+            <nav class="header-nav">
+                <button class="nav-tab active" id="nav-pipeline-btn">🔬 Research Pipeline</button>
+                <button class="nav-tab" id="nav-simulator-btn">🎮 Mock Simulator</button>
+                <button class="nav-tab" id="nav-studio-btn">⚙️ Agent & Prompt Studio</button>
+            </nav>
+            <div class="header-status" id="header-status">
+                <div class="status-dot"></div>
+                <span id="header-status-text">System Ready</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            
+            <!-- Step 1: Input Setup -->
+            <section id="setup-section" class="card fade-in">
+                <h2>Configure Research Run</h2>
+                <p class="subtitle">Select your research objective: discover emerging technical concepts or extract company interview intelligence from candidate debriefs.</p>
+                
+                <!-- Research Mode Selector -->
+                <div class="mode-selector-container">
+                    <div class="mode-pill active" id="mode-tech-btn" data-mode="tech_topics">
+                        <span class="mode-icon">🔬</span>
+                        <div class="mode-info">
+                            <span class="mode-title">Tech Trends & Architecture</span>
+                            <span class="mode-desc">Discover tech trends, analyze trade-offs, and generate deep-dive guides</span>
+                        </div>
+                    </div>
+                    <div class="mode-pill" id="mode-company-btn" data-mode="interview_experience">
+                        <span class="mode-icon">🏢</span>
+                        <div class="mode-info">
+                            <span class="mode-title">Company Interview Intel</span>
+                            <span class="mode-desc">Crawl real candidate experiences (LeetCode, Reddit, Blind) for rounds, patterns & pack</span>
+                        </div>
+                    </div>
+                    <div class="mode-pill" id="mode-stock-btn" data-mode="stock_market">
+                        <span class="mode-icon">📈</span>
+                        <div class="mode-info">
+                            <span class="mode-title">Stock Market Intelligence</span>
+                            <span class="mode-desc">Institutional equity research desk: fundamentals, DCF valuation, peers, news & dislocations</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 1 Fields: Tech Topics -->
+                <div id="tech-topics-container">
+                    <div class="form-group">
+                        <label for="interests-input">Interests Profile</label>
+                        <textarea id="interests-input" placeholder="e.g. distributed systems, vector databases, high-throughput message brokers, webassembly, serverless compute"></textarea>
+                        <small>Separate topics with commas. Be as specific or broad as you like.</small>
+                    </div>
+
+                    <div class="control-row">
+                        <label class="switch-container">
+                            <input type="checkbox" id="manual-select-toggle" checked>
+                            <span class="slider"></span>
+                            <span class="switch-label">Manually review & filter topics before deep-dive</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Mode 2 Fields: Company Interview Intel -->
+                <div id="company-intel-container" class="hidden">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="company-input">Target Company</label>
+                            <input type="text" id="company-input" class="form-input" placeholder="e.g. Stripe, Google, Meta, Uber, Netflix, Databricks" value="Stripe">
+                            <small>Target organization to crawl debriefs for.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="role-input">Target Role</label>
+                            <input type="text" id="role-input" class="form-input" placeholder="e.g. Staff Backend Engineer, Senior Distributed Systems" value="Staff Backend Engineer">
+                            <small>Engineering track or role specialization.</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="level-select">Seniority Level</label>
+                        <select id="level-select" class="form-select">
+                            <option value="Staff / L6 (Lead / Principal Prep)" selected>Staff / L6 (Lead / Principal Prep)</option>
+                            <option value="Senior / L5 (Senior SWE)">Senior / L5 (Senior SWE)</option>
+                            <option value="Principal / L7 (Director / Dist. Arch)">Principal / L7 (Director / Dist. Arch)</option>
+                            <option value="Mid-Level / L4 (Software Engineer II)">Mid-Level / L4 (Software Engineer II)</option>
+                            <option value="Engineering Manager / Tech Lead">Engineering Manager / Tech Lead</option>
+                        </select>
+                        <small>Calibrates behavioral expectations, bar raisers, and architectural complexity.</small>
+                    </div>
+
+                    <div class="intel-highlights-box">
+                        <div class="highlight-item">
+                            <span class="highlight-icon">🎯</span>
+                            <div>
+                                <strong>Round-by-Round Breakdown</strong>
+                                <p>Detailed blueprints for Screen, Technical Craft, System Design & Leadership.</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <span class="highlight-icon">💡</span>
+                            <div>
+                                <strong>Real Candidate Questions</strong>
+                                <p>Debrief-extracted DSA problems, API design scenarios, and high-frequency topics.</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <span class="highlight-icon">🏆</span>
+                            <div>
+                                <strong>Values & Culture Matrix</strong>
+                                <p>Company operating principles, red flags, and high-scoring interview soundbites.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode 3 Fields: Stock Market Intelligence -->
+                <div id="stock-market-container" class="hidden">
+                    <div class="sub-mode-toggle" style="display: flex; gap: 1rem; margin-bottom: 1.25rem;">
+                        <button type="button" class="btn btn-secondary active" id="sub-mode-stock-research-btn" style="flex: 1; justify-content: center;">📊 Specific Stock Deep-Dive</button>
+                        <button type="button" class="btn btn-secondary" id="sub-mode-stock-picks-btn" style="flex: 1; justify-content: center;">🎯 Opportunity Screener & Picks</button>
+                    </div>
+
+                    <div id="stock-research-inputs">
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label for="stock-ticker-input">Target Stock / Ticker</label>
+                                <input type="text" id="stock-ticker-input" class="form-input" placeholder="e.g. NVDA, AAPL, MSFT, RELIANCE.NS" value="NVDA">
+                                <small>Company name or ticker on US/Global exchanges.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="stock-horizon-select">Investment Horizon</label>
+                                <select id="stock-horizon-select" class="form-select">
+                                    <option value="1-2 Years">1-2 Years (Cyclical / Tactical)</option>
+                                    <option value="3-5 Years" selected>3-5 Years (Core Compounder)</option>
+                                    <option value="5+ Years">5+ Years (Long-Term Secular)</option>
+                                </select>
+                                <small>Calibrates DCF growth horizon and terminal value discount.</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="stock-peers-input">Benchmark Peers (Optional)</label>
+                            <input type="text" id="stock-peers-input" class="form-input" placeholder="e.g. AMD, INTC, TSM, AVGO" value="AMD, INTC">
+                            <small>Leave empty for auto-discovered industry peers, or specify custom tickers.</small>
+                        </div>
+                    </div>
+
+                    <div id="stock-picks-inputs" class="hidden">
+                        <div class="form-group">
+                            <label for="stock-sector-filter">Target Sector Filter</label>
+                            <select id="stock-sector-filter" class="form-select">
+                                <option value="All" selected>All Sectors (Multi-Sector Screener)</option>
+                                <option value="Technology">Technology & Cloud Infrastructure</option>
+                                <option value="Healthcare">Healthcare & Life Sciences</option>
+                                <option value="Consumer">Consumer & E-Commerce</option>
+                                <option value="Financials">Financials & Payments</option>
+                            </select>
+                            <small>Filters candidate universe by industry and thematic tailwinds.</small>
+                        </div>
+                    </div>
+
+                    <div class="intel-highlights-box">
+                        <div class="highlight-item">
+                            <span class="highlight-icon">💰</span>
+                            <div>
+                                <strong>3-Tier DCF & Relative Valuation</strong>
+                                <p>Transparent Bear, Base, and Bull intrinsic scenarios with WACC and exit multiples.</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <span class="highlight-icon">📰</span>
+                            <div>
+                                <strong>Deduplicated News & Catalysts</strong>
+                                <p>Clustered agency articles filtering short-term noise from thesis-altering events.</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <span class="highlight-icon">🛑</span>
+                            <div>
+                                <strong>Critic Disconfirmation Debrief</strong>
+                                <p>Dedicated critic testing the thesis and defining exact Thesis Invalidation Triggers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="start-btn" class="btn btn-primary" style="margin-top: 1.5rem;">
+                    <span>Initialize Agent Pipeline</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </section>
+
+            <!-- Step 2: Progress & Activity Tracker -->
+            <section id="progress-section" class="card hidden">
+                <div class="progress-header">
+                    <h3>Researching Trends</h3>
+                    <span id="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                
+                <div class="tracker-status">
+                    <div class="pulse-ring"></div>
+                    <span id="current-step-label">Initializing agent nodes...</span>
+                </div>
+
+                <div class="agent-activity-box">
+                    <h4>Agent Execution Logs</h4>
+                    <div id="logs-terminal" class="terminal-logs">
+                        <div class="log-line system">[System] Connection established.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 3: Interactive Selection Screen -->
+            <section id="selection-section" class="hidden">
+                <div class="section-header">
+                    <div>
+                        <h2>Select Topics to Deep-Dive</h2>
+                        <p class="subtitle">Review discovered tech trends and select which ones the agent should fully research and summarize.</p>
+                    </div>
+                    <button id="submit-selection-btn" class="btn btn-primary">
+                        <span>Research Selected</span>
+                        <span id="selected-count-badge" class="badge">0</span>
+                    </button>
+                </div>
+
+                <div id="topics-grid" class="topics-grid">
+                    <!-- Cards will be populated here -->
+                </div>
+            </section>
+
+            <!-- Step 4: Results & Documentation Viewer -->
+            <section id="results-section" class="hidden">
+                <div class="results-header">
+                    <div>
+                        <h2>Research & Interview Pack</h2>
+                        <p class="subtitle" id="run-folder-path">Saved to: ...</p>
+                    </div>
+                    <div class="btn-row">
+                        <!-- Mode Switcher -->
+                        <div class="view-mode-toggle">
+                            <button id="view-mode-guide-btn" class="mode-btn active">
+                                <i class="ph ph-book-open"></i> 📖 Interview Guide
+                            </button>
+                            <button id="view-mode-game-btn" class="mode-btn">
+                                <i class="ph ph-game-controller"></i> 🎮 Practice Hub
+                            </button>
+                            <button id="view-mode-sim-btn" class="mode-btn">
+                                <i class="ph ph-microphone"></i> 🎙️ Mock Simulator
+                            </button>
+                        </div>
+                        <button id="download-btn" class="btn btn-secondary">Download (.md)</button>
+                        <button id="restart-btn" class="btn btn-primary">New Run</button>
+                    </div>
+                </div>
+
+                <!-- View 1: Markdown Documentation Layout -->
+                <div id="guide-view-layout" class="results-layout">
+                    <!-- Left Sidebar tabs -->
+                    <div class="results-sidebar" id="results-tabs">
+                        <!-- Tab buttons populated here -->
+                    </div>
+                    <!-- Right Document viewer -->
+                    <div class="document-viewer card">
+                        <div id="markdown-output" class="markdown-body">
+                            <!-- Rendered Markdown goes here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 2: Interactive Gamified Practice Hub -->
+                <div id="game-view-layout" class="game-layout hidden">
+                    <div class="game-control-bar card">
+                        <div class="game-selectors">
+                            <div class="selector-group">
+                                <label for="game-topic-select"><i class="ph ph-target"></i> Topic:</label>
+                                <select id="game-topic-select" class="game-select">
+                                    <!-- Populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="selector-group">
+                                <label for="game-mode-select"><i class="ph ph-sparkle"></i> Game Mode:</label>
+                                <select id="game-mode-select" class="game-select">
+                                    <option value="flashcards">🎴 3D Interview Flashcards</option>
+                                    <option value="quiz" disabled>🎯 Multiple-Choice Quiz (Coming Soon)</option>
+                                    <option value="arch" disabled>🏗️ Arch Challenge (Coming Soon)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="game-stats">
+                            <div class="stat-pill">
+                                <span>Mastered:</span>
+                                <strong id="mastered-count">0 / 0</strong>
+                            </div>
+                            <div class="stat-progress-bar">
+                                <div id="mastery-progress-fill" class="progress-fill" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flashcard Arena -->
+                    <div id="flashcard-arena" class="flashcard-arena">
+                        <div class="card-indicator">
+                            <span id="card-counter">Card 1 of 5</span>
+                            <span id="card-category-badge" class="badge category-badge">Architecture</span>
+                            <span id="card-difficulty-badge" class="badge difficulty-badge difficulty-medium">Medium</span>
+                        </div>
+
+                        <!-- 3D Flip Container -->
+                        <div id="flashcard-container" class="flashcard-container">
+                            <div id="flashcard-card" class="flashcard-card">
+                                <!-- Front Face -->
+                                <div class="card-face card-front card">
+                                    <div class="face-tag"><i class="ph ph-question"></i> QUESTION / SCENARIO</div>
+                                    <div class="face-content">
+                                        <h3 id="card-front-prompt">Loading flashcard prompt...</h3>
+                                    </div>
+                                    <div class="hint-container">
+                                        <button id="card-hint-btn" class="hint-btn">
+                                            <i class="ph ph-lightbulb"></i> Need a Hint?
+                                        </button>
+                                        <p id="card-hint-text" class="hint-text hidden"></p>
+                                    </div>
+                                    <div class="flip-prompt">
+                                        <i class="ph ph-arrows-clockwise"></i> Click card or press <kbd>Space</kbd> to flip
+                                    </div>
+                                </div>
+
+                                <!-- Back Face -->
+                                <div class="card-face card-back card">
+                                    <div class="face-tag"><i class="ph ph-check-circle"></i> ARCHITECTURAL EXPLANATION</div>
+                                    <div class="face-content">
+                                        <p id="card-back-explanation">Loading explanation...</p>
+                                        <div id="card-takeaway-box" class="takeaway-box">
+                                            <strong>💡 Key Interview Soundbite:</strong>
+                                            <span id="card-takeaway-text">...</span>
+                                        </div>
+                                    </div>
+                                    <div class="flip-prompt">
+                                        <i class="ph ph-arrows-clockwise"></i> Click card or press <kbd>Space</kbd> to flip back
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Action & Navigation Controls -->
+                        <div class="card-controls">
+                            <button id="prev-card-btn" class="btn btn-secondary card-nav-btn" title="Previous Card (←)">
+                                <i class="ph ph-caret-left"></i> Previous
+                            </button>
+                            <div class="mastery-actions">
+                                <button id="review-card-btn" class="btn btn-warning action-btn" title="Mark for Review (1)">
+                                    <i class="ph ph-x"></i> Needs Review
+                                </button>
+                                <button id="master-card-btn" class="btn btn-success action-btn" title="Mark as Mastered (2)">
+                                    <i class="ph ph-check"></i> Mastered
+                                </button>
+                            </div>
+                            <button id="next-card-btn" class="btn btn-secondary card-nav-btn" title="Next Card (→)">
+                                Next <i class="ph ph-caret-right"></i>
+                            </button>
+                        </div>
+
+                        <!-- Keyboard Shortcut Legend -->
+                        <div class="shortcuts-legend">
+                            <span><kbd>Space</kbd> Flip Card</span>
+                            <span><kbd>←</kbd> / <kbd>→</kbd> Navigate</span>
+                            <span><kbd>1</kbd> Needs Review</span>
+                            <span><kbd>2</kbd> Mastered</span>
+                            <span><kbd>H</kbd> Toggle Hint</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 3: Live Company Mock Interview Simulator -->
+                <div id="sim-view-layout" class="sim-layout hidden">
+                    <!-- Simulator Top Bar -->
+                    <div class="sim-control-bar card">
+                        <div class="sim-selectors">
+                            <div class="selector-group">
+                                <label for="sim-round-select"><i class="ph ph-target"></i> Select Round:</label>
+                                <select id="sim-round-select" class="game-select">
+                                    <!-- Populated dynamically -->
+                                </select>
+                            </div>
+                            <button id="start-sim-btn" class="btn btn-primary btn-sm">
+                                <span>Start Interview Session</span>
+                            </button>
+                        </div>
+                        <div class="sim-meta-info" id="sim-meta-info">
+                            <div class="sim-pill" id="sim-company-badge">🏢 Target Company</div>
+                            <div class="sim-pill sim-timer" id="sim-timer">⏱️ 00:00</div>
+                            <button id="finish-sim-btn" class="btn btn-warning btn-sm hidden">
+                                <span>🏁 Finish & Scorecard</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Live Interview Arena -->
+                    <div class="sim-arena card">
+                        <!-- Chat Message Stream -->
+                        <div id="sim-chat-stream" class="sim-chat-stream">
+                            <div class="chat-placeholder">
+                                <div class="placeholder-icon">🎙️</div>
+                                <h3>Company Mock Interview Room</h3>
+                                <p>Select a round blueprint above and click <strong>Start Interview Session</strong> to begin your multi-turn technical evaluation.</p>
+                            </div>
+                        </div>
+
+                        <!-- Input Area (Shown when session is active) -->
+                        <div id="sim-input-panel" class="sim-input-panel hidden">
+                            <div class="sim-input-wrapper">
+                                <textarea id="sim-candidate-input" placeholder="Type your technical response, code snippet, or architectural proposal here... (Press Cmd+Enter to send)"></textarea>
+                                <div class="sim-action-row">
+                                    <button id="sim-hint-btn" class="btn btn-secondary btn-sm" title="Ask the interviewer for a clarifying hint">
+                                        <span>💡 Request Hint</span>
+                                    </button>
+                                    <div class="send-action-group">
+                                        <small class="kbd-hint"><kbd>Cmd</kbd> + <kbd>Enter</kbd> to send</small>
+                                        <button id="sim-send-btn" class="btn btn-primary">
+                                            <span>Send Response</span>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Step 4: Agent & Prompt Studio Section -->
+            <section id="studio-section" class="card fade-in hidden">
+                <div class="studio-header">
+                    <div class="studio-header-titles">
+                        <h2>⚙️ Agent & Prompt Studio</h2>
+                        <p class="subtitle">Visually inspect, customize agent prompts in real-time, test prompt execution in an isolated playground, and configure orchestration graph parameters.</p>
+                    </div>
+                    <div class="studio-header-actions">
+                        <button id="studio-chain-btn" class="btn btn-secondary">
+                            <span>🔗 Orchestration Graph & Settings</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Studio Domain Filter Bar -->
+                <div class="studio-filter-bar">
+                    <div class="studio-domain-tabs">
+                        <button class="studio-domain-tab active" data-domain="all">All Agents (17)</button>
+                        <button class="studio-domain-tab" data-domain="tech_topics">🔬 Tech Trends</button>
+                        <button class="studio-domain-tab" data-domain="interview_experience">🏢 Interview Intel</button>
+                        <button class="studio-domain-tab" data-domain="stock_market">📈 Stock Market</button>
+                    </div>
+                    <div class="studio-search-box">
+                        <input type="text" id="studio-search-input" placeholder="Search prompts or agent classes...">
+                    </div>
+                </div>
+
+                <!-- Studio Split Workspace -->
+                <div class="studio-workspace">
+                    
+                    <!-- Left Sidebar: Prompts List -->
+                    <div class="studio-sidebar">
+                        <div class="studio-sidebar-header">
+                            <span class="sidebar-title">Agent Prompt Templates</span>
+                            <span class="badge" id="studio-prompts-count">17</span>
+                        </div>
+                        <div id="studio-prompts-list" class="studio-prompts-list">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Right Main: Editor & Live Playground -->
+                    <div class="studio-main-panel">
+                        
+                        <!-- Empty State -->
+                        <div id="studio-empty-state" class="studio-empty-state hidden">
+                            <div class="empty-icon">👈</div>
+                            <h3>Select an Agent Prompt to Edit</h3>
+                            <p>Choose an agent from the sidebar to inspect its prompt template, edit instructions, and run isolated test executions.</p>
+                        </div>
+
+                        <!-- Active Editor Workspace -->
+                        <div id="studio-active-workspace" class="studio-active-workspace">
+                            
+                            <!-- Prompt Meta Header -->
+                            <div class="studio-meta-bar">
+                                <div class="studio-meta-info">
+                                    <div class="meta-row-1">
+                                        <h3 id="studio-meta-title">Agent Title</h3>
+                                        <span class="badge badge-tech" id="studio-meta-domain">Domain</span>
+                                        <span class="badge badge-class" id="studio-meta-class">AgentClass</span>
+                                        <span class="badge badge-modified hidden" id="studio-meta-modified-badge">Customized</span>
+                                    </div>
+                                    <p class="meta-desc" id="studio-meta-desc">Description of agent responsibilities.</p>
+                                    <small class="meta-filename" id="studio-meta-filename">template_file.md</small>
+                                </div>
+                                <div class="studio-meta-actions">
+                                    <button id="studio-reset-btn" class="btn btn-secondary btn-sm" title="Restore original factory prompt template">
+                                        <span>↩️ Reset to Default</span>
+                                    </button>
+                                    <button id="studio-save-btn" class="btn btn-primary btn-sm">
+                                        <span>💾 Save Prompt</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Variables Quick-Insert Bar -->
+                            <div class="studio-variables-bar">
+                                <span class="var-bar-label">Template Variables:</span>
+                                <div id="studio-variables-chips" class="studio-var-chips">
+                                    <!-- Chips generated dynamically -->
+                                </div>
+                            </div>
+
+                            <!-- Main Editor & Playground Split Tabs -->
+                            <div class="studio-workspace-tabs">
+                                <button class="studio-tab-btn active" id="studio-tab-editor-btn">📝 Markdown Prompt Editor</button>
+                                <button class="studio-tab-btn" id="studio-tab-playground-btn">🧪 Live Agent Playground</button>
+                            </div>
+
+                            <!-- Editor Tab View -->
+                            <div id="studio-view-editor" class="studio-view-pane active">
+                                <div class="editor-container">
+                                    <div class="editor-toolbar">
+                                        <span class="editor-stat" id="studio-editor-chars">0 characters</span>
+                                        <span class="editor-stat" id="studio-editor-lines">0 lines</span>
+                                        <span class="editor-stat" id="studio-editor-vars">0 placeholders</span>
+                                    </div>
+                                    <textarea id="studio-editor-textarea" spellcheck="false" placeholder="Write or modify your system instructions and markdown prompt template here..."></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Playground Tab View -->
+                            <div id="studio-view-playground" class="studio-view-pane">
+                                <div class="playground-grid">
+                                    <!-- Playground Left: Inputs Form -->
+                                    <div class="playground-inputs-card">
+                                        <div class="playground-header">
+                                            <h4>Input Variables</h4>
+                                            <button id="studio-load-sample-btn" class="btn btn-secondary btn-xs">⚡ Load Sample Data</button>
+                                        </div>
+                                        <div id="studio-playground-inputs" class="playground-inputs-list">
+                                            <!-- Dynamically generated inputs for each {variable} -->
+                                        </div>
+                                        
+                                        <div class="playground-run-controls">
+                                            <div class="form-group-compact">
+                                                <label for="studio-provider-select">Provider / Execution Engine:</label>
+                                                <select id="studio-provider-select" class="form-select-sm">
+                                                    <option value="">Default Configured Provider</option>
+                                                    <option value="mock">⚡ Instant Deterministic Mock</option>
+                                                    <option value="ollama">Local Ollama (Qwen 2.5 / Llama 3)</option>
+                                                    <option value="gemini">Google Gemini 1.5 Pro</option>
+                                                    <option value="openai">OpenAI GPT-4o</option>
+                                                </select>
+                                            </div>
+                                            <button id="studio-run-test-btn" class="btn btn-primary btn-block">
+                                                <span>🚀 Execute Agent Prompt</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Playground Right: Output Preview -->
+                                    <div class="playground-output-card">
+                                        <div class="playground-header">
+                                            <h4>Agent Response Output</h4>
+                                            <div class="playground-stats-group" id="studio-output-stats">
+                                                <span class="stat-badge" id="studio-output-timer">Ready</span>
+                                            </div>
+                                        </div>
+                                        <div id="studio-output-area" class="playground-output-area">
+                                            <div class="output-placeholder">
+                                                <span>Click "Execute Agent Prompt" or load sample data to test prompt generation.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Orchestration Graph & Settings Modal -->
+    <div id="studio-chain-modal" class="modal-overlay hidden">
+        <div class="modal-content card fade-in studio-modal-lg">
+            <div class="modal-header">
+                <div>
+                    <h2>🔗 Orchestration Pipeline & Global Settings</h2>
+                    <p class="subtitle">Inspect agent execution stages, toggle optional critics/peers, and adjust quantitative screener thresholds.</p>
+                </div>
+                <button id="close-chain-modal-btn" class="btn-close">&times;</button>
+            </div>
+            
+            <div class="chain-modal-body">
+                
+                <!-- Visual Pipeline Domains Grid -->
+                <div class="chain-domains-container">
+                    <h3>Visual Graph Topologies</h3>
+                    <div id="chain-graph-grid" class="chain-graph-grid">
+                        <!-- Rendered dynamically from /api/pipeline/graph -->
+                    </div>
+                </div>
+
+                <!-- Global Parameters Configuration -->
+                <div class="chain-settings-container">
+                    <h3>Global Pipeline Configuration</h3>
+                    <form id="chain-settings-form" class="chain-form-grid">
+                        
+                        <div class="form-group">
+                            <label for="cfg-llm-provider">Default LLM Provider</label>
+                            <select id="cfg-llm-provider">
+                                <option value="ollama">Ollama (Local LLM)</option>
+                                <option value="gemini">Google Gemini</option>
+                                <option value="openai">OpenAI</option>
+                                <option value="mock">Mock Provider (Deterministic Testing)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cfg-default-model">Default Model Name</label>
+                            <input type="text" id="cfg-default-model" value="qwen2.5:7b">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cfg-max-topics">Max Topics Discovered</label>
+                            <input type="number" id="cfg-max-topics" min="1" max="50" value="20">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cfg-max-sources">Max Sources per Topic</label>
+                            <input type="number" id="cfg-max-sources" min="1" max="10" value="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cfg-dcf-wacc">DCF Default WACC (%)</label>
+                            <input type="number" id="cfg-dcf-wacc" step="0.5" min="4.0" max="20.0" value="9.0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cfg-dcf-g">DCF Perpetual Growth (%)</label>
+                            <input type="number" id="cfg-dcf-g" step="0.5" min="1.0" max="6.0" value="3.0">
+                        </div>
+
+                        <div class="form-group-checkboxes">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="cfg-enable-critic" checked>
+                                <span>Enable Adversarial Critic Agent (Stress-Test & Invalidation Triggers)</span>
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="cfg-enable-peers" checked>
+                                <span>Enable Peer Benchmark & Moat Deconstruction</span>
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="cfg-enable-news" checked>
+                                <span>Enable Financial News Deduplication & Clustering</span>
+                            </label>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button id="chain-cancel-btn" class="btn btn-secondary">Cancel</button>
+                <button id="chain-save-btn" class="btn btn-primary">Save Pipeline Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scorecard Modal -->
+    <div id="scorecard-modal" class="modal-overlay hidden">
+        <div class="modal-content card fade-in">
+            <div class="modal-header">
+                <div>
+                    <h2>Interview Evaluation Scorecard</h2>
+                    <p class="subtitle" id="scorecard-round-title">Company — Role</p>
+                </div>
+                <button id="close-scorecard-btn" class="btn-close">&times;</button>
+            </div>
+            
+            <div class="scorecard-body">
+                <!-- Verdict Header -->
+                <div class="verdict-banner">
+                    <div class="score-circle">
+                        <span id="scorecard-overall-score" class="score-number">88</span>
+                        <span class="score-denom">/100</span>
+                    </div>
+                    <div class="verdict-info">
+                        <div id="scorecard-recommendation" class="badge rec-hire">Strong Hire</div>
+                        <p id="scorecard-verdict-summary" class="verdict-text">Candidate demonstrated strong senior-level technical execution and clear communication.</p>
+                    </div>
+                </div>
+
+                <!-- Rubric Breakdown -->
+                <div class="scorecard-section">
+                    <h3>Evaluation Rubric Breakdown</h3>
+                    <div id="scorecard-rubric-grid" class="rubric-grid">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Strengths & Improvements -->
+                <div class="scorecard-grid-2">
+                    <div class="scorecard-box strengths-box">
+                        <h4>🌟 Key Strengths</h4>
+                        <ul id="scorecard-strengths-list"></ul>
+                    </div>
+                    <div class="scorecard-box improvements-box">
+                        <h4>🎯 Areas for Improvement</h4>
+                        <ul id="scorecard-improvements-list"></ul>
+                    </div>
+                </div>
+
+                <!-- Detailed Debrief Markdown -->
+                <div class="scorecard-section">
+                    <h3>Detailed Hiring Committee Debrief</h3>
+                    <div id="scorecard-debrief-markdown" class="markdown-body debrief-box"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="scorecard-dismiss-btn" class="btn btn-secondary">Close Scorecard</button>
+                <button id="scorecard-retry-btn" class="btn btn-primary">Try Another Round</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js?v=2.4"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,19 @@
+[
+  {
+    "title": "IMAP Protocol Connection Pool Management",
+    "reason_selected": "Selected because managing high-concurrency client connections and state synchronization maps directly to core distributed systems and high-throughput messaging architecture design principles expected in senior engineering interviews.",
+    "relevance_to_user": "Directly aligns with the user's focus on high throughput message brokers by examining how connection scaling, multiplexing, and concurrency limits are handled under heavy loads.",
+    "expected_learning_outcome": "Mastery over connection pooling, state synchronization, and handling high-concurrency connection limits in distributed messaging stores.",
+    "scores": {
+      "interest_match_score": 85,
+      "interview_value_score": 90,
+      "depth_score": 85,
+      "freshness_score": 80,
+      "source_quality_score": 75
+    },
+    "source_urls": [
+      "https://techcommunity.microsoft.com/discussions/outlookgeneral/non-office-365-accounts-repeatedly-request-sign-in-each-time-outlook-new-is-open/4394482",
+      "https://www.justanswer.com/microsoft-office/qtt64-trying-add-imap-email-outlook-requiring.html"
+    ]
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Jev-Style Decision Models",
+    "short_description": "AI model architectures designed to answer structured questions and output JSON directly by skipping traditional text generation pipelines.",
+    "category": "AI Infrastructure",
+    "trend_reason": "Recently introduced by ChatGPT inventors and TypeSafe AI, offering significantly cheaper and faster software intelligence for automation workflows.",
+    "evidence_sources": [
+      "https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/",
+      "https://www.kunalganglani.com/blog/jev-models-explained-routing",
+      "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "https://www.explainx.ai/blog/typesafe-ai-jev-system-one-models-launch-2026"
+    ],
+    "estimated_interview_value": 9,
+    "trend_score": 10
+  },
+  {
+    "title": "System One AI Model Architectures",
+    "short_description": "Architectural paradigm optimized for automation stacks utilizing parallel samplers and direct structured output instead of autoregressive free-form text generation.",
+    "category": "Machine Learning Systems",
+    "trend_reason": "Emerging as a core design pattern for high-throughput, low-latency AI automation pipelines.",
+    "evidence_sources": [
+      "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "https://www.explainx.ai/blog/typesafe-ai-jev-system-one-models-launch-2026"
+    ],
+    "estimated_interview_value": 8,
+    "trend_score": 9
+  },
+  {
+    "title": "RLCD (Reinforcement Learning from Contrastive Demonstration)",
+    "short_description": "Training methodology used to align decision and routing models for structured data tasks without relying on standard natural language generation tokens.",
+    "category": "AI Training Paradigms",
+    "trend_reason": "Gaining traction with the release of specialized deterministic AI models like Jev for optimized execution speed.",
+    "evidence_sources": [
+      "https://www.explainx.ai/blog/typesafe-ai-jev-system-one-models-launch-2026"
+    ],
+    "estimated_interview_value": 8,
+    "trend_score": 8
+  },
+  {
+    "title": "High-Throughput Structured Output Routing",
+    "short_description": "Routing and reranking mechanisms built specifically to parse structured formats like JSON natively at the model level rather than via post-hoc parsing.",
+    "category": "Backend & LLM Integration",
+    "trend_reason": "Critical for enterprise backend systems integrating low-latency AI models for automation and data extraction.",
+    "evidence_sources": [
+      "https://www.kunalganglani.com/blog/jev-models-explained-routing",
+      "https://www.explainx.ai/blog/typesafe-ai-jev-system-one-models-launch-2026"
+    ],
+    "estimated_interview_value": 9,
+    "trend_score": 9
+  },
+  {
+    "title": "Parallel Sampler Execution for AI Workflows",
+    "short_description": "Concurrent sampling architecture designed to maximize throughput and minimize latency in non-text-generating automation stacks.",
+    "category": "Distributed Systems",
+    "trend_reason": "Introduced alongside new automation model stacks to scale inference performance dramatically.",
+    "evidence_sources": [
+      "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
+    ],
+    "estimated_interview_value": 7,
+    "trend_score": 8
+  }
+]

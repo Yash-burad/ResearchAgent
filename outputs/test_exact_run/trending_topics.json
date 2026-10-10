@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Distributed Consensus and Raft Protocol",
+    "short_description": "Understanding leader election, log replication, and safety guarantees in distributed consensus systems.",
+    "category": "Distributed Systems",
+    "trend_reason": "Fundamental for designing reliable microservices, distributed databases, and stateful workloads.",
+    "evidence_sources": [
+      "https://news.google.com/"
+    ],
+    "estimated_interview_value": 9,
+    "trend_score": 8
+  },
+  {
+    "title": "Vector Database Hybrid Search Architecture",
+    "short_description": "Combining dense vector embeddings with sparse keyword search (BM25) and metadata filtering for accurate retrieval.",
+    "category": "Vector Databases",
+    "trend_reason": "High demand in modern LLM retrieval-augmented generation (RAG) pipelines and semantic search applications.",
+    "evidence_sources": [
+      "https://news.google.com/"
+    ],
+    "estimated_interview_value": 9,
+    "trend_score": 9
+  },
+  {
+    "title": "Zero Trust Architecture and Microsegmentation",
+    "short_description": "Implementing identity-based access controls, continuous verification, and network microsegmentation to limit blast radiuses.",
+    "category": "Cybersecurity",
+    "trend_reason": "Critical paradigm shift away from perimeter-based security toward robust internal threat mitigation.",
+    "evidence_sources": [
+      "https://news.google.com/"
+    ],
+    "estimated_interview_value": 8,
+    "trend_score": 9
+  },
+  {
+    "title": "Server-Side Request Forgery (SSRF) Prevention",
+    "short_description": "Identifying and remediating SSRF vulnerabilities through strict URL parsing, allowlisting, and network isolation.",
+    "category": "Cybersecurity",
+    "trend_reason": "Increasingly common attack vector targeting cloud metadata services and internal microservices APIs.",
+    "evidence_sources": [
+      "https://news.google.com/"
+    ],
+    "estimated_interview_value": 8,
+    "trend_score": 8
+  },
+  {
+    "title": "Vector Index Quantization and Approximate Nearest Neighbor (ANN)",
+    "short_description": "Techniques like Product Quantization (PQ) and Hierarchical Navigable Small World (HNSW) graphs for scaling high-dimensional similarity searches.",
+    "category": "Vector Databases",
+    "trend_reason": "Essential for reducing memory footprints and query latency in billion-scale vector indices.",
+    "evidence_sources": [
+      "https://news.google.com/"
+    ],
+    "estimated_interview_value": 8,
+    "trend_score": 8
+  },
+  {
+    "title": "Distributed Transaction Management with Saga Pattern",
+    "short_description": "Managing data consistency across microservices using choreographed or orchestrated compensating transactions.",
+    "category": "Distributed Systems",
+    "trend_reason": "Ubiquitous architectural challenge when migrating away from monolithic ACID transactions in distributed systems.",
+    "evidence_sources": [
+      "https://news.google.com/"
+    ],
+    "estimated_interview_value": 9,
+    "trend_score": 9
+  }
+]

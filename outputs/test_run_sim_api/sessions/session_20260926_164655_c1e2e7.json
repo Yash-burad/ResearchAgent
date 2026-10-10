@@ -1,0 +1,36 @@
+{
+  "session_id": "session_20260926_164655_c1e2e7",
+  "run_id": "test_run_sim_api",
+  "company_name": "Stripe",
+  "role": "Staff Backend Engineer",
+  "level": "Staff / L6",
+  "round_name": "Distributed System Design",
+  "round_type": "System Design",
+  "evaluation_criteria": [
+    "Distributed locking",
+    "API contracts"
+  ],
+  "messages": [
+    {
+      "id": "msg_8bff61b4",
+      "role": "interviewer",
+      "content": "# Mock LLM Output\nGenerated response for prompt length 1887.",
+      "timestamp": "2026-09-26 16:46:55"
+    },
+    {
+      "id": "msg_9dfa89b8",
+      "role": "candidate",
+      "content": "We will use Redis distributed lock with lease renewal.",
+      "timestamp": "2026-09-26 16:46:55"
+    },
+    {
+      "id": "msg_ff6c924c",
+      "role": "interviewer",
+      "content": "# Mock LLM Output\nGenerated response for prompt length 1804.",
+      "timestamp": "2026-09-26 16:46:55"
+    }
+  ],
+  "status": "completed",
+  "created_at": "2026-09-26 16:46:55",
+  "updated_at": "2026-09-26 16:46:55"
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Multi-Agent Orchestration Frameworks",
+    "reason_selected": "Crucial for mid-senior system design interviews focusing on state management, asynchronous communication, and fault tolerance in non-deterministic agent loops.",
+    "relevance_to_user": "Aligns squarely with the AI agents profile by tackling multi-agent workflow topologies and state management.",
+    "expected_learning_outcome": "Mastery over orchestrating autonomous loops, handling agent handoffs, and managing distributed state across multiple LLM calls.",
+    "scores": {
+      "interest_match_score": 95,
+      "interview_value_score": 92,
+      "depth_score": 90,
+      "freshness_score": 95,
+      "source_quality_score": 88
+    },
+    "source_urls": []
+  },
+  {
+    "title": "Model Context Protocol (MCP)",
+    "reason_selected": "MCP directly addresses the infrastructural challenges of connecting modern AI agents to disparate external tools and enterprise data sources securely and standardly.",
+    "relevance_to_user": "Directly hits the AI agents interest profile by focusing on agentic context retrieval and architectural standardization.",
+    "expected_learning_outcome": "Deep understanding of context standardization, secure tool-use protocols, and agent-data coupling patterns.",
+    "scores": {
+      "interest_match_score": 95,
+      "interview_value_score": 90,
+      "depth_score": 85,
+      "freshness_score": 98,
+      "source_quality_score": 90
+    },
+    "source_urls": []
+  },
+  {
+    "title": "Distributed Consensus via Raft",
+    "reason_selected": "A cornerstone of distributed systems engineering that frequently appears in senior engineering interviews to test understanding of consistency, leader election, and state machine replication.",
+    "relevance_to_user": "Directly supports the distributed systems interest profile and serves as the foundation for reliable agent state stores.",
+    "expected_learning_outcome": "Deep mechanical knowledge of distributed consensus, split-brain mitigation, log replication, and failover behavior.",
+    "scores": {
+      "interest_match_score": 85,
+      "interview_value_score": 95,
+      "depth_score": 95,
+      "freshness_score": 75,
+      "source_quality_score": 95
+    },
+    "source_urls": []
+  },
+  {
+    "title": "Vector Database Hybrid Search",
+    "reason_selected": "Bridges the gap between modern semantic retrieval for agents and classical exact-match full-text search, a frequent system design bottleneck.",
+    "relevance_to_user": "Combines high-performance data systems engineering with AI agent memory retrieval patterns.",
+    "expected_learning_outcome": "Ability to architect low-latency hybrid retrieval pipelines blending dense embeddings with sparse BM25 indices.",
+    "scores": {
+      "interest_match_score": 90,
+      "interview_value_score": 88,
+      "depth_score": 85,
+      "freshness_score": 90,
+      "source_quality_score": 85
+    },
+    "source_urls": []
+  }
+]

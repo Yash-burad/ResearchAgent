@@ -1,0 +1,23 @@
+{
+  "company_name": "Google",
+  "role": "Staff Systems Engineer",
+  "level": "L6",
+  "hiring_bar_summary": "Google L6 systems bar test.",
+  "rounds_breakdown": [],
+  "top_dsa_patterns": [
+    "Trie",
+    "Topological Sort"
+  ],
+  "top_system_design_topics": [
+    "Global Spanner replication"
+  ],
+  "cultural_values_and_behavioral": [
+    "Googleyness",
+    "Navigating Ambiguity"
+  ],
+  "recent_experiences_summary": [
+    "Large scale distributed systems and strong DSA fundamentals."
+  ],
+  "sources": [],
+  "prep_pack_markdown": "# Google L6 Pack\nIntel details."
+}

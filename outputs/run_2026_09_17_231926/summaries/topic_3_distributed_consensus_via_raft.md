@@ -1,0 +1,54 @@
+# Distributed Consensus via Raft
+
+## One-Line Explanation
+Raft is a consensus algorithm designed as an understandable alternative to Paxos, used to manage a replicated log across a cluster of nodes to ensure fault-tolerant distributed state machine replication.
+
+## Simple Explanation
+Imagine a team of engineers trying to maintain a single, synchronized deployment log. Instead of everyone writing whatever they want, they elect a single project manager (the Leader). The Leader takes feature requests (client writes), writes them down in their own notebook, and broadcasts them to the team (Followers). Once a majority of the team acknowledges they've copied the note, the Leader officially applies the change and tells everyone else to do the same.
+
+## Why This Is Trending
+Modern distributed systems require strong consistency guarantees for metadata, configuration management, and coordination (e.g., Kubernetes etcd, CockroachDB, TiKV). While Paxos solves this, its complexity makes correct implementation notoriously difficult. Raft was engineered specifically for human understandability and strong decomposition of state, making it the de facto standard for building reliable distributed control planes.
+
+## How It Works
+Raft decomposes consensus into three primary sub-problems:
+1. **Leader Election**: Nodes exist in one of three states: Follower, Candidate, or Leader. Time is divided into arbitrary terms acting as logical clocks. If followers don't hear from a leader within a randomized timeout window, they increment the term, transition to a candidate state, and request votes. A candidate that receives votes from a majority of the cluster becomes the new leader.
+2. **Log Replication**: The leader accepts client write requests, appends them to its local log as uncommitted entries, and issues `AppendEntries` RPCs to all followers. Once the leader receives confirmation that a majority of followers have safely written the entry to their local disk logs, the leader commits the entry, applies it to its state machine, and returns the result to the client. Subsequent heartbeats notify followers of the new commit index.
+3. **Safety**: Raft enforces strict invariants to ensure correctness, such as the Election Safety (at most one leader can be elected per term) and Leader Append-Only property. If a leader crashes, the log matching property guarantees that any newly elected leader contains all committed entries.
+
+## Real-World Example
+Consider **etcd**, the distributed key-value store underpinning Kubernetes. When a user runs `kubectl apply`, the API server sends a write request to etcd. etcd uses Raft to replicate this state change across a 3-node or 5-node consensus group. Once the Raft leader confirms a quorum of nodes has durably stored the log entry, etcd commits the change, updates its internal B-tree, and responds to the Kubernetes control plane with success.
+
+## Interview Explanation
+When discussing Raft in an interview, emphasize that it trades away some theoretical flexibility for operational simplicity and debuggability. Highlight how it enforces strong consistency (linearizability) by forcing all reads and writes through the leader, or by utilizing read-indexes/leases to serve linearizable reads safely. Acknowledge that while it is easier to understand than Multi-Paxos, it still suffers under high network latency or split-brain scenarios if quorum is lost.
+
+## System Design Relevance
+In large-scale system design, Raft forms the bedrock of control-plane architectures where split-brain must be avoided at all costs. It guarantees consistency over availability during network partitions (CP systems under the CAP theorem). However, because every write must traverse a quorum of nodes across the network, Raft introduces latency overhead and is typically unsuited for high-throughput, multi-master data planes.
+
+## Pros
+- **Understandability**: Clear separation of concerns (election, replication, safety) makes the protocol easier to formally specify, implement, and debug.
+- **Strong Consistency**: Guarantees linearizable reads and writes, eliminating split-brain anomalies through strict quorum requirements ($N/2 + 1$).
+- **Robust Membership Changes**: Built-in support for joint consensus allows seamless scaling up or down of the cluster membership without halting traffic.
+
+## Cons / Limitations
+- **Network Bottleneck**: All write operations must route through a single leader node, limiting write throughput compared to multi-master or conflict-free replicated data types (CRDTs).
+- **Tail Latency Sensitivity**: Write latency is bounded by the slowest responding node required to form a quorum, making the system vulnerable to transient network spikes or disk I/O stalls.
+- **Strict Availability Tradeoff**: A cluster cannot process writes if it loses a majority quorum, reducing availability during severe network partitions.
+
+## Common Interview Questions
+1. How does Raft handle network partitions, and what prevents split-brain scenarios?
+2. What is the role of randomized timeouts in Raft leader election, and why are they necessary?
+3. How do you handle log compaction and snapshotting in a Raft-backed storage engine when logs grow indefinitely?
+
+## Strong Sample Answer
+"Distributed consensus via Raft is a protocol used to keep a replicated log identical across a cluster of independent nodes, ensuring that a system can tolerate node failures without losing data or introducing split-brain inconsistencies. Raft achieves this by breaking consensus down into leader election, log replication, and strict safety invariants. A leader is elected via randomized timeouts to avoid split votes, and it serializes all client writes into its log, broadcasting them to followers via RPCs. An entry is committed only when written to a quorum of nodes. While this guarantees strong linearizability and makes it ideal for control-plane components like etcd or distributed metadata stores, it introduces bottlenecks because all writes must go through a single leader, and system availability drops if a majority quorum is lost during a partition."
+
+## Related Concepts To Learn Next
+- Multi-Paxos
+- Viewstamped Replication
+- Linearizability vs. Sequential Consistency
+- Distributed Transactions (2PC and Paxos-based Commit)
+
+## Sources
+- [Default Web Site Page](https://66.29.129.161/cgi-sys/defaultwebpage.cgi) (Unknown)
+- [Bing Homepage Quiz – Today's Bing Daily Trivia & Featured Image Quiz](https://bingquiz.com/bing-homepage-quiz/) (Unknown)
+- [Bing Homepage Quiz - Play Today's Interactive Homepage Bing Quizzes](https://bing.weeklyquiz.net/bing-homepage-quiz/) (Unknown)

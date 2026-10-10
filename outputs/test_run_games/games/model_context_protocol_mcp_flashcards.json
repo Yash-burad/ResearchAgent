@@ -1,0 +1,34 @@
+{
+  "topic": "Model Context Protocol Mcp",
+  "game_type": "flashcards",
+  "total_cards": 3,
+  "cards": [
+    {
+      "id": "card_1",
+      "category": "Core Architecture",
+      "difficulty": "Medium",
+      "front_prompt": "What core architectural problem does Model Context Protocol Mcp solve, and how does it work?",
+      "back_explanation": "Model Context Protocol Mcp standardizes and optimizes distributed engineering workflows and system integration.",
+      "hint": "Think about the primary motivation and architectural components.",
+      "key_takeaway": "Model Context Protocol Mcp addresses core distributed system scalability and abstraction boundaries."
+    },
+    {
+      "id": "card_2",
+      "category": "Trade-offs & Scalability",
+      "difficulty": "Hard",
+      "front_prompt": "What are the major engineering trade-offs and limitations to consider when adopting Model Context Protocol Mcp?",
+      "back_explanation": "Adoption overhead, potential latency trade-offs, and operational complexity.",
+      "hint": "Consider latency, consistency, and maintenance overhead.",
+      "key_takeaway": "Every architectural pattern trades implementation complexity for scalability and isolation."
+    },
+    {
+      "id": "card_3",
+      "category": "System Design",
+      "difficulty": "Medium",
+      "front_prompt": "In what production scenario is Model Context Protocol Mcp best suited vs traditional alternatives?",
+      "back_explanation": "High-scale distributed applications requiring resilient decoupling and modern tool integration.",
+      "hint": "Focus on scaling bottlenecks and operational requirements.",
+      "key_takeaway": "Select patterns based on workload characteristics and integration surface area."
+    }
+  ]
+}

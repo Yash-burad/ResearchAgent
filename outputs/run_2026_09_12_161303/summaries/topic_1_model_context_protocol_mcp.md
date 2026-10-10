@@ -1,0 +1,39 @@
+# Model Context Protocol (MCP)
+
+## One-Line Explanation
+An open standard specification that acts as the "USB-C for AI apps", defining how LLM clients discover and communicate with external tools, prompts, and contextual data servers over JSON-RPC.
+
+## Simple Explanation
+Before MCP, every AI tool and framework (LangChain, AutoGen, custom scripts) had to write unique custom connectors to read databases or call APIs. MCP introduces a universal protocol—similar to how LSP (Language Server Protocol) unified programming language support in IDEs—so an AI model can plug into any MCP-compatible data source instantly.
+
+## Why This Is Trending
+- **Ecosystem Standardization**: Solves the fragmented N-to-M integration problem across AI agents and data stores.
+- **Backed by Major AI Labs**: Spearheaded by Anthropic and rapidly integrated by IDEs (like Claude Desktop, Cursor, Zed) and cloud providers.
+- **Security & Sandboxing**: Designed for clean separation of concerns, letting tools execute with scoped local permissions.
+
+## How It Works
+1. **Architecture**: Client-Host-Server topology. The AI Client (e.g. IDE) communicates with one or more MCP Servers (e.g. Postgres MCP Server, GitHub MCP Server).
+2. **Transport Layer**:
+   - `stdio`: Fast, secure IPC for local tool servers running as child processes.
+   - `SSE (Server-Sent Events)`: HTTP-based streaming for remote networked services.
+3. **Protocol Layer**: JSON-RPC 2.0 messages handle capabilities negotiation, resource listing, tool execution, and subscription updates.
+
+## Real-World Example
+An engineer using an AI coding assistant asks: *"Find all open high-priority bugs in our billing repository and show the relevant database schema."*
+- The AI client calls the **GitHub MCP Server** via JSON-RPC to query issues.
+- It then queries the **Postgres MCP Server** via standard MCP tool calls to inspect the schema—without hardcoded glue code.
+
+## System Design Relevance & Trade-Offs
+- **Scalability**: Decouples model orchestration from tool maintenance. Tool developers only write one MCP server.
+- **Latency**: JSON-RPC over stdio adds sub-millisecond overhead, but remote SSE requires persistent connection pooling and timeout handling.
+- **Security**: MCP servers run in isolation; capability negotiation ensures clients only access explicitly permitted tools.
+
+## Common Interview Questions
+1. **How does MCP differ from raw function calling (OpenAI tools)?**
+   - *Answer*: Function calling is just an API schema for an LLM to emit tool arguments. MCP is a complete bidirectional protocol defining connection lifecycle, capabilities negotiation, resource subscriptions, and tool discovery between client runtimes and independent servers.
+2. **What architectural challenges arise when scaling MCP to distributed microservices?**
+   - *Answer*: Managing persistent SSE connections, authentication token pass-through, distributed tracing (W3C traceparent headers), and handling rate limits across multiple third-party servers.
+
+## Sources
+- [Model Context Protocol Documentation](https://modelcontextprotocol.io)
+- [Anthropic MCP GitHub Repository](https://github.com/modelcontextprotocol)

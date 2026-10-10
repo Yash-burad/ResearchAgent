@@ -1,0 +1,44 @@
+{
+  "topic": "Multi-Agent Orchestration Frameworks",
+  "definition": "unknown",
+  "why_it_matters": [],
+  "technical_details": [],
+  "examples": [],
+  "use_cases": [],
+  "limitations": [],
+  "related_topics": [],
+  "sources": [
+    {
+      "url": "https://getmulti.ai/",
+      "title": "Multi — one task, the right AI workflow",
+      "publisher": null,
+      "extracted_at": "2026-03-30T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "Platform that lets users route prompts to a single model, compare models side by side, or convene a council of up to seven models.",
+        "Integrates 300+ models from major labs via the OpenRouter catalog.",
+        "Provides workflows such as One Answer, Compare, and Councils with judges."
+      ]
+    },
+    {
+      "url": "https://play.google.com/store/apps/details?id=com.waxmoon.ma.gp&hl=en-US",
+      "title": "Multi App: Dual Space - Apps on Google Play",
+      "publisher": "Google Play",
+      "extracted_at": "2026-03-30T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "Allows cloning and launching multiple apps and games in isolated dual spaces."
+      ]
+    },
+    {
+      "url": "https://www.merriam-webster.com/dictionary/multi-",
+      "title": "MULTI- Definition & Meaning - Merriam-Webster",
+      "publisher": "Merriam-Webster",
+      "extracted_at": "2026-03-30T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "Definition of multi- as many, multiple, much."
+      ]
+    }
+  ]
+}

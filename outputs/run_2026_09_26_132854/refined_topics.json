@@ -1,0 +1,55 @@
+[
+  {
+    "title": "Jev-Style Decision Models",
+    "reason_selected": "Highly relevant to the user's focus on JEV models, representing a core architectural shift toward structured, direct JSON output generation instead of traditional token generation pipelines.",
+    "relevance_to_user": "Directly matches the user's specified interest in JEV models, providing advanced material on their architectural design and application in modern backend workflows.",
+    "expected_learning_outcome": "Understand how non-text generation pipelines work, the mechanics of native JSON routing, and architectural trade-offs for enterprise software automation.",
+    "scores": {
+      "interest_match_score": 100,
+      "interview_value_score": 90,
+      "depth_score": 85,
+      "freshness_score": 95,
+      "source_quality_score": 90
+    },
+    "source_urls": [
+      "https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/",
+      "https://www.kunalganglani.com/blog/jev-models-explained-routing",
+      "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "https://www.explainx.ai/blog/typesafe-ai-jev-system-one-models-launch-2026"
+    ]
+  },
+  {
+    "title": "System One AI Model Architectures",
+    "reason_selected": "Complements JEV models by exploring the broader architectural paradigm optimized for parallel samplers and direct structured output.",
+    "relevance_to_user": "Aligns with the user's interest in modern JEV models and system-level architectures designed for automation and high-throughput workflows.",
+    "expected_learning_outcome": "Master the design patterns of automation-focused AI stacks, parallel sampler integration, and low-latency system design.",
+    "scores": {
+      "interest_match_score": 90,
+      "interview_value_score": 85,
+      "depth_score": 90,
+      "freshness_score": 90,
+      "source_quality_score": 85
+    },
+    "source_urls": [
+      "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "https://www.explainx.ai/blog/typesafe-ai-jev-system-one-models-launch-2026"
+    ]
+  },
+  {
+    "title": "High-Throughput Structured Output Routing",
+    "reason_selected": "Focuses on the routing and reranking mechanisms required to handle structured formats at the model level, providing strong backend system design value.",
+    "relevance_to_user": "Connects directly to the infrastructure and integration challenges of JEV models and data extraction pipelines.",
+    "expected_learning_outcome": "Learn how to build and optimize backend integration layers that ingest and process structured JSON outputs natively at scale.",
+    "scores": {
+      "interest_match_score": 85,
+      "interview_value_score": 90,
+      "depth_score": 85,
+      "freshness_score": 85,
+      "source_quality_score": 90
+    },
+    "source_urls": [
+      "https://www.kunalganglani.com/blog/jev-models-explained-routing",
+      "https://www.explainx.ai/blog/typesafe-ai-jev-system-one-models-launch-2026"
+    ]
+  }
+]

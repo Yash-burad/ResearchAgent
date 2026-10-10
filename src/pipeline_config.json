@@ -1,0 +1,14 @@
+{
+  "llm_provider": "gemini",
+  "default_model": "gemini-3.5-flash-lite",
+  "ollama_base_url": "http://localhost:11434",
+  "enable_critic_agent": true,
+  "enable_peer_benchmarking": true,
+  "enable_news_clustering": true,
+  "max_topics_discovered": 20,
+  "max_topics_selected": 5,
+  "max_sources_per_topic": 5,
+  "stock_screener_limit": 4,
+  "dcf_default_wacc": 9.0,
+  "dcf_default_terminal_growth": 3.0
+}

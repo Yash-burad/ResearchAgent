@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Model Context Protocol (MCP)",
+    "short_description": "An open standard unifying how AI applications integrate with data sources and tools.",
+    "category": "AI Infrastructure",
+    "trend_reason": "Rapid industry adoption by Anthropic and developer tooling ecosystems.",
+    "evidence_sources": [
+      "https://modelcontextprotocol.io",
+      "https://github.com/modelcontextprotocol"
+    ],
+    "estimated_interview_value": 9,
+    "trend_score": 9
+  },
+  {
+    "title": "Vector Databases & HNSW Indexing",
+    "short_description": "Specialized high-performance databases for fast similarity search across embeddings.",
+    "category": "Databases & Distributed Systems",
+    "trend_reason": "Core infrastructure for Retrieval-Augmented Generation (RAG) applications at scale.",
+    "evidence_sources": [
+      "https://qdrant.tech/articles",
+      "https://milvus.io/docs"
+    ],
+    "estimated_interview_value": 8,
+    "trend_score": 8
+  },
+  {
+    "title": "Agentic Workflows with LangGraph",
+    "short_description": "Cyclic state machine orchestration for reliable multi-agent systems and task planning.",
+    "category": "AI Agents",
+    "trend_reason": "Shift from linear LLM chains to robust agent loops with state persistence.",
+    "evidence_sources": [
+      "https://langchain-ai.github.io/langgraph/"
+    ],
+    "estimated_interview_value": 9,
+    "trend_score": 9
+  }
+]

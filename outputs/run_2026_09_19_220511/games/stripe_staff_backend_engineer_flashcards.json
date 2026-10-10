@@ -1,0 +1,52 @@
+{
+  "topic": "Stripe Staff Backend Engineer",
+  "game_type": "flashcards",
+  "total_cards": 5,
+  "cards": [
+    {
+      "id": "card_1",
+      "category": "Core Architecture",
+      "difficulty": "Hard",
+      "front_prompt": "How does Stripe architect its API idempotency engine to safely handle concurrent requests without introducing distributed locking bottlenecks?",
+      "back_explanation": "Stripe relies on atomic database operations (e.g., unique constraints and conditional state transitions) combined with partitioned key-value stores. When an idempotent request arrives with an `Idempotency-Key`, a record is atomically inserted with a 'processing' state. Concurrent requests with the same key fail the unique constraint check and wait or poll. Upon completion, the result payload is serialized and updated in the record. This eliminates heavy distributed locks (like ZooKeeper/Chubby) for API routing tiers.",
+      "hint": "Think about how unique database constraints and state machines can replace pessimistic locking in web APIs.",
+      "key_takeaway": "Use atomic database constraints and state transitions keyed by idempotency tokens to prevent duplicate processing without distributed locks."
+    },
+    {
+      "id": "card_2",
+      "category": "Scalability",
+      "difficulty": "Hard",
+      "front_prompt": "Why is standard horizontal sharding insufficient for a multi-tenant payment platform like Stripe, and how do they handle tenant isolation and hot spots?",
+      "back_explanation": "Standard sharding by merchant ID creates massive hot spots when a single merchant runs a massive flash sale, exhausting the IOPS and CPU of that specific shard. Stripe uses finer-grained entity routing, workload isolation layers, and dynamic re-sharding strategies. They separate heavy merchant traffic paths, utilize asynchronous queues to smooth out traffic spikes, and decouple ingestion (API gateway) from downstream ledger mutations.",
+      "hint": "Consider the 'noisy neighbor' problem in flash sales and how database shards handle uneven write distributions.",
+      "key_takeaway": "Isolate high-volume tenant traffic using asynchronous decoupling and fine-grained resource routing rather than relying solely on static database shards."
+    },
+    {
+      "id": "card_3",
+      "category": "Failure Modes",
+      "difficulty": "Hard",
+      "front_prompt": "In a distributed double-entry financial ledger, how do you handle network partitions between the ledger service and external banking rails without leaving accounts in an inconsistent state?",
+      "back_explanation": "Stripe uses strict Saga patterns and outbox patterns backed by event-driven state machines. If a call to an external banking rail times out, the system cannot assume failure or success. It transitions the transaction to an 'uncertainty' or 'pending_reconciliation' state. Background reconciliation loops query the banking partner via idempotent status checks, and compensating transactions (or automatic retries) are triggered once connectivity or ledger confirmation is restored.",
+      "hint": "Never trust the network boundary; assume timeouts mean 'unknown' state and build robust reconciliation loops.",
+      "key_takeaway": "Embrace eventual consistency for external integrations using outbox patterns and automated reconciliation loops instead of distributed two-phase commits."
+    },
+    {
+      "id": "card_4",
+      "category": "System Design Comparison",
+      "difficulty": "Medium",
+      "front_prompt": "Compare using a traditional ACID relational database vs. an event-sourced ledger for high-throughput payment systems. Why does Stripe lean toward relational consistency with strong guarantees?",
+      "back_explanation": "While event sourcing provides an infinite audit trail and easy point-in-time recovery, it introduces severe complexity in schema evolution, high storage costs, and eventual consistency overhead when querying current account balances. Stripe favors relational databases (like MySQL/Spanner variants) because financial ledger operations require instantaneous, deterministic balance checks and strict ACID guarantees to prevent negative balances during concurrent debits.",
+      "hint": "Evaluate the read-amplification and consistency trade-offs of reconstructing state from an event log vs querying a transactional store.",
+      "key_takeaway": "Choose transactional relational stores for ledgers where instantaneous balance validation overrides the audit-log benefits of event sourcing."
+    },
+    {
+      "id": "card_5",
+      "category": "System Design Comparison",
+      "difficulty": "Hard",
+      "front_prompt": "What is a common architectural misconception regarding webhook delivery systems at web-scale like Stripe's, and how should webhook retries actually be designed?",
+      "back_explanation": "A common misconception is that webhooks can be reliably pushed synchronously or via simple background worker threads without rate-limiting downstream consumers. At scale, pushing webhooks to thousands of slow or failing third-party servers will saturate worker pools (head-of-line blocking). Stripe solves this by using isolated, tenant-partitioned persistent queues with exponential backoff, jitter, and strict circuit breakers per destination endpoint.",
+      "hint": "Think about what happens when 10,000 merchants have misconfigured or down webhook endpoints simultaneously.",
+      "key_takeaway": "Isolate webhook delivery pipelines with dedicated queues and circuit breakers to protect core infrastructure from slow third-party consumers."
+    }
+  ]
+}

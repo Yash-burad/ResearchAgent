@@ -1,0 +1,34 @@
+[
+  {
+    "title": "Model Context Protocol (MCP)",
+    "reason_selected": "Top match for AI infrastructure and backend developer tooling with immense interview relevance.",
+    "relevance_to_user": "Aligns directly with AI infrastructure, backend systems, and protocol design.",
+    "expected_learning_outcome": "Master MCP client-server architecture, JSON-RPC transports, and tool integration patterns.",
+    "scores": {
+      "interest_match": 9,
+      "interview_value": 9,
+      "depth": 8,
+      "freshness": 9,
+      "source_quality": 9
+    },
+    "source_urls": [
+      "https://modelcontextprotocol.io"
+    ]
+  },
+  {
+    "title": "Vector Databases & HNSW Indexing",
+    "reason_selected": "Fundamental for modern backend and distributed systems system design rounds.",
+    "relevance_to_user": "Key for distributed storage, indexing trade-offs, and scalability.",
+    "expected_learning_outcome": "Understand HNSW graph construction, memory vs recall trade-offs, and sharding strategies.",
+    "scores": {
+      "interest_match": 8,
+      "interview_value": 9,
+      "depth": 9,
+      "freshness": 8,
+      "source_quality": 8
+    },
+    "source_urls": [
+      "https://qdrant.tech/articles"
+    ]
+  }
+]

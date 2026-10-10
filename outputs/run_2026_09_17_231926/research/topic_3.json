@@ -1,0 +1,42 @@
+{
+  "topic": "Distributed Consensus via Raft",
+  "definition": "unknown",
+  "why_it_matters": [],
+  "technical_details": [],
+  "examples": [],
+  "use_cases": [],
+  "limitations": [],
+  "related_topics": [],
+  "sources": [
+    {
+      "url": "https://66.29.129.161/cgi-sys/defaultwebpage.cgi",
+      "title": "Default Web Site Page",
+      "publisher": null,
+      "extracted_at": "2026-03-29T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "The IP address for this domain may have changed recently."
+      ]
+    },
+    {
+      "url": "https://bingquiz.com/bing-homepage-quiz/",
+      "title": "Bing Homepage Quiz – Today's Bing Daily Trivia & Featured Image Quiz",
+      "publisher": null,
+      "extracted_at": "2026-03-29T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "Bing Homepage Quiz provides daily trivia and Microsoft Rewards points for users."
+      ]
+    },
+    {
+      "url": "https://bing.weeklyquiz.net/bing-homepage-quiz/",
+      "title": "Bing Homepage Quiz - Play Today's Interactive Homepage Bing Quizzes",
+      "publisher": null,
+      "extracted_at": "2026-03-29T00:00:00Z",
+      "credibility_score": 5,
+      "key_points": [
+        "The Bing Homepage Quiz was introduced in 2016 for general knowledge and education."
+      ]
+    }
+  ]
+}

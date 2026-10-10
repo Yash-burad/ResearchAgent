@@ -1,0 +1,199 @@
+{
+  "company_name": "Stripe",
+  "role": "Staff Backend Engineer",
+  "level": "Staff / L6 (Lead / Principal Prep)",
+  "hiring_bar_summary": "Stripe's hiring bar for Staff Backend Engineers (L6) is exceptionally rigorous, prioritizing absolute technical excellence, high operational ownership, rigorous API design instincts, and an intense focus on business impact and user empathy. At the Staff level, you are evaluated not just on your ability to write correct code or design scalable distributed systems, but on your capacity to handle ambiguity, lead complex multi-team initiatives, mentor others, and uphold Stripe's extraordinarily high bar for code quality, correctness, and developer ergonomics. Stripe looks for engineers who operate with extreme agency, obsess over edge cases, and view software engineering through a product and economic lens.",
+  "rounds_breakdown": [
+    {
+      "round_name": "Round 1: Recruiter Screen",
+      "round_type": "Recruiter Screen",
+      "duration_minutes": 30,
+      "focus_areas": [
+        "Career trajectory and scope of past projects",
+        "Alignment with Stripe operating principles",
+        "Scale and complexity of backend systems managed",
+        "Compensation expectations and timeline"
+      ],
+      "sample_questions": [
+        "Tell me about a complex distributed systems challenge you led at scale.",
+        "Why Stripe? What part of our financial infrastructure mission resonates with you?",
+        "Describe a time you navigated severe ambiguity to deliver a critical project."
+      ],
+      "evaluation_criteria": [
+        "Clear, concise communication",
+        "Demonstrated technical leadership at the senior/staff level",
+        "Strong motivation and cultural resonance"
+      ],
+      "tips": [
+        "Keep technical explanations focused on impact, scale, and architectural trade-offs rather than low-level implementation details.",
+        "Be ready to articulate why you are making a career move to Stripe specifically."
+      ]
+    },
+    {
+      "round_name": "Round 2: Technical Screen (Coding & API Design)",
+      "round_type": "Coding / Practical API",
+      "duration_minutes": 60,
+      "focus_areas": [
+        "Data structures and algorithms applied to practical engineering problems",
+        "Clean, production-grade code production under time pressure",
+        "Basic API design and extensibility"
+      ],
+      "sample_questions": [
+        "Design and implement a rate limiter with sliding window logs or token bucket semantics, handling concurrent requests safely.",
+        "Given a stream of financial transaction events, process and aggregate data efficiently under strict memory constraints."
+      ],
+      "evaluation_criteria": [
+        "Writing bug-free, readable, idiomatic code",
+        "Correctly identifying edge cases and writing comprehensive tests",
+        "Communicating trade-offs clearly while coding"
+      ],
+      "tips": [
+        "Do not jump straight into coding. Spend 5-10 minutes discussing requirements, edge cases, and high-level design.",
+        "Stripe values idiomatic code and pristine naming conventions. Treat the shared editor like production code."
+      ]
+    },
+    {
+      "round_name": "Round 3: System Design (Distributed Systems & Scale)",
+      "round_type": "System Design",
+      "duration_minutes": 60,
+      "focus_areas": [
+        "Scalability, availability, and consistency models (ACID vs. eventual consistency)",
+        "Handling high-throughput transactional workloads",
+        "Idempotency, retries, and failure modes in distributed financial systems"
+      ],
+      "sample_questions": [
+        "Design a global payout and ledger system that handles multi-currency conversions and strict consistency guarantees.",
+        "Design Stripe's webhook delivery system ensuring reliable, at-least-once delivery with exponential backoff and ordering guarantees."
+      ],
+      "evaluation_criteria": [
+        "Ability to drive the design conversation autonomously",
+        "Deep understanding of failure modes, database partitioning, and consensus",
+        "Pragmatic trade-off analysis between latency, consistency, and cost"
+      ],
+      "tips": [
+        "Financial correctness is paramount at Stripe. Always explicitly address data durability, transaction boundaries, and idempotency keys.",
+        "Proactively identify bottlenecks and propose concrete mitigation strategies before the interviewer prompts you."
+      ]
+    },
+    {
+      "round_name": "Round 4: Integration & Practical Coding / Bug Squash",
+      "round_type": "Practical / Bug Squash",
+      "duration_minutes": 60,
+      "focus_areas": [
+        "Debugging unfamiliar, messy, or legacy codebases",
+        "API ergonomics, extensibility, and backward compatibility",
+        "Real-world engineering pragmatism"
+      ],
+      "sample_questions": [
+        "Extend an existing payment processing API to support a new payment method while maintaining backwards compatibility and handling edge cases.",
+        "Debug a concurrency race condition in a multi-threaded service using logs and test suites."
+      ],
+      "evaluation_criteria": [
+        "Systematic debugging methodology",
+        "Empathy for API consumers and developer experience",
+        "Clean refactoring without breaking existing contracts"
+      ],
+      "tips": [
+        "Read the provided codebase and existing test harness carefully before making modifications.",
+        "Think aloud about potential backward compatibility issues for existing API clients."
+      ]
+    },
+    {
+      "round_name": "Round 5: Leadership, Behavioral & Values",
+      "round_type": "Behavioral & Leadership",
+      "duration_minutes": 45,
+      "focus_areas": [
+        "Cross-functional leadership and stakeholder management",
+        "Operating with high agency and bias for action",
+        "Handling disagreements, operational incidents, and post-mortems"
+      ],
+      "sample_questions": [
+        "Tell me about a time you took ownership of a major system outage or production failure. How did you remediate it and prevent recurrence?",
+        "Describe a situation where you had to push back on product requirements or technical debt with senior leadership.",
+        "How do you mentor senior engineers and elevate the technical bar across an organization?"
+      ],
+      "evaluation_criteria": [
+        "Demonstrated alignment with Stripe operating principles",
+        "Ownership mentality and accountability for failures",
+        "Ability to influence without authority at the Staff level"
+      ],
+      "tips": [
+        "Use the STAR method (Situation, Task, Action, Result) with heavy emphasis on quantifiable business and operational impact.",
+        "Show humility and a strong learning mindset when discussing past failures or conflicts."
+      ]
+    }
+  ],
+  "top_dsa_patterns": [
+    "Intervals and Scheduling (for webhook delivery windows, rate limiting, and time-based reconciliation)",
+    "Hash Maps and Caching Strategies (for deduplication, token bucket algorithms, and fast lookups)",
+    "Graph and Tree Traversals (for dependency graphs, permission models, and routing tables)",
+    "Two Pointers and Sliding Windows (for stream processing and log analysis)",
+    "Concurrency and Thread-Safe Data Structures (for handling high-throughput parallel transaction streams)",
+    "Custom Sorting and Priority Queues (for event scheduling and priority queuing systems)"
+  ],
+  "top_system_design_topics": [
+    "Distributed Ledgers and Double-Entry Accounting Systems",
+    "Idempotency Keys and Exactly-Once Execution Semantics",
+    "Webhook Delivery Engines with At-Least-Once Guarantees and Backoff",
+    "Global Rate Limiters and Distributed Throttling Mechanisms",
+    "Database Sharding, Partitioning, and Multi-Region Replication for Financial Data",
+    "Asynchronous Event-Driven Architectures and Message Queues (Kafka / RabbitMQ patterns)"
+  ],
+  "cultural_values_and_behavioral": [
+    "Users First: Optimizing for developer ergonomics, API clarity, and end-user trust.",
+    "Rigorous Thinking: Insisting on correctness, deep dive analysis, and anticipating edge cases.",
+    "Bias for Action & High Agency: Owning problems end-to-end without waiting for permission.",
+    "Trust and Transparency: Communicating openly, writing exhaustive post-mortems, and sharing context widely.",
+    "Continuous Elevation: Raising the bar for code quality, system reliability, and team capabilities."
+  ],
+  "recent_experiences_summary": [
+    "Interviewers place an extremely high weight on API design and developer experience, even in pure algorithm or system design rounds.",
+    "System design questions invariably drill down into database transaction isolation levels, idempotency implementation, and failure recovery.",
+    "Candidates report that interviewers are collaborative partners who appreciate when you openly discuss trade-offs and pivot based on hints.",
+    "Time management is critical during the practical/coding rounds; rushing through edge cases often leads to immediate rejection at the L6 level.",
+    "Behavioral interviewers probe deeply into how you handle production incidents and cross-functional disagreements."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/openai/",
+      "title": "OpenAI · GitHub",
+      "publisher": null,
+      "extracted_at": "2026-09-19 10:33:59",
+      "credibility_score": 9,
+      "key_points": []
+    },
+    {
+      "url": "https://github.com/ryvn-dev/blender-gpt",
+      "title": "Blender GPT Add-on - GitHub",
+      "publisher": null,
+      "extracted_at": "2026-09-19 10:34:00",
+      "credibility_score": 9,
+      "key_points": []
+    },
+    {
+      "url": "https://www.zhihu.com/question/606750758",
+      "title": "不是说chat gpt是免费的吗，怎么只能免费问一次? - 知乎",
+      "publisher": null,
+      "extracted_at": "2026-09-19 10:34:02",
+      "credibility_score": 5,
+      "key_points": []
+    },
+    {
+      "url": "https://web.whatsapp.com/",
+      "title": "WhatsApp Web",
+      "publisher": null,
+      "extracted_at": "2026-09-19 10:34:03",
+      "credibility_score": 5,
+      "key_points": []
+    },
+    {
+      "url": "https://www.whatsapp.com/download",
+      "title": "Download WhatsApp",
+      "publisher": null,
+      "extracted_at": "2026-09-19 10:34:04",
+      "credibility_score": 5,
+      "key_points": []
+    }
+  ],
+  "prep_pack_markdown": "# Stripe Staff Backend Engineer (L6) - Master Interview Preparation Guide\n\nWelcome to the ultimate preparation blueprint for Stripe's Staff Backend Engineer (L6) loop. Stripe maintains one of the most rigorous and specialized engineering bars in the industry. Success requires mastering distributed financial systems, pristine API design, and demonstrating high-agency technical leadership.\n\n---\n\n## 1. Hiring Bar & Philosophy\nStripe looks for engineers who combine deep technical competence with extreme product empathy. At L6 (Staff), you are expected to:\n- **Drive Ambiguity to Clarity:** Take vague business requirements and architect robust, scalable, and extensible systems.\n- **Obsess Over Correctness:** Financial infrastructure allows zero room for silent data corruption, race conditions, or unhandled edge cases.\n- **Champion Developer Ergonomics:** APIs should be intuitive, self-documenting, and maintain backward compatibility effortlessly.\n\n---\n\n## 2. Interview Loop Breakdown\n\n### Round 1: Recruiter Screen (30 mins)\n- **Focus:** Career trajectory, distributed systems scope, cultural alignment.\n- **Strategy:** Highlight leadership scale, complex multi-team migrations, and direct ownership of high-availability backend services.\n\n### Round 2: Technical Screen - Coding & API Design (60 mins)\n- **Focus:** Algorithmic execution, clean code, edge-case handling, and API extensibility.\n- **Strategy:** Clarify inputs and constraints upfront. Write idiomatic, production-grade code with comprehensive test cases.\n\n### Round 3: System Design - Distributed Systems & Scale (60 mins)\n- **Focus:** High-throughput transactional workloads, consistency models, idempotency, and failure resilience.\n- **Strategy:** Always address data durability, transaction boundaries, and idempotency keys immediately when designing financial systems.\n\n### Round 4: Practical Coding & Bug Squash (60 mins)\n- **Focus:** Debugging legacy/unfamiliar codebases, maintaining backward compatibility, and refactoring safely.\n- **Strategy:** Read test suites first. Isolate failure conditions systematically before writing fixes.\n\n### Round 5: Leadership & Behavioral (45 mins)\n- **Focus:** Operating principles, incident management, cross-functional influence, and mentorship.\n- **Strategy:** Use STAR structured answers focusing on quantifiable operational and business impact.\n\n---\n\n## 3. High-Priority Technical Focus Areas\n\n### Top DSA Patterns\n1. **Intervals & Scheduling:** Time-window rate limiters and event schedulers.\n2. **Concurrency & Thread Safety:** Lock-free data structures, mutexes, and handling race conditions in payment flows.\n3. **Hash Maps & Caching:** Fast deduplication and token bucket state management.\n\n### Top System Design Scenarios\n1. **Idempotent Payment Processing & Ledgers:** Exactly-once execution semantics using idempotency keys and double-entry accounting.\n2. **Reliable Webhook Delivery Engines:** At-least-once delivery, exponential backoff, dead-letter queues, and ordering.\n3. **Global Rate Limiting:** Distributed token bucket or sliding window algorithms across multi-region clusters.\n\n---\n\n## 4. Final Preparation Checklist\n- [ ] Practice articulating trade-offs between ACID guarantees and eventual consistency in distributed systems.\n- [ ] Review how to implement robust idempotency keys in relational and NoSQL databases.\n- [ ] Prepare 3-5 detailed behavioral stories covering major outages, difficult technical disagreements, and cross-team leadership.\n- [ ] Ensure your coding style emphasizes clean variable naming, modular function design, and thorough edge-case validation."
+}

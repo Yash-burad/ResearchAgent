@@ -1,0 +1,38 @@
+{
+  "overall_score": 88,
+  "hire_recommendation": "Hire",
+  "summary_verdict": "Candidate demonstrated strong senior-level technical execution and clear communication.",
+  "rubric_scores": [
+    {
+      "criterion": "Technical Depth & Problem Solving",
+      "score": 5,
+      "feedback": "Flawless grasp of distributed locking and idempotency keys."
+    },
+    {
+      "criterion": "System Rigor & Edge Cases",
+      "score": 4,
+      "feedback": "Handled network partition and retry storms well."
+    },
+    {
+      "criterion": "Communication & Structure",
+      "score": 4,
+      "feedback": "Articulated assumptions and system constraints clearly."
+    },
+    {
+      "criterion": "Cultural & Leadership Bar",
+      "score": 5,
+      "feedback": "High agency and first-principles reasoning."
+    }
+  ],
+  "key_strengths": [
+    "Immediate clarification of idempotency constraints and concurrency expectations",
+    "Clean modular architecture with single-responsibility boundaries",
+    "Proactive identification of distributed lock race conditions"
+  ],
+  "areas_for_improvement": [
+    "Consider memory overhead of in-memory caching under burst traffic",
+    "Add explicit back-of-the-envelope calculations for storage capacity"
+  ],
+  "culture_fit_notes": "Aligns exceptionally well with pragmatic craft and ownership values.",
+  "detailed_debrief_markdown": "# Detailed Mock Interview Scorecard\n\nCandidate performed at a solid Staff L6 bar."
+}

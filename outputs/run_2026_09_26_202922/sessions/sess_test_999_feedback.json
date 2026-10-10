@@ -1,0 +1,12 @@
+{
+  "overall_score": 85,
+  "hire_recommendation": "Hire",
+  "summary_verdict": "Solid design.",
+  "rubric_scores": [],
+  "key_strengths": [
+    "Fanout on write logic"
+  ],
+  "areas_for_improvement": [],
+  "culture_fit_notes": "",
+  "detailed_debrief_markdown": ""
+}

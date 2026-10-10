@@ -1,0 +1,304 @@
+{
+  "ticker": "NVDA",
+  "company_name": "NVIDIA Corporation",
+  "sector": "Technology",
+  "industry": "Semiconductors & AI Compute",
+  "current_price": 124.5,
+  "market_cap_billions": 3060.0,
+  "data_freshness_timestamp": "2026-09-26 20:51:46",
+  "verified_as_of_date": "2026-09-26",
+  "data_verification": {
+    "is_verified_latest": true,
+    "verified_as_of_date": "2026-09-26",
+    "verification_timestamp": "2026-09-26 20:51:46",
+    "verification_status": "VERIFIED_LATEST",
+    "latest_quote_date": "2026-09-26",
+    "staleness_check": "PASSED: Market Current (0 calendar days delta)",
+    "verification_source": "Live Exchange Feed & SEC Filings (as of September 26, 2026)",
+    "audit_notes": "Verified: NVDA trading price ($124.50), latest fiscal period (FY2025), and valuation parameters confirmed current as of September 26, 2026."
+  },
+  "historical_price_chart": [
+    {
+      "date": "2025-10-01",
+      "close": 86.4,
+      "volume": 36500000
+    },
+    {
+      "date": "2025-11-01",
+      "close": 91.2,
+      "volume": 38000000
+    },
+    {
+      "date": "2025-12-01",
+      "close": 87.6,
+      "volume": 39500000
+    },
+    {
+      "date": "2026-01-01",
+      "close": 94.8,
+      "volume": 41000000
+    },
+    {
+      "date": "2026-02-01",
+      "close": 100.8,
+      "volume": 42500000
+    },
+    {
+      "date": "2026-03-01",
+      "close": 98.4,
+      "volume": 44000000
+    },
+    {
+      "date": "2026-04-01",
+      "close": 106.8,
+      "volume": 45500000
+    },
+    {
+      "date": "2026-05-01",
+      "close": 112.8,
+      "volume": 47000000
+    },
+    {
+      "date": "2026-06-01",
+      "close": 109.2,
+      "volume": 48500000
+    },
+    {
+      "date": "2026-07-01",
+      "close": 115.2,
+      "volume": 50000000
+    },
+    {
+      "date": "2026-08-01",
+      "close": 117.6,
+      "volume": 51500000
+    },
+    {
+      "date": "2026-09-26",
+      "close": 120.0,
+      "volume": 53000000
+    }
+  ],
+  "executive_summary": "**30-Second Verdict**: NVIDIA Corporation (NVDA) is the preeminent accelerated computing platform globally, making it a high-conviction compounder for long-term investors.\n\n**Beginner Quick Scorecard**:\n- 🟢 **Overall Stance**: Bullish Compounder\n- 🛡️ **Risk Level**: Moderate (High Growth)\n- ⏳ **Ideal Horizon**: Long-Term (3-5 Years)\n\n**Top 2 Reasons to Buy (Bull Case)**:\n- High profitability with sustained software moat (CUDA) and high pricing power.\n- Clean balance sheet with net cash and strong free cash flow generation.\n\n**Top 2 Risks to Watch (Bear Case)**:\n- Valuation multiple contraction if cloud CapEx slows.\n- Customer concentration among hyperscaler buyers.",
+  "business_model_and_revenue_engines": "- **What They Sell**: High-performance GPU hardware (Hopper, Blackwell), enterprise CUDA AI software, and InfiniBand networking.\n- **How They Get Paid**: Compute & Networking sales (~87%), Gaming GPUs (~9%), Professional Visualization & Automotive (~4%).\n- **Who Pays Them**: Major cloud service providers (Microsoft, Google, Amazon, Meta) and enterprise developers worldwide.\n- **The Sticky Factor (Moat)**: Over 5 million developers are locked into NVIDIA's proprietary CUDA programming ecosystem, creating enormous switching costs.",
+  "financial_health_and_margin_trends": "- **Are they making money? (Profitability)**: Exceptionally high profitability. For every $100 in sales, NVIDIA keeps ~$75 after direct chip costs and ~$62 in pure operating profit.\n- **Can they pay their bills? (Debt & Safety)**: Extremely safe. NVIDIA holds $18 billion more cash than debt (negative net debt), so bankruptcy risk is virtually non-existent.\n- **Real Cash Flow (Money in the Bank)**: Converts over 91% of net income into actual spendable Free Cash Flow ($55B+).\n- **Beginner Financial Health Rating**: 🟢 Strong & High Safety",
+  "historical_financials": [
+    {
+      "period": "FY2025",
+      "revenue": 120000.0,
+      "revenue_growth_yoy": 125.0,
+      "gross_profit": 90000.0,
+      "gross_margin": 75.0,
+      "ebitda": 0.0,
+      "ebitda_margin": 0.0,
+      "operating_income": 75000.0,
+      "operating_margin": 62.5,
+      "net_income": 60000.0,
+      "eps": 2.45,
+      "free_cash_flow": 55000.0,
+      "fcf_conversion": 91.6,
+      "cash_and_equivalents": 0.0,
+      "total_debt": 0.0,
+      "net_debt": -18000.0,
+      "debt_to_equity": 0.18,
+      "roic": 65.0,
+      "roe": 72.0
+    }
+  ],
+  "valuation_analysis": "Attractive on a PEG basis relative to multi-year earnings expansion.",
+  "valuation_scenarios": [
+    {
+      "scenario_name": "Bear",
+      "target_price_implied": 85.0,
+      "upside_downside_percent": -31.7,
+      "revenue_growth_cagr": 15.0,
+      "terminal_operating_margin": 48.0,
+      "wacc": 10.5,
+      "terminal_growth_rate": 2.5,
+      "implied_pe_multiple": 20.0,
+      "key_assumptions": [
+        "Hyperscaler CapEx pause",
+        "Custom ASIC market share erosion"
+      ],
+      "catalysts_required": [
+        "Baseline defensive data center spend"
+      ],
+      "risks_to_scenario": [
+        "Aggressive price discounting by competitors"
+      ]
+    },
+    {
+      "scenario_name": "Base",
+      "target_price_implied": 145.0,
+      "upside_downside_percent": 16.5,
+      "revenue_growth_cagr": 28.0,
+      "terminal_operating_margin": 58.0,
+      "wacc": 9.5,
+      "terminal_growth_rate": 3.0,
+      "implied_pe_multiple": 30.0,
+      "key_assumptions": [
+        "Blackwell volume ramp on schedule",
+        "Stable hyperscaler CapEx cadence"
+      ],
+      "catalysts_required": [
+        "Sustained Tier-1 cloud GPU cluster buildout"
+      ],
+      "risks_to_scenario": [
+        "Packaging capacity bottlenecks at TSMC"
+      ]
+    },
+    {
+      "scenario_name": "Bull",
+      "target_price_implied": 195.0,
+      "upside_downside_percent": 56.6,
+      "revenue_growth_cagr": 38.0,
+      "terminal_operating_margin": 65.0,
+      "wacc": 9.0,
+      "terminal_growth_rate": 3.5,
+      "implied_pe_multiple": 38.0,
+      "key_assumptions": [
+        "Sovereign AI & Enterprise adoption inflection",
+        "CUDA ecosystem lock-in"
+      ],
+      "catalysts_required": [
+        "Enterprise AI agent adoption driving second-wave inference demand"
+      ],
+      "risks_to_scenario": [
+        "Geopolitical trade and export control restrictions"
+      ]
+    }
+  ],
+  "peer_benchmarks": [
+    {
+      "ticker": "AMD",
+      "company_name": "Advanced Micro Devices",
+      "market_cap_billions": 250.0,
+      "pe_forward": 32.0,
+      "ev_ebitda": 28.0,
+      "revenue_growth_yoy": 18.0,
+      "operating_margin": 18.5,
+      "roic": 14.0,
+      "fcf_yield": 2.4,
+      "competitive_moat_comparison": "Strong x86 and emerging GPU competitor with open-source ROCm software stack."
+    },
+    {
+      "ticker": "INTC",
+      "company_name": "Intel Corporation",
+      "market_cap_billions": 90.0,
+      "pe_forward": 45.0,
+      "ev_ebitda": 16.0,
+      "revenue_growth_yoy": 2.0,
+      "operating_margin": 4.0,
+      "roic": 2.0,
+      "fcf_yield": -1.5,
+      "competitive_moat_comparison": "Incumbent CPU supplier undergoing costly foundry transition with trailing GPU share."
+    }
+  ],
+  "peer_comparison_narrative": "Dominant market share with wide software moat relative to AMD and Intel.",
+  "news_events": [
+    {
+      "event_title": "Blackwell Ultra Architecture Unveiled at Keynote",
+      "event_date": "2026-03-10",
+      "category": "Product",
+      "summary": "Management announced next-generation AI accelerators with 4x inference throughput improvements.",
+      "thesis_impact": "Positive",
+      "is_transitory": false,
+      "corroborating_sources": [
+        "https://reuters.com/tech/nvidia-keynote",
+        "https://bloomberg.com/news/blackwell-ramp"
+      ],
+      "duplicate_count": 14
+    },
+    {
+      "event_title": "Enterprise Software Tier Surpasses $2B Run-Rate",
+      "event_date": "2026-02-18",
+      "category": "Earnings",
+      "summary": "Software and services recurring revenue reached record milestone, diversifying hardware cycles.",
+      "thesis_impact": "Positive",
+      "is_transitory": false,
+      "corroborating_sources": [
+        "https://finance.yahoo.com/news/nvidia-software-growth"
+      ],
+      "duplicate_count": 8
+    }
+  ],
+  "earnings_track_record": [
+    {
+      "quarter": "Q4 FY2025",
+      "revenue_actual": 39500.0,
+      "revenue_estimate": 38000.0,
+      "revenue_surprise_percent": 3.9,
+      "eps_actual": 0.88,
+      "eps_estimate": 0.82,
+      "eps_surprise_percent": 7.3,
+      "guidance_trend": "Raised",
+      "management_commentary_summary": "Demand for accelerated compute continues to outpace supply across hyperscalers."
+    },
+    {
+      "quarter": "Q3 FY2025",
+      "revenue_actual": 35000.0,
+      "revenue_estimate": 33500.0,
+      "revenue_surprise_percent": 4.5,
+      "eps_actual": 0.78,
+      "eps_estimate": 0.72,
+      "eps_surprise_percent": 8.3,
+      "guidance_trend": "Raised",
+      "management_commentary_summary": "Strong operating leverage demonstrated across data center networking."
+    }
+  ],
+  "management_capital_allocation_scorecard": "Superb capital allocation balancing R&D leadership and share repurchases.",
+  "competitive_moat_analysis": "CUDA ecosystem network effects, advanced packaging scale, and full-stack networking integration.",
+  "catalysts": [
+    "Next-gen GPU volume ramp",
+    "Enterprise inference adoption inflection"
+  ],
+  "risks": [
+    "Customer concentration",
+    "Custom ASIC competition",
+    "Geopolitical export controls"
+  ],
+  "pros": [
+    "Structural monopoly in AI compute",
+    "Software switching costs",
+    "Pristine balance sheet"
+  ],
+  "cons": [
+    "High valuation multiple",
+    "Cyclical CapEx risk",
+    "Customer concentration"
+  ],
+  "what_could_invalidate_the_thesis": "Hyperscaler CapEx contraction and rapid custom ASIC adoption.",
+  "why_now": "Volume ramp of next-generation architecture driving multi-year revenue acceleration.",
+  "critic_debrief": {
+    "overlooked_risks": [
+      "Hyperscaler customer concentration: Top 4 customers account for ~40% of total revenue.",
+      "Internal custom silicon development (Google TPU, Amazon Trainium, Meta MTIA) could reduce external merchant silicon share over 3-5 years.",
+      "Geopolitical and export restrictions on advanced AI silicon."
+    ],
+    "contradictory_data_points": [
+      "Hyperscalers are actively diversifying supplier bases to reduce single-vendor pricing exposure.",
+      "Power and data center electrical grid constraints could delay cluster rollouts."
+    ],
+    "bull_case_flaws": [
+      "Assumes perpetual 60%+ operating margins without accounting for competitive pricing pressure in inference.",
+      "Underestimates capital expenditure digestion cycles among cloud service providers."
+    ],
+    "thesis_invalidation_triggers": [
+      "Sequential Data Center revenue growth decelerates below 5% QoQ for two consecutive quarters.",
+      "Gross margins compress below 68% due to packaging cost inflation or price cuts.",
+      "Custom in-house ASIC workloads exceed 35% of hyperscaler AI compute budgets."
+    ],
+    "confidence_penalty_points": 5
+  },
+  "source_claims": [
+    {
+      "claim_text": "Gross margin sustained at 75% in FY2025 confirmed as of 2026-09-26.",
+      "claim_type": "FACT",
+      "source_title": "SEC Form 10-K FY2025",
+      "source_url": "https://www.sec.gov/edgar",
+      "publication_date": null,
+      "confidence_score": 1.0
+    }
+  ],
+  "report_markdown": "# Equity Research: NVIDIA Corporation (NVDA)\n**Sector:** Technology | **Industry:** Semiconductors & AI Compute | **Current Price:** $124.50 | **Market Cap:** $3060.0B\n\n> 🟢 **DATA VERIFICATION CONFIRMED: LATEST AS OF 2026-09-26**\n> - **Verification Status:** `VERIFIED_LATEST` — PASSED: Market Current (0 calendar days delta)\n> - **Latest Market Quote:** $124.50 (As of 2026-09-26)\n> - **Audit Note:** Verified: NVDA trading price ($124.50), latest fiscal period (FY2025), and valuation parameters confirmed current as of September 26, 2026.\n\n---\n\n## 📈 Stock Price Historical Performance (Trailing 12 Months)\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 680 220\" width=\"100%\" height=\"220\" style=\"background: #0f172a; border-radius: 10px; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif; border: 1px solid #1e293b; margin: 12px 0;\">\n  <defs>\n    <linearGradient id=\"grad_NVDA\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n      <stop offset=\"0%\" stop-color=\"#10b981\" stop-opacity=\"0.30\"/>\n      <stop offset=\"100%\" stop-color=\"#10b981\" stop-opacity=\"0.0\"/>\n    </linearGradient>\n  </defs>\n  <line x1=\"65\" y1=\"35\" x2=\"645\" y2=\"35\" stroke=\"#334155\" stroke-dasharray=\"3,3\"/>\n  <line x1=\"65\" y1=\"107.5\" x2=\"645\" y2=\"107.5\" stroke=\"#334155\" stroke-dasharray=\"3,3\"/>\n  <line x1=\"65\" y1=\"180\" x2=\"645\" y2=\"180\" stroke=\"#334155\"/>\n  <text x=\"55\" y=\"39\" fill=\"#94a3b8\" font-size=\"11\" text-anchor=\"end\">$122.7</text>\n  <text x=\"55\" y=\"111.5\" fill=\"#94a3b8\" font-size=\"11\" text-anchor=\"end\">$103.2</text>\n  <text x=\"55\" y=\"184\" fill=\"#94a3b8\" font-size=\"11\" text-anchor=\"end\">$83.7</text>\n  <path d=\"M 65.0,170.0 L 117.7,152.1 L 170.5,165.5 L 223.2,138.8 L 275.9,116.4 L 328.6,125.4 L 381.4,94.1 L 434.1,71.8 L 486.8,85.2 L 539.5,62.9 L 592.3,53.9 L 645.0,45.0 L 645.0,180.0 L 65.0,180.0 Z\" fill=\"url(#grad_NVDA)\"/>\n  <path d=\"M 65.0,170.0 L 117.7,152.1 L 170.5,165.5 L 223.2,138.8 L 275.9,116.4 L 328.6,125.4 L 381.4,94.1 L 434.1,71.8 L 486.8,85.2 L 539.5,62.9 L 592.3,53.9 L 645.0,45.0\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>\n  <circle cx=\"65.0\" cy=\"170.0\" r=\"4\" fill=\"#10b981\"/>\n  <circle cx=\"645.0\" cy=\"45.0\" r=\"5\" fill=\"#ffffff\" stroke=\"#10b981\" stroke-width=\"2\"/>\n  <text x=\"65.0\" y=\"208\" fill=\"#94a3b8\" font-size=\"11\" text-anchor=\"start\">2025-10-01</text>\n  <text x=\"645.0\" y=\"208\" fill=\"#94a3b8\" font-size=\"11\" text-anchor=\"end\">2026-09-26</text>\n  <text x=\"73\" y=\"23\" fill=\"#f8fafc\" font-size=\"13\" font-weight=\"bold\">NVDA 12-Month Price Trend</text>\n  <text x=\"285\" y=\"23\" fill=\"#10b981\" font-size=\"12\" font-weight=\"600\">+38.9% (Trailing 1Y)</text>\n  <text x=\"645\" y=\"23\" fill=\"#10b981\" font-size=\"12\" font-weight=\"bold\" text-anchor=\"end\">Latest: $120.00</text>\n</svg>\n\n| Date | Closing Price | Trading Volume | Trend |\n|---|---|---|---|\n| 2026-04-01 | **$106.80** | 45,500,000 | 🟢 ↗ |\n| 2026-05-01 | **$112.80** | 47,000,000 | 🟢 ↗ |\n| 2026-06-01 | **$109.20** | 48,500,000 | 🔴 ↘ |\n| 2026-07-01 | **$115.20** | 50,000,000 | 🟢 ↗ |\n| 2026-08-01 | **$117.60** | 51,500,000 | 🟢 ↗ |\n| 2026-09-26 | **$120.00** | 53,000,000 | 🟢 ↗ |\n\n## 1. Executive Summary\n**30-Second Verdict**: NVIDIA Corporation (NVDA) is the preeminent accelerated computing platform globally, making it a high-conviction compounder for long-term investors.\n\n**Beginner Quick Scorecard**:\n- 🟢 **Overall Stance**: Bullish Compounder\n- 🛡️ **Risk Level**: Moderate (High Growth)\n- ⏳ **Ideal Horizon**: Long-Term (3-5 Years)\n\n**Top 2 Reasons to Buy (Bull Case)**:\n- High profitability with sustained software moat (CUDA) and high pricing power.\n- Clean balance sheet with net cash and strong free cash flow generation.\n\n**Top 2 Risks to Watch (Bear Case)**:\n- Valuation multiple contraction if cloud CapEx slows.\n- Customer concentration among hyperscaler buyers.\n\n## 2. Business Model & Monetization Engine\n- **What They Sell**: High-performance GPU hardware (Hopper, Blackwell), enterprise CUDA AI software, and InfiniBand networking.\n- **How They Get Paid**: Compute & Networking sales (~87%), Gaming GPUs (~9%), Professional Visualization & Automotive (~4%).\n- **Who Pays Them**: Major cloud service providers (Microsoft, Google, Amazon, Meta) and enterprise developers worldwide.\n- **The Sticky Factor (Moat)**: Over 5 million developers are locked into NVIDIA's proprietary CUDA programming ecosystem, creating enormous switching costs.\n\n## 3. Financial Health & Margin Trends\n- **Are they making money? (Profitability)**: Exceptionally high profitability. For every $100 in sales, NVIDIA keeps ~$75 after direct chip costs and ~$62 in pure operating profit.\n- **Can they pay their bills? (Debt & Safety)**: Extremely safe. NVIDIA holds $18 billion more cash than debt (negative net debt), so bankruptcy risk is virtually non-existent.\n- **Real Cash Flow (Money in the Bank)**: Converts over 91% of net income into actual spendable Free Cash Flow ($55B+).\n- **Beginner Financial Health Rating**: 🟢 Strong & High Safety\n\n### Historical Financial Statements & Key Metrics\n| Period | Revenue ($M) | YoY Growth | Gross Margin | Operating Margin | Net Income ($M) | FCF ($M) | ROIC | Net Debt ($M) |\n|---|---|---|---|---|---|---|---|---|\n| FY2025 | $120,000 | 125.0% | 75.0% | 62.5% | $60,000 | $55,000 | 65.0% | $-18,000 |\n\n*(Beginner Note: **YoY Growth** = Sales growth vs last year | **Gross Margin** = Money kept after product production costs | **Operating Margin** = Profit kept after operating expenses | **FCF** = Actual cash left in the bank | **Net Debt** = Total Debt minus Cash reserves)*\n\n## 4. Valuation Analysis & DCF Scenarios\nAttractive on a PEG basis relative to multi-year earnings expansion.\n\n### 3-Tier DCF Intrinsic Scenario Matrix\n| Scenario | Target Price | Implied Upside/Downside | 5Y Rev CAGR | Operating Margin | WACC | Target Exit P/E |\n|---|---|---|---|---|---|---|\n| **Bear Case** | **$85.00** | **-31.7%** | 15.0% | 48.0% | 10.5% | 20.0x |\n| **Base Case** | **$145.00** | **+16.5%** | 28.0% | 58.0% | 9.5% | 30.0x |\n| **Bull Case** | **$195.00** | **+56.6%** | 38.0% | 65.0% | 9.0% | 38.0x |\n\n## 5. Peer Benchmarking & Competitive Moat\n**Competitive Position:**\nDominant market share with wide software moat relative to AMD and Intel.\n\n**Structural Moat Factors:**\nCUDA ecosystem network effects, advanced packaging scale, and full-stack networking integration.\n\n### Peer Comparison Table\n| Ticker | Company | Market Cap ($B) | Fwd P/E | EV/EBITDA | Rev Growth | Op Margin | ROIC | FCF Yield |\n|---|---|---|---|---|---|---|---|---|\n| **AMD** | Advanced Micro Devices | $250.0B | 32.0x | 28.0x | 18.0% | 18.5% | 14.0% | 2.4% |\n| **INTC** | Intel Corporation | $90.0B | 45.0x | 16.0x | 2.0% | 4.0% | 2.0% | -1.5% |\n\n## 6. Recent News & Event Clustering\n- **2026-03-10 - Blackwell Ultra Architecture Unveiled at Keynote** (Product | Impact: *Positive* | *Structural Impact*)\n  Management announced next-generation AI accelerators with 4x inference throughput improvements.\n  *Sources: [https://reuters.com/tech/nvidia-keynote](https://reuters.com/tech/nvidia-keynote), [https://bloomberg.com/news/blackwell-ramp](https://bloomberg.com/news/blackwell-ramp)*\n- **2026-02-18 - Enterprise Software Tier Surpasses $2B Run-Rate** (Earnings | Impact: *Positive* | *Structural Impact*)\n  Software and services recurring revenue reached record milestone, diversifying hardware cycles.\n  *Sources: [https://finance.yahoo.com/news/nvidia-software-growth](https://finance.yahoo.com/news/nvidia-software-growth)*\n\n## 7. Earnings Execution & Guidance Track Record\n| Quarter | Revenue ($M) | Rev Surprise | EPS ($) | EPS Surprise | Guidance Trend |\n|---|---|---|---|---|---|\n| Q4 FY2025 | $39,500 | +3.9% | $0.88 | +7.3% | **Raised** |\n| Q3 FY2025 | $35,000 | +4.5% | $0.78 | +8.3% | **Raised** |\n\n## 8. Management Capital Allocation Scorecard\nSuperb capital allocation balancing R&D leadership and share repurchases.\n\n## 9. Key Catalysts & Operational Drivers\n- 🚀 Next-gen GPU volume ramp\n- 🚀 Enterprise inference adoption inflection\n\n## 10. Critical Risks & Investment Vulnerabilities\n- ⚠️ Customer concentration\n- ⚠️ Custom ASIC competition\n- ⚠️ Geopolitical export controls\n\n## 11. Pros & Cons Synthesis\n### ✅ Pros / Bullish Pillars\n- Structural monopoly in AI compute\n- Software switching costs\n- Pristine balance sheet\n\n### ❌ Cons / Bearish Risks\n- High valuation multiple\n- Cyclical CapEx risk\n- Customer concentration\n\n## 12. 🔥 Thesis Invalidation Triggers (Critic Agent)\n**What could prove the investment thesis wrong:**\nHyperscaler CapEx contraction and rapid custom ASIC adoption.\n\n### Specific Quantifiable Invalidation Triggers:\n- 🛑 **Trigger:** Sequential Data Center revenue growth decelerates below 5% QoQ for two consecutive quarters.\n- 🛑 **Trigger:** Gross margins compress below 68% due to packaging cost inflation or price cuts.\n- 🛑 **Trigger:** Custom in-house ASIC workloads exceed 35% of hyperscaler AI compute budgets.\n\n## 13. ⏱️ Why Now?\nVolume ramp of next-generation architecture driving multi-year revenue acceleration.\n\n## 14. 📋 Sourced Evidence & Claims Audit\n| Claim | Classification | Source Title | Reference Link |\n|---|---|---|---|\n| Gross margin sustained at 75% in FY2025 confirmed as of 2026-09-26. | **`FACT`** | SEC Form 10-K FY2025 | [SEC Form 10-K FY2025](https://www.sec.gov/edgar) |\n"
+}

@@ -1,0 +1,52 @@
+{
+  "topic": "Jev Style Decision Models",
+  "game_type": "flashcards",
+  "total_cards": 5,
+  "cards": [
+    {
+      "id": "card_1",
+      "category": "Core Architecture",
+      "difficulty": "Hard",
+      "front_prompt": "How do Jev Style Decision Models handle multi-criteria evaluation under uncertainty, and what is the underlying mechanism that prevents systemic bias in weight assignment?",
+      "back_explanation": "Jev Style Decision Models operate by decoupling constraint satisfaction from heuristic evaluation layers. Under the hood, they utilize probabilistic matrix factorization paired with dynamic confidence bounds to evaluate conflicting inputs. To prevent weight-assignment bias, they enforce orthogonal transformation matrices across criteria spaces, ensuring that high-variance inputs do not disproportionately skew the composite decision vector.",
+      "hint": "Think about how linear algebra techniques like orthogonalization are applied to multidimensional feature spaces.",
+      "key_takeaway": "Orthogonal transformation of criteria spaces prevents dominant heuristics from introducing systemic skew in uncertainty-laden decisions."
+    },
+    {
+      "id": "card_2",
+      "category": "Scalability & Performance Trade-offs",
+      "difficulty": "Medium",
+      "front_prompt": "Why do Jev Style Decision Models face exponential latency degradation as the state space expands, and what architectural trade-off is required to achieve real-time throughput?",
+      "back_explanation": "As the state space grows, the combinatorial explosion of potential decision pathways forces the model to evaluate dense graph cross-products. To maintain real-time throughput, systems must trade absolute global optimality for localized heuristic pruning (such as beam search or epsilon-greedy state reduction), sacrificing edge-case precision for bounding latency.",
+      "hint": "Consider the computational complexity of exhaustive graph traversal versus heuristic approximation.",
+      "key_takeaway": "Achieving low latency in expanding state spaces requires trading global optimization for bounded heuristic pruning."
+    },
+    {
+      "id": "card_3",
+      "category": "Failure Modes & Edge Cases",
+      "difficulty": "Hard",
+      "front_prompt": "Describe a catastrophic cascading failure mode unique to Jev Style Decision Models when processing adversarial input streams, and how feedback-loop resonance exacerbates it.",
+      "back_explanation": "Adversarial inputs can trigger 'feedback-loop resonance' where small, high-frequency perturbations align with the model's internal confidence calibration thresholds. This causes the decision engine to violently oscillate between contradictory states, saturating logging systems, consuming downstream execution threads, and potentially driving the controlled system into an unsafe boundary state.",
+      "hint": "Look at how recursive evaluation loops respond to phase-aligned input noise.",
+      "key_takeaway": "Resonant feedback loops caused by phase-aligned adversarial inputs can turn minor perturbations into catastrophic state oscillations."
+    },
+    {
+      "id": "card_4",
+      "category": "System Design",
+      "difficulty": "Medium",
+      "front_prompt": "Compare Jev Style Decision Models with traditional Behavior Trees or Rule Engines in a high-throughput financial trading environment. Where does the Jev model break down?",
+      "back_explanation": "While Rule Engines offer deterministic, O(1) evaluation paths for hard-coded business logic, Jev models excel at probabilistic optimization under fluid conditions. However, Jev models break down in high-frequency trading because their dynamic weight re-evaluations introduce unpredictable jitter and lack the rigid, deterministic auditability required by compliance frameworks.",
+      "hint": "Evaluate the tension between probabilistic adaptability and deterministic auditability.",
+      "key_takeaway": "Jev models optimize for probabilistic nuance but fail where deterministic guarantees and low execution jitter are mandatory."
+    },
+    {
+      "id": "card_5",
+      "category": "Misconceptions / Interview Gotchas",
+      "difficulty": "Hard",
+      "front_prompt": "An interviewer claims that Jev Style Decision Models can achieve online continuous learning without catastrophic forgetting. Why is this structurally incorrect?",
+      "back_explanation": "This is a misconception because Jev models rely on static or bounded-window historical weight vectors to evaluate immediate constraints. Unconstrained online learning directly overwrites the structural matrix coordinates, leading to catastrophic forgetting of historical edge cases unless a dual-memory architecture (like episodic vs. semantic memory buffers) is explicitly bolted on.",
+      "hint": "Think about stability-plasticity dilemmas inherent in any continuously updated weight matrix.",
+      "key_takeaway": "Without an explicit dual-memory buffer architecture, online continuous learning in decision models inevitably triggers catastrophic forgetting."
+    }
+  ]
+}

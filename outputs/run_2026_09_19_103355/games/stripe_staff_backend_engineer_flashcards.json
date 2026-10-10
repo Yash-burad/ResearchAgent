@@ -1,0 +1,61 @@
+{
+  "topic": "Stripe Staff Backend Engineer",
+  "game_type": "flashcards",
+  "total_cards": 6,
+  "cards": [
+    {
+      "id": "card_1",
+      "category": "Core Architecture",
+      "difficulty": "Hard",
+      "front_prompt": "How does Stripe safely execute massive distributed workflows like payouts and subscription invoicing without double-charging or losing transaction states?",
+      "back_explanation": "Stripe relies heavily on strict idempotency keys combined with immutable state machines. Every mutating API request requires an idempotency key stored in a transactional data store. If a retry occurs, the API gateway checks the key; if a record exists, it returns the previously cached HTTP response and status code without re-invoking downstream services. Under the hood, distributed transactions are avoided in favor of the Saga pattern or orchestrated event-driven workflows with compensating actions and outbox patterns to guarantee at-least-once processing safely.",
+      "hint": "Think about how API retries from a flaky client network are intercepted before reaching the database layer.",
+      "key_takeaway": "Idempotency keys and immutable event logs form the bedrock of safe distributed financial transactions."
+    },
+    {
+      "id": "card_2",
+      "category": "Scalability & Performance",
+      "difficulty": "Hard",
+      "front_prompt": "Why might horizontal sharding of MySQL databases (e.g., via Vitess) fail to solve high-throughput hot-spot issues for a massive global merchant, and how do you mitigate it?",
+      "back_explanation": "Sharding by tenant ID (merchant_id) distributes load well, but a massive flash sale or a single hyper-scale merchant (like Amazon or Shopify) can create a hot shard that exhausts CPU, memory, and connection pools. Vitess helps with automated failover and resharding, but single-row contention on the merchant's balance or high-volume charge tables remains a bottleneck. Mitigation requires asynchronous aggregation, command query responsibility segregation (CQRS), caching balance ledgers with optimistic locking, and event-sourcing patterns to decouple write throughput from read models.",
+      "hint": "Consider what happens when 100,000 requests per second target a single database row or single tenant shard.",
+      "key_takeaway": "Tenant-based sharding fails when a single tenant outgrows a single node; workloads require async aggregation and optimistic concurrency control."
+    },
+    {
+      "id": "card_3",
+      "category": "Failure Modes",
+      "difficulty": "Medium",
+      "front_prompt": "How does Stripe prevent cascading failures when third-party banking partners or card networks (Visa/Mastercard) experience severe latency spikes or outages?",
+      "back_explanation": "Stripe uses robust circuit breakers, bulkhead isolation, and aggressive request timeouts. When downstream acquirers degrade, circuit breakers trip to fast-fail traffic rather than thread-pooling and exhausting backend resources. Furthermore, Stripe implements intelligent request routing and fallback acquirers, decoupling the API ingestion layer from payment execution via asynchronous worker queues. This ensures merchant API calls return a clean status or webhook notification later instead of hanging indefinitely.",
+      "hint": "Think about bulkhead patterns and preventing thread exhaustion when upstream dependencies hang.",
+      "key_takeaway": "Isolate downstream acquirer dependencies with circuit breakers and asynchronous queues to preserve core API availability."
+    },
+    {
+      "id": "card_4",
+      "category": "System Design Comparison",
+      "difficulty": "Hard",
+      "front_prompt": "Compare using Two-Phase Commit (2PC) versus an Event-Driven Outbox Pattern for transferring funds between two separate ledger accounts in Stripe's architecture.",
+      "back_explanation": "2PC provides strict ACID guarantees across distributed databases but introduces severe availability and latency bottlenecks. If a coordinator or single participant fails, locks are held open, reducing throughput and increasing deadlock risks—unacceptable for high-scale payment processing. The Outbox Pattern writes state changes and outbox messages within the same local database transaction, which a separate relay publisher tailors and broadcasts to message brokers (at-least-once delivery). This achieves eventual consistency, high availability, and decoupled systems, trading immediate consistency for massive scalability.",
+      "hint": "Evaluate the trade-off between distributed consistency locks (ACID) and eventual consistency through reliable messaging.",
+      "key_takeaway": "Avoid distributed 2PC in high-throughput payment systems; use the transactional outbox pattern for reliable eventual consistency."
+    },
+    {
+      "id": "card_5",
+      "category": "Conceptual Misconceptions",
+      "difficulty": "Medium",
+      "front_prompt": "Why is relying purely on database AUTO_INCREMENT primary keys dangerous in a multi-region or hyper-scale microservices architecture like Stripe's?",
+      "back_explanation": "Auto-incrementing IDs require a centralized authority (or single writer node per table) to generate sequential integers, creating a single point of failure and write bottleneck. In multi-region active-active setups, auto-incrementing IDs cause collision risks unless stepped ranges are used (e.g., node 1 generates odds, node 2 evens), which severely limits scaling. Stripe utilizes sortable, globally unique identifiers (like custom K-ordered snowflakes or UUIDv7) that encode timestamps, allowing decentralized generation without coordination while preserving database index locality.",
+      "hint": "Consider how multiple independent database writers concurrently generate unique identifiers without cross-talk.",
+      "key_takeaway": "Use time-sortable, decentralized unique identifiers (like K-ordered IDs) instead of database auto-increment keys to enable horizontal scaling."
+    },
+    {
+      "id": "card_6",
+      "category": "System Design",
+      "difficulty": "Hard",
+      "front_prompt": "How would you design Stripe's webhook delivery system to guarantee reliable, at-least-once delivery to millions of merchant endpoints without overwhelming slow or down servers?",
+      "back_explanation": "The webhook engine uses an event log tailer that pushes tasks into a priority queue partitioned by merchant ID to prevent noisy neighbors. Workers pull events, sign payloads cryptographically with HMAC, and make HTTP requests with strict timeouts. If a webhook fails (non-2xx response), an exponential backoff schedule with jitter is applied. Dead-letter queues (DLQs) catch permanently failing endpoints after maximum retries, and merchants are provided a dashboard to manually replay missed events.",
+      "hint": "Think about rate limiting per merchant, exponential backoff with jitter, and protecting your own worker infrastructure from hanging HTTP calls.",
+      "key_takeaway": "Reliable webhooks require partitioned queues, exponential backoff with jitter, HMAC signing, and circuit-breaking isolation for slow consumers."
+    }
+  ]
+}

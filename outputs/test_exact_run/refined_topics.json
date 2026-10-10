@@ -1,0 +1,66 @@
+[
+  {
+    "title": "Vector Database Hybrid Search Architecture",
+    "reason_selected": "Highly relevant to modern system design challenges involving RAG and AI workloads, combining vector embeddings with BM25 and metadata filtering.",
+    "relevance_to_user": "Directly aligns with the user's explicit interest in vector databases.",
+    "expected_learning_outcome": "Mastery over combining dense and sparse retrieval paradigms, improving recall accuracy and latency in semantic search systems.",
+    "scores": {
+      "interest_match_score": 100,
+      "interview_value_score": 95,
+      "depth_score": 90,
+      "freshness_score": 95,
+      "source_quality_score": 90
+    },
+    "source_urls": [
+      "https://news.google.com/"
+    ]
+  },
+  {
+    "title": "Distributed Consensus and Raft Protocol",
+    "reason_selected": "Foundational distributed systems topic frequently tested in senior engineering and system design interviews.",
+    "relevance_to_user": "Strongly fits the user's interest in distributed systems.",
+    "expected_learning_outcome": "Comprehensive knowledge of leader election, log replication, and managing split-brain scenarios in consensus algorithms.",
+    "scores": {
+      "interest_match_score": 95,
+      "interview_value_score": 100,
+      "depth_score": 95,
+      "freshness_score": 80,
+      "source_quality_score": 90
+    },
+    "source_urls": [
+      "https://news.google.com/"
+    ]
+  },
+  {
+    "title": "Zero Trust Architecture and Microsegmentation",
+    "reason_selected": "Addresses critical industry paradigm shifts toward identity-based access controls and limiting blast radiuses in cloud environments.",
+    "relevance_to_user": "Directly matches the user's interest in cybersecurity attack types and remediation.",
+    "expected_learning_outcome": "Deep understanding of continuous verification principles, identity-based security policies, and network microsegmentation.",
+    "scores": {
+      "interest_match_score": 100,
+      "interview_value_score": 90,
+      "depth_score": 85,
+      "freshness_score": 90,
+      "source_quality_score": 90
+    },
+    "source_urls": [
+      "https://news.google.com/"
+    ]
+  },
+  {
+    "title": "Server-Side Request Forgery (SSRF) Prevention",
+    "reason_selected": "High-impact cloud security vulnerability that is critical to understand for secure microservices architecture and defensive design.",
+    "relevance_to_user": "Directly addresses cybersecurity attack types and remediation requested by the user.",
+    "expected_learning_outcome": "Ability to identify SSRF vectors targeting cloud metadata and internal APIs, and implement robust allowlisting and network isolation.",
+    "scores": {
+      "interest_match_score": 90,
+      "interview_value_score": 85,
+      "depth_score": 80,
+      "freshness_score": 90,
+      "source_quality_score": 90
+    },
+    "source_urls": [
+      "https://news.google.com/"
+    ]
+  }
+]
