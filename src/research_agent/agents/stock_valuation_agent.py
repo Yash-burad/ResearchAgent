@@ -21,14 +21,19 @@ class StockValuationAgent:
         company_name: str,
         current_price: float,
         latest_revenue_millions: float = 50000.0,
-        shares_outstanding_millions: float = 2500.0
+        shares_outstanding_millions: float = 2500.0,
+        net_cash_debt_millions: float = 0.0,
+        base_operating_margin: float = 0.25
     ) -> ValuationAnalysis:
         multiples = self.data_provider.get_valuation_metrics(ticker)
         dcf_scenarios = ValuationEngine.calculate_dcf_scenarios(
             current_price=current_price,
             latest_revenue_millions=latest_revenue_millions,
-            shares_outstanding_millions=shares_outstanding_millions
+            shares_outstanding_millions=shares_outstanding_millions,
+            net_cash_debt_millions=net_cash_debt_millions,
+            base_operating_margin=base_operating_margin
         )
+
 
         prompt = self.prompt_template.format(
             ticker=ticker,

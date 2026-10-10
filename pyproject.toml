@@ -22,8 +22,10 @@ dependencies = [
     "duckduckgo-search",
     "fastapi",
     "uvicorn",
-    "jinja2"
+    "jinja2",
+    "yfinance>=1.0.0"
 ]
+
 
 [project.optional-dependencies]
 dev = [

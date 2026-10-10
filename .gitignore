@@ -46,11 +46,13 @@ htmlcov/
 *.swo
 
 # Large output runs / logs (optional, keep code clean)
-outputs/run_2026_10_10_*
-outputs/test_run_sim_api/sessions/session_20261010_*
+outputs/run_*
+outputs/test_run_sim_api/sessions/session_*
+outputs/.cache/
+
 
 # Local databases
-data/
+/data/
 *.db
 *.sqlite
 *.sqlite3

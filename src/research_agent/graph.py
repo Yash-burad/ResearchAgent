@@ -346,12 +346,32 @@ def research_stock_market_node(state: ResearchAgentState) -> Dict[str, Any]:
 
         update_tracker(run_id, "researching", 45, f"Evaluating relative multiples and calculating DCF intrinsic scenarios for {ticker}...")
         print(f"Agent [Stock Valuation]: Modeling relative multiples and 3-tier DCF scenarios for {ticker}...")
+
+        # Derive fundamental DCF inputs from real financial statements & profile
+        latest_rev = 50000.0
+        latest_op_m = 0.25
+        net_cash = 0.0
+        if financials and getattr(financials, "key_metrics_table", None):
+            latest_stmt = financials.key_metrics_table[-1]
+            latest_rev = latest_stmt.revenue or 50000.0
+            latest_op_m = (latest_stmt.operating_margin / 100.0) if latest_stmt.operating_margin else 0.25
+            net_cash = -latest_stmt.net_debt
+
+        shares_m = 2500.0
+        if profile.market_cap_billions > 0 and profile.current_price > 0:
+            shares_m = (profile.market_cap_billions * 1000.0) / profile.current_price
+
         valuation_agent = StockValuationAgent(llm)
         valuation = valuation_agent.analyze_valuation(
             ticker=ticker,
             company_name=company_name,
-            current_price=profile.current_price
+            current_price=profile.current_price,
+            latest_revenue_millions=latest_rev,
+            shares_outstanding_millions=shares_m,
+            net_cash_debt_millions=net_cash,
+            base_operating_margin=latest_op_m
         )
+
 
         update_tracker(run_id, "researching", 60, f"Benchmarking competitive moat against peers for {ticker}...")
         print(f"Agent [Stock Peer]: Benchmarking growth and moat against industry peers...")

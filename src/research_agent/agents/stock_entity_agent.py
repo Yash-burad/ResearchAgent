@@ -15,10 +15,62 @@ class StockEntityAgent:
         self.data_provider = data_provider or YFinanceProvider()
         self.prompt_template = load_prompt("stock_entity_resolution.md")
 
+    def _resolve_canonical_ticker(self, user_query: str) -> str:
+        clean = user_query.strip().split()[0].upper().replace("$", "")
+        # Common typos and known brand aliases
+        known_aliases = {
+            "GGOGL": "GOOGL",
+            "GOGL": "GOOGL",
+            "GOOGLE": "GOOGL",
+            "ALPHABET": "GOOGL",
+            "APPLE": "AAPL",
+            "MICROSOFT": "MSFT",
+            "AMAZON": "AMZN",
+            "TESLA": "TSLA",
+            "FACEBOOK": "META",
+            "NETFLIX": "NFLX",
+            "NVIDIA": "NVDA"
+        }
+        if clean in known_aliases:
+            return known_aliases[clean]
+
+        # Verify if clean ticker exists on yfinance
+        try:
+            import yfinance as yf
+            t = yf.Ticker(clean)
+            if t.info and (t.info.get("currentPrice") or t.info.get("regularMarketPrice") or t.info.get("shortName")):
+                return clean
+        except Exception:
+            pass
+
+        # Try search on yfinance
+        try:
+            import yfinance as yf
+            s = yf.Search(user_query)
+            if s.quotes:
+                for q in s.quotes:
+                    sym = q.get("symbol")
+                    if sym and not sym.startswith("^"):
+                        return sym.upper()
+        except Exception:
+            pass
+
+        # Use LLM to resolve ticker if typo or company name
+        try:
+            resolved = self.llm_provider.generate(
+                f"You are a financial entity resolver. Given the user input (which may be a typo, company name, or brand), return ONLY the primary US stock ticker symbol as 1 word with no punctuation.\nInput: {user_query}\nTicker:"
+            ).strip().upper().replace("$", "").split()[0]
+            if 1 <= len(resolved) <= 6 and resolved.isalpha():
+                return resolved
+        except Exception:
+            pass
+
+        return clean
+
     def resolve_entity(self, user_query: str) -> StockProfile:
-        # Step 1: Clean query to extract candidate ticker or company name
-        raw_ticker = user_query.strip().split()[0].upper().replace("$", "")
-        market_data = self.data_provider.get_stock_profile(raw_ticker)
+        canonical_ticker = self._resolve_canonical_ticker(user_query)
+        market_data = self.data_provider.get_stock_profile(canonical_ticker)
+
 
         prompt = self.prompt_template.format(
             user_query=user_query,
