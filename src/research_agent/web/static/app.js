@@ -1,3 +1,14 @@
+// Utility Functions
+function escapeHtml(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, "&#039;");
+}
+
 // Global State
 let currentRunId = null;
 let pollInterval = null;
@@ -1351,18 +1362,92 @@ function closeScorecardModal() {
 }
 
 /* ==========================================================================
-   Main Navigation (Feed vs Pipeline vs Simulator vs Studio)
+   Main Sidebar & Top Navigation Controller
    ========================================================================== */
+
+const appSidebar = document.getElementById("app-sidebar");
+const sidebarBackdrop = document.getElementById("sidebar-backdrop");
+const sidebarToggleBtn = document.getElementById("sidebar-toggle-btn");
+const sidebarCloseBtn = document.getElementById("sidebar-close-btn");
+const topbarSectionTitle = document.getElementById("topbar-section-title");
 
 const navFeedBtn = document.getElementById("nav-feed-btn");
 const navPipelineBtn = document.getElementById("nav-pipeline-btn");
 const navSimulatorBtn = document.getElementById("nav-simulator-btn");
 const navStudioBtn = document.getElementById("nav-studio-btn");
+const sidebarNewRunBtn = document.getElementById("sidebar-new-run-btn");
+const navLogStumbleBtn = document.getElementById("nav-log-stumble-btn");
+const navDrillBtn = document.getElementById("nav-drill-btn");
+const navChainBtn = document.getElementById("nav-chain-btn");
 
-if (navFeedBtn) navFeedBtn.addEventListener("click", () => switchMainSection("feed"));
-if (navPipelineBtn) navPipelineBtn.addEventListener("click", () => switchMainSection("pipeline"));
-if (navSimulatorBtn) navSimulatorBtn.addEventListener("click", () => switchMainSection("simulator"));
-if (navStudioBtn) navStudioBtn.addEventListener("click", () => switchMainSection("studio"));
+// Initialize sidebar collapsed preference
+if (localStorage.getItem("sidebar_collapsed") === "true" && window.innerWidth > 900 && appSidebar) {
+    appSidebar.classList.add("collapsed");
+}
+
+function toggleSidebar() {
+    if (!appSidebar) return;
+    if (window.innerWidth <= 900) {
+        const isOpen = appSidebar.classList.toggle("open");
+        if (sidebarBackdrop) sidebarBackdrop.classList.toggle("active", isOpen);
+    } else {
+        const isCollapsed = appSidebar.classList.toggle("collapsed");
+        localStorage.setItem("sidebar_collapsed", isCollapsed ? "true" : "false");
+    }
+}
+
+function closeMobileSidebar() {
+    if (window.innerWidth <= 900 && appSidebar) {
+        appSidebar.classList.remove("open");
+        if (sidebarBackdrop) sidebarBackdrop.classList.remove("active");
+    }
+}
+
+if (sidebarToggleBtn) sidebarToggleBtn.addEventListener("click", toggleSidebar);
+if (sidebarCloseBtn) sidebarCloseBtn.addEventListener("click", closeMobileSidebar);
+if (sidebarBackdrop) sidebarBackdrop.addEventListener("click", closeMobileSidebar);
+
+if (sidebarNewRunBtn) {
+    sidebarNewRunBtn.addEventListener("click", () => {
+        closeMobileSidebar();
+        switchMainSection("pipeline");
+    });
+}
+if (navLogStumbleBtn) {
+    navLogStumbleBtn.addEventListener("click", () => {
+        closeMobileSidebar();
+        openMissedQuestionModal();
+    });
+}
+if (navDrillBtn) {
+    navDrillBtn.addEventListener("click", () => {
+        closeMobileSidebar();
+        launchRetentionDrill();
+    });
+}
+if (navChainBtn) {
+    navChainBtn.addEventListener("click", () => {
+        closeMobileSidebar();
+        openChainModal();
+    });
+}
+
+if (navFeedBtn) navFeedBtn.addEventListener("click", () => {
+    closeMobileSidebar();
+    switchMainSection("feed");
+});
+if (navPipelineBtn) navPipelineBtn.addEventListener("click", () => {
+    closeMobileSidebar();
+    switchMainSection("pipeline");
+});
+if (navSimulatorBtn) navSimulatorBtn.addEventListener("click", () => {
+    closeMobileSidebar();
+    switchMainSection("simulator");
+});
+if (navStudioBtn) navStudioBtn.addEventListener("click", () => {
+    closeMobileSidebar();
+    switchMainSection("studio");
+});
 
 function switchMainSection(target) {
     // Nav buttons active state
@@ -1370,6 +1455,17 @@ function switchMainSection(target) {
     if (navPipelineBtn) navPipelineBtn.classList.toggle("active", target === "pipeline");
     if (navSimulatorBtn) navSimulatorBtn.classList.toggle("active", target === "simulator");
     if (navStudioBtn) navStudioBtn.classList.toggle("active", target === "studio");
+
+    // Update Topbar Breadcrumb
+    if (topbarSectionTitle) {
+        const titleMap = {
+            feed: "Home Feed",
+            pipeline: "Research Pipeline",
+            simulator: "Mock Simulator",
+            studio: "Prompt Studio"
+        };
+        topbarSectionTitle.innerText = titleMap[target] || "Intelligence Suite";
+    }
 
     // Hide all major sections
     if (feedSection) feedSection.classList.add("hidden");
@@ -1399,8 +1495,9 @@ function switchMainSection(target) {
         }
 
     } else if (target === "simulator") {
+        if (resultsSection) resultsSection.classList.remove("hidden");
+        switchViewMode("sim");
         if (mockSimulatorSection) mockSimulatorSection.classList.remove("hidden");
-        initMockSimulator();
     } else if (target === "studio") {
         if (studioSection) studioSection.classList.remove("hidden");
         initAgentStudio();
