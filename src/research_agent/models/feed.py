@@ -7,7 +7,7 @@ FeedDomain = Literal["tech_topics", "stock_market", "interview_experience"]
 BookmarkItemType = Literal["tech_summary", "stock_research", "stock_pick", "interview_guide", "external_article"]
 QuestionCategory = Literal["DSA", "System Design", "Practical Bug Squashing", "Behavioral", "Core CS"]
 QuestionDifficulty = Literal["Easy", "Medium", "Hard"]
-TelemetryResult = Literal["easy", "hesitated", "stumbled", "hint_used"]
+TelemetryResult = Literal["easy", "hesitated", "stumbled", "hint_used", "failed", "mastered"]
 
 # ----------------- Bookmarks -----------------
 

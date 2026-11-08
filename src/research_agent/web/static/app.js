@@ -1023,6 +1023,7 @@ function toggleHint() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 topic_slug: currentGameTopic || "targeted_drill",
+                card_id: String(card.id),
                 game_type: "flashcards",
                 result: "hesitated",
                 feedback_notes: `Requested hint on card ${card.id}`
@@ -1062,6 +1063,7 @@ function markNeedsReview() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             topic_slug: currentGameTopic || "targeted_drill",
+            card_id: String(card.id),
             game_type: "flashcards",
             result: "failed",
             feedback_notes: `Marked card ${card.id} for review: ${(card.front_prompt || "").substring(0, 80)}`
@@ -1087,6 +1089,7 @@ function markMastered() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             topic_slug: currentGameTopic || "targeted_drill",
+            card_id: String(card.id),
             game_type: "flashcards",
             result: "mastered",
             feedback_notes: `Candidate mastered card ${card.id}: ${(card.front_prompt || "").substring(0, 80)}`
