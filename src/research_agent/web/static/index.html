@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=3.1">
+    <link rel="stylesheet" href="style.css?v=4.0">
     <!-- Marked Markdown Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -76,7 +76,16 @@
                     </button>
                 </div>
 
-                <!-- Section 4: Settings & Configuration -->
+                <!-- Section 4: Exploration & Travel -->
+                <div class="nav-group">
+                    <div class="nav-group-label">EXPLORATION</div>
+                    <button class="nav-item" id="nav-travel-btn" title="Autonomous Travel Planner (Public Transit & Budget Optimizer)">
+                        <span class="nav-icon">✈️</span>
+                        <span class="nav-label">Travel Planner</span>
+                    </button>
+                </div>
+
+                <!-- Section 5: Settings & Configuration -->
                 <div class="nav-group nav-group-settings">
                     <div class="nav-group-label">SETTINGS & TOOLS</div>
                     <button class="nav-item" id="nav-studio-btn" title="Agent & Prompt Studio (Configure Prompts)">
@@ -830,6 +839,240 @@
                 </div>
             </section>
 
+            <!-- Section 6: Travel Planner -->
+            <section id="travel-section" class="fade-in hidden">
+                <div class="travel-container">
+                    
+                    <!-- Travel Header & Subtitle -->
+                    <div class="travel-header-bar card">
+                        <div class="travel-title-wrap">
+                            <span class="badge badge-tech">✈️ MULTI-AGENT AUTONOMOUS EXPLORER</span>
+                            <h2>Autonomous Travel Planner</h2>
+                            <p class="subtitle">Distance-optimized circular route planning with strict public transit enforcement, tier-calibrated accommodation, and multi-source travel intelligence.</p>
+                        </div>
+                        <div class="travel-header-meta">
+                            <div class="travel-source-pills">
+                                <span class="source-tag">Tripoto</span>
+                                <span class="source-tag">Wanderlog</span>
+                                <span class="source-tag">Thrillophilia</span>
+                                <span class="source-tag">MakeMyTrip</span>
+                                <span class="source-tag">TourRadar</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Travel Setup & Form Card -->
+                    <div class="card travel-form-card" id="travel-form-card">
+                        <form id="travel-plan-form" onsubmit="handleTravelPlanSubmit(event)">
+                            <div class="travel-form-grid">
+                                
+                                <!-- Destination Input -->
+                                <div class="form-group form-col-span-2">
+                                    <label for="travel-destinations-input">Target Countries or Cities <span class="required">*</span></label>
+                                    <input type="text" id="travel-destinations-input" class="form-control" placeholder="e.g. Japan  (or: Tokyo, Kyoto, Osaka)" required />
+                                    <div class="travel-quick-tags">
+                                        <span class="quick-chip" onclick="setTravelDestination('Japan')">🇯🇵 Japan</span>
+                                        <span class="quick-chip" onclick="setTravelDestination('Italy')">🇮🇹 Italy</span>
+                                        <span class="quick-chip" onclick="setTravelDestination('France')">🇫🇷 France</span>
+                                        <span class="quick-chip" onclick="setTravelDestination('Switzerland')">🇨🇭 Switzerland</span>
+                                        <span class="quick-chip" onclick="setTravelDestination('Vietnam')">🇻🇳 Vietnam</span>
+                                        <span class="quick-chip" onclick="setTravelDestination('Thailand')">🇹🇭 Thailand</span>
+                                    </div>
+                                </div>
+
+                                <!-- Origin City in India -->
+                                <div class="form-group">
+                                    <label for="travel-origin-select">Departure Hub (India) <span class="required">*</span></label>
+                                    <select id="travel-origin-select" class="form-control">
+                                        <option value="Mumbai" selected>Mumbai (BOM)</option>
+                                        <option value="Delhi">Delhi (DEL)</option>
+                                        <option value="Bengaluru">Bengaluru (BLR)</option>
+                                        <option value="Chennai">Chennai (MAA)</option>
+                                        <option value="Hyderabad">Hyderabad (HYD)</option>
+                                        <option value="Kolkata">Kolkata (CCU)</option>
+                                    </select>
+                                </div>
+
+                                <!-- Trip Duration in Days -->
+                                <div class="form-group">
+                                    <label for="travel-days-input">Trip Duration (Days) <span class="required">*</span></label>
+                                    <input type="number" id="travel-days-input" class="form-control" min="3" max="30" value="7" required />
+                                </div>
+
+                                <!-- Target Budget (INR) -->
+                                <div class="form-group">
+                                    <label for="travel-budget-input">Target Total Budget (INR) <span class="required">*</span></label>
+                                    <input type="number" id="travel-budget-input" class="form-control" min="15000" step="5000" value="160000" required />
+                                    <small class="helper-text">Hard-capped at 1.2x. Optimization penalizes every rupee over 1.0x.</small>
+                                </div>
+
+                                <!-- Travel Tier Selection (budget, mid, luxury) -->
+                                <div class="form-group form-col-span-2">
+                                    <label>Travel Tier & Standard <span class="required">*</span></label>
+                                    <div class="travel-tier-selector">
+                                        <label class="tier-card" onclick="selectTravelTier('budget')">
+                                            <input type="radio" name="travel_tier" value="budget" />
+                                            <div class="tier-card-body">
+                                                <div class="tier-name">🎒 Budget Explorer</div>
+                                                <div class="tier-detail">Hostels / Guesthouses, Metro & City Buses, Street Food</div>
+                                                <div class="tier-price-hint">~₹3k/night stay</div>
+                                            </div>
+                                        </label>
+                                        <label class="tier-card active" onclick="selectTravelTier('mid')">
+                                            <input type="radio" name="travel_tier" value="mid" checked />
+                                            <div class="tier-card-body">
+                                                <div class="tier-name">🏨 Mid (Recommended)</div>
+                                                <div class="tier-detail">3-4 Star Boutique, High-Speed Rail 2nd Class, Bistros</div>
+                                                <div class="tier-price-hint">~₹7.5k/night stay</div>
+                                            </div>
+                                        </label>
+                                        <label class="tier-card" onclick="selectTravelTier('luxury')">
+                                            <input type="radio" name="travel_tier" value="luxury" />
+                                            <div class="tier-card-body">
+                                                <div class="tier-name">✨ Luxury & Heritage</div>
+                                                <div class="tier-detail">4.5-5 Star Hotels, 1st Class Rail, Taxis & Fine Dining</div>
+                                                <div class="tier-price-hint">~₹24k/night stay</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Travelers Count -->
+                                <div class="form-group">
+                                    <label for="travel-travelers-select">Travelers Count</label>
+                                    <select id="travel-travelers-select" class="form-control">
+                                        <option value="1" selected>1 Person (Solo)</option>
+                                        <option value="2">2 Persons (Couple / Friends)</option>
+                                        <option value="3">3 Persons</option>
+                                        <option value="4">4 Persons (Group / Family)</option>
+                                    </select>
+                                </div>
+
+                                <!-- Pacing Style -->
+                                <div class="form-group">
+                                    <label for="travel-pace-select">Travel Pacing</label>
+                                    <select id="travel-pace-select" class="form-control">
+                                        <option value="relaxed">Relaxed (Slow travel, 1-2 major sights/day)</option>
+                                        <option value="balanced" selected>Balanced (2-3 highlights with downtime)</option>
+                                        <option value="fast_paced">Fast-Paced (High-yield, packed mornings)</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="travel-form-actions">
+                                <button type="submit" class="btn btn-primary btn-lg" id="travel-submit-btn">
+                                    <span>🚀 Generate Optimized Itinerary</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Live Progress State -->
+                    <div class="card travel-progress-card hidden" id="travel-progress-card">
+                        <div class="progress-spinner-wrap">
+                            <div class="loading-spinner"></div>
+                            <div class="progress-details">
+                                <h3 id="travel-progress-title">Agents Collaborating...</h3>
+                                <p id="travel-progress-msg" class="text-muted">Resolving gateway airport and mining package blueprints...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Travel Results Dossier -->
+                    <div class="travel-results-container hidden" id="travel-results-container">
+                        
+                        <!-- Dossier Hero Header Card -->
+                        <div class="card travel-result-hero">
+                            <div class="result-hero-top">
+                                <div>
+                                    <span class="badge badge-success" id="travel-res-badge">Itinerary Complete</span>
+                                    <h2 id="travel-res-title">7-Day Japan Master Travel Itinerary</h2>
+                                    <p id="travel-res-summary" class="subtitle">Optimized circular route starting and ending in Tokyo.</p>
+                                </div>
+                                <div class="result-hero-actions">
+                                    <button class="btn btn-outline" id="travel-download-md-btn" onclick="downloadTravelMarkdown()">
+                                        <span>📥 Download Markdown</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Metrics & Budget Ribbon -->
+                            <div class="travel-metrics-ribbon">
+                                <div class="metric-block">
+                                    <div class="metric-label">ROUND-TRIP GATEWAY</div>
+                                    <div class="metric-val" id="travel-res-gateway">Tokyo (NRT)</div>
+                                </div>
+                                <div class="metric-block">
+                                    <div class="metric-label">TOTAL COMPUTED EXPENSE</div>
+                                    <div class="metric-val text-accent" id="travel-res-cost">₹1,54,000</div>
+                                </div>
+                                <div class="metric-block">
+                                    <div class="metric-label">BUDGET ENVELOPE</div>
+                                    <div class="metric-val" id="travel-res-ratio">0.96x Target</div>
+                                </div>
+                                <div class="metric-block">
+                                    <div class="metric-label">SATISFACTION SCORE</div>
+                                    <div class="metric-val text-success" id="travel-res-satisfaction">8.8 / 10</div>
+                                </div>
+                            </div>
+
+                            <!-- Route Sequence Polyline Bar -->
+                            <div class="route-sequence-bar">
+                                <span class="route-bar-title">Circular Route:</span>
+                                <div class="route-chips" id="travel-res-route-chips">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2-Column Split: Days Timeline (Left) & Cost/Side-trips (Right) -->
+                        <div class="travel-content-grid">
+                            
+                            <!-- Left: Day-by-Day Timeline -->
+                            <div class="travel-days-column" id="travel-days-container">
+                                <!-- DaySchedule cards populated dynamically -->
+                            </div>
+
+                            <!-- Right: Cost Waterfall, Hotel Picks & Side Trips -->
+                            <div class="travel-sidebar-column">
+                                
+                                <!-- Cost Breakdown Waterfall Card -->
+                                <div class="card travel-cost-card">
+                                    <h3>📊 Cost Breakdown (INR)</h3>
+                                    <div class="cost-table-wrap">
+                                        <table class="cost-breakdown-table" id="travel-cost-table">
+                                            <!-- Dynamically populated -->
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Modular Side-Trip Gems Card -->
+                                <div class="card travel-side-trips-card">
+                                    <h3>✨ Modular Nearby Day-Trips</h3>
+                                    <p class="subtitle text-sm">Optional side trips accessible via &lt; 60 mins public transit:</p>
+                                    <div class="side-trips-list" id="travel-side-trips-list">
+                                        <!-- Dynamically populated -->
+                                    </div>
+                                </div>
+
+                                <!-- Sourced References Card -->
+                                <div class="card travel-sources-card">
+                                    <h3>🌐 Sourced Blueprints & Blogs</h3>
+                                    <div class="sources-links-list" id="travel-sources-list">
+                                        <!-- Dynamically populated -->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
         </main>
     </div>
 </div>
@@ -1055,7 +1298,7 @@
         </div>
     </div>
 
-    <script src="app.js?v=3.1"></script>
+    <script src="app.js?v=4.0"></script>
 </body>
 </html>
 

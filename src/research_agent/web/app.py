@@ -32,10 +32,13 @@ from research_agent.models.feed import (
     UpdateMissedQuestionRequest,
     LogTelemetryRequest
 )
+from research_agent.travel.models import TravelPlannerInput
+from research_agent.travel.service import TravelPlannerService
 
 
 app = FastAPI(title="AI Research Agent API")
 feed_service = FeedService()
+travel_service = TravelPlannerService()
 
 # Enable CORS for development flexibility
 app.add_middleware(
@@ -609,6 +612,24 @@ def get_document(path: str):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# ----------------- Travel Planner Endpoints -----------------
+
+@app.post("/api/travel/plans")
+def create_travel_plan(req: TravelPlannerInput):
+    run_id = travel_service.start_plan_run(req)
+    return {"run_id": run_id, "status": "processing"}
+
+@app.get("/api/travel/plans")
+def list_travel_plans():
+    return travel_service.list_plans()
+
+@app.get("/api/travel/plans/{run_id}")
+def get_travel_plan(run_id: str):
+    plan = travel_service.get_plan(run_id)
+    if not plan:
+        raise HTTPException(status_code=404, detail="Travel plan not found")
+    return plan
 
 # Mount frontend files after API endpoints
 

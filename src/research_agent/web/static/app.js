@@ -1451,6 +1451,13 @@ if (navStudioBtn) navStudioBtn.addEventListener("click", () => {
     closeMobileSidebar();
     switchMainSection("studio");
 });
+const navTravelBtn = document.getElementById("nav-travel-btn");
+const travelSection = document.getElementById("travel-section");
+
+if (navTravelBtn) navTravelBtn.addEventListener("click", () => {
+    closeMobileSidebar();
+    switchMainSection("travel");
+});
 
 function switchMainSection(target) {
     // Nav buttons active state
@@ -1458,6 +1465,7 @@ function switchMainSection(target) {
     if (navPipelineBtn) navPipelineBtn.classList.toggle("active", target === "pipeline");
     if (navSimulatorBtn) navSimulatorBtn.classList.toggle("active", target === "simulator");
     if (navStudioBtn) navStudioBtn.classList.toggle("active", target === "studio");
+    if (navTravelBtn) navTravelBtn.classList.toggle("active", target === "travel");
 
     // Update Topbar Breadcrumb
     if (topbarSectionTitle) {
@@ -1465,7 +1473,8 @@ function switchMainSection(target) {
             feed: "Home Feed",
             pipeline: "Research Pipeline",
             simulator: "Mock Simulator",
-            studio: "Prompt Studio"
+            studio: "Prompt Studio",
+            travel: "Travel Planner"
         };
         topbarSectionTitle.innerText = titleMap[target] || "Intelligence Suite";
     }
@@ -1478,6 +1487,7 @@ function switchMainSection(target) {
     if (resultsSection) resultsSection.classList.add("hidden");
     if (mockSimulatorSection) mockSimulatorSection.classList.add("hidden");
     if (studioSection) studioSection.classList.add("hidden");
+    if (travelSection) travelSection.classList.add("hidden");
 
     if (target === "feed") {
         if (feedSection) feedSection.classList.remove("hidden");
@@ -1510,6 +1520,8 @@ function switchMainSection(target) {
                 selectStudioPrompt(studioPrompts[0].filename);
             }
         }
+    } else if (target === "travel") {
+        if (travelSection) travelSection.classList.remove("hidden");
     }
 }
 
@@ -2692,6 +2704,291 @@ async function toggleDocumentBookmark() {
     } catch (err) {
         console.error("Failed to toggle bookmark:", err);
     }
+}
+
+// ==========================================================================
+// Travel Planner Controller Logic
+// ==========================================================================
+
+let activeTravelPlan = null;
+let travelPollInterval = null;
+
+function setTravelDestination(dest) {
+    const input = document.getElementById("travel-destinations-input");
+    if (input) input.value = dest;
+}
+
+function selectTravelTier(tier) {
+    const cards = document.querySelectorAll(".travel-tier-selector .tier-card");
+    cards.forEach(c => {
+        const radio = c.querySelector("input[type='radio']");
+        if (radio && radio.value === tier) {
+            radio.checked = true;
+            c.classList.add("active");
+        } else {
+            c.classList.remove("active");
+        }
+    });
+}
+
+async function handleTravelPlanSubmit(event) {
+    if (event) event.preventDefault();
+
+    const destInput = document.getElementById("travel-destinations-input");
+    const originSelect = document.getElementById("travel-origin-select");
+    const daysInput = document.getElementById("travel-days-input");
+    const budgetInput = document.getElementById("travel-budget-input");
+    const travelersSelect = document.getElementById("travel-travelers-select");
+    const paceSelect = document.getElementById("travel-pace-select");
+
+    const checkedTier = document.querySelector("input[name='travel_tier']:checked");
+    const tier = checkedTier ? checkedTier.value : "mid";
+
+    const destinations = (destInput ? destInput.value : "").split(",").map(d => d.trim()).filter(Boolean);
+    if (destinations.length === 0) {
+        alert("Please enter at least one target country or city.");
+        return;
+    }
+
+    const payload = {
+        destinations: destinations,
+        origin_city: originSelect ? originSelect.value : "Mumbai",
+        trip_days: parseInt(daysInput ? daysInput.value : "7", 10) || 7,
+        target_budget_inr: parseFloat(budgetInput ? budgetInput.value : "160000") || 160000,
+        travel_tier: tier,
+        travelers_count: parseInt(travelersSelect ? travelersSelect.value : "1", 10) || 1,
+        pace_style: paceSelect ? paceSelect.value : "balanced"
+    };
+
+    const progressCard = document.getElementById("travel-progress-card");
+    const resultsContainer = document.getElementById("travel-results-container");
+
+    if (progressCard) progressCard.classList.remove("hidden");
+    if (resultsContainer) resultsContainer.classList.add("hidden");
+
+    try {
+        const res = await fetch("/api/travel/plans", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error("Failed to start travel planning run.");
+        const data = await res.json();
+        const runId = data.run_id;
+
+        pollTravelPlan(runId);
+    } catch (err) {
+        alert(`Error: ${err.message}`);
+        if (progressCard) progressCard.classList.add("hidden");
+    }
+}
+
+function pollTravelPlan(runId) {
+    if (travelPollInterval) clearInterval(travelPollInterval);
+
+    const progressMsg = document.getElementById("travel-progress-msg");
+    const progressCard = document.getElementById("travel-progress-card");
+    const resultsContainer = document.getElementById("travel-results-container");
+
+    travelPollInterval = setInterval(async () => {
+        try {
+            const res = await fetch(`/api/travel/plans/${runId}`);
+            if (!res.ok) return;
+            const data = await res.json();
+
+            if (progressMsg && data.progress_message) {
+                progressMsg.innerText = data.progress_message;
+            }
+
+            if (data.status === "completed" && data.result) {
+                clearInterval(travelPollInterval);
+                travelPollInterval = null;
+                activeTravelPlan = data.result;
+
+                if (progressCard) progressCard.classList.add("hidden");
+                if (resultsContainer) resultsContainer.classList.remove("hidden");
+                renderTravelResults(data.result);
+            } else if (data.status === "failed") {
+                clearInterval(travelPollInterval);
+                travelPollInterval = null;
+                if (progressCard) progressCard.classList.add("hidden");
+                alert(`Travel Plan failed: ${data.error || "Unknown error"}`);
+            }
+        } catch (e) {
+            console.error("Polling error:", e);
+        }
+    }, 800);
+}
+
+function renderTravelResults(result) {
+    if (!result) return;
+
+    // 1. Hero Summary
+    const titleEl = document.getElementById("travel-res-title");
+    const summaryEl = document.getElementById("travel-res-summary");
+    const gatewayEl = document.getElementById("travel-res-gateway");
+    const costEl = document.getElementById("travel-res-cost");
+    const ratioEl = document.getElementById("travel-res-ratio");
+    const satEl = document.getElementById("travel-res-satisfaction");
+
+    if (titleEl) titleEl.innerText = result.title;
+    if (summaryEl) summaryEl.innerText = result.summary;
+
+    const gateway = result.gateway_airport || {};
+    if (gatewayEl) gatewayEl.innerText = `${gateway.city} (${gateway.airport_code}) [Round-Trip]`;
+
+    const cost = result.cost_breakdown || {};
+    if (costEl) costEl.innerText = `₹${Math.round(cost.total_cost_inr || 0).toLocaleString("en-IN")}`;
+    if (ratioEl) {
+        const ratio = cost.budget_ratio || 1.0;
+        ratioEl.innerText = `${ratio}x Target (${cost.is_within_budget_cap ? "Within 1.2x Cap" : "Over Budget"})`;
+        ratioEl.style.color = ratio <= 1.0 ? "#34d399" : (ratio <= 1.2 ? "#fbbf24" : "#f87171");
+    }
+
+    if (satEl) {
+        satEl.innerText = `${result.satisfaction_score} / 10 (${result.satisfaction_verdict || "Approved"})`;
+    }
+
+    // 2. Route Chips
+    const chipsContainer = document.getElementById("travel-res-route-chips");
+    if (chipsContainer && result.route_city_sequence) {
+        chipsContainer.innerHTML = result.route_city_sequence.map((city, idx) => {
+            const isLast = idx === result.route_city_sequence.length - 1;
+            return `<span class="route-chip-item">${escapeHtml(city)}</span>${!isLast ? '<span class="route-arrow">➔</span>' : ''}`;
+        }).join(" ");
+    }
+
+    // 3. Days Timeline
+    const daysContainer = document.getElementById("travel-days-container");
+    if (daysContainer && result.days) {
+        daysContainer.innerHTML = result.days.map(day => `
+            <div class="travel-day-card card">
+                <div class="day-card-header">
+                    <div class="day-title-wrap">
+                        <span class="day-badge">Day ${day.day_number}</span>
+                        <h4 class="day-theme-title">${escapeHtml(day.city)}: ${escapeHtml(day.theme)}</h4>
+                    </div>
+                    <span class="day-meta-pill">Est. Daily Sightseeing: ₹${Math.round(day.estimated_day_cost_inr || 0).toLocaleString("en-IN")}</span>
+                </div>
+                ${day.hotel_recommendation ? `
+                    <div class="day-hotel-banner">
+                        🏨 <strong>Stay Recommendation:</strong> ${escapeHtml(day.hotel_recommendation)}
+                    </div>
+                ` : ''}
+                <div class="day-activities-list">
+                    ${(day.activities || []).map(act => `
+                        <div class="activity-block">
+                            <div class="activity-top-row">
+                                <span class="activity-slot-title">${escapeHtml(act.time_slot)}: ${escapeHtml(act.activity_name)}</span>
+                                <span class="activity-transit-tag">${escapeHtml(act.transit_mode)}</span>
+                            </div>
+                            <p class="activity-desc-text">${escapeHtml(act.description)}</p>
+                            <div class="activity-sub-info">
+                                <span>📍 Location: ${escapeHtml(act.location)}</span>
+                                ${act.cost_inr > 0 ? `<span>🎟️ Ticket: ₹${Math.round(act.cost_inr).toLocaleString("en-IN")}</span>` : '<span>🎟️ Free Entry</span>'}
+                                ${act.opening_hours ? `<span>⏰ Hours: ${escapeHtml(act.opening_hours)}</span>` : ''}
+                                ${act.booking_advice ? `<span>💡 Tip: ${escapeHtml(act.booking_advice)}</span>` : ''}
+                            </div>
+                        </div>
+                    `).join("")}
+                </div>
+                ${day.day_transit_summary ? `
+                    <div class="day-meta-pill" style="margin-top: 0.75rem; color: #a5b4fc;">
+                        🚆 <strong>Transit Logistics:</strong> ${escapeHtml(day.day_transit_summary)}
+                    </div>
+                ` : ''}
+            </div>
+        `).join("");
+    }
+
+    // 4. Cost Breakdown Table
+    const costTable = document.getElementById("travel-cost-table");
+    if (costTable && cost) {
+        costTable.innerHTML = `
+            <tbody>
+                <tr>
+                    <td>✈️ Round-Trip Flights</td>
+                    <td>₹${Math.round(cost.international_flights_inr || 0).toLocaleString("en-IN")}</td>
+                </tr>
+                <tr>
+                    <td>🏨 Accommodation</td>
+                    <td>₹${Math.round(cost.accommodation_total_inr || 0).toLocaleString("en-IN")}</td>
+                </tr>
+                <tr>
+                    <td>🚄 Inter-City Public Rail</td>
+                    <td>₹${Math.round(cost.intercity_transit_inr || 0).toLocaleString("en-IN")}</td>
+                </tr>
+                <tr>
+                    <td>🚇 Intra-City Metro & Bus</td>
+                    <td>₹${Math.round(cost.intracity_transit_inr || 0).toLocaleString("en-IN")}</td>
+                </tr>
+                <tr>
+                    <td>🎟️ Sightseeing Tickets</td>
+                    <td>₹${Math.round(cost.attraction_tickets_inr || 0).toLocaleString("en-IN")}</td>
+                </tr>
+                <tr>
+                    <td>🍽️ Dining & Daily Meals</td>
+                    <td>₹${Math.round(cost.food_and_incidentals_inr || 0).toLocaleString("en-IN")}</td>
+                </tr>
+                <tr class="cost-total-row">
+                    <td>TOTAL COMPUTED EXPENSE</td>
+                    <td>₹${Math.round(cost.total_cost_inr || 0).toLocaleString("en-IN")}</td>
+                </tr>
+            </tbody>
+        `;
+    }
+
+    // 5. Modular Side Trips
+    const sideTripsList = document.getElementById("travel-side-trips-list");
+    if (sideTripsList) {
+        const trips = result.side_trips || [];
+        if (trips.length === 0) {
+            sideTripsList.innerHTML = '<span class="text-muted text-sm">No side trips recommended.</span>';
+        } else {
+            sideTripsList.innerHTML = trips.map(s => `
+                <div class="side-trip-card">
+                    <div class="side-trip-title">✨ ${escapeHtml(s.title)}</div>
+                    <div class="side-trip-transit">🚆 ${escapeHtml(s.transit_mode)} (${s.transit_duration_mins}m from ${escapeHtml(s.base_city)})</div>
+                    <p class="side-trip-highlight">${escapeHtml(s.highlight)}</p>
+                    <div class="tier-price-hint">Add-on transit estimate: ₹${Math.round(s.estimated_add_on_cost_inr || 0).toLocaleString("en-IN")}</div>
+                </div>
+            `).join("");
+        }
+    }
+
+    // 6. Sourced References
+    const sourcesList = document.getElementById("travel-sources-list");
+    if (sourcesList) {
+        const refs = result.sourced_references || [];
+        if (refs.length === 0) {
+            sourcesList.innerHTML = '<span class="text-muted text-sm">No external sources recorded.</span>';
+        } else {
+            sourcesList.innerHTML = refs.map(r => `
+                <div class="source-ref-item">
+                    <a href="${escapeHtml(r.url)}" target="_blank" rel="noopener">
+                        🔗 ${escapeHtml(r.title)}
+                    </a>
+                    <span class="source-tag" style="margin-left: 0.5rem;">${escapeHtml(r.platform || "Guide")}</span>
+                </div>
+            `).join("");
+        }
+    }
+}
+
+function downloadTravelMarkdown() {
+    if (!activeTravelPlan || !activeTravelPlan.full_markdown_report) {
+        alert("No itinerary report ready for download.");
+        return;
+    }
+    const blob = new Blob([activeTravelPlan.full_markdown_report], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${activeTravelPlan.run_id || "travel_itinerary"}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 // Initial App Boot: Default to Home Feed
